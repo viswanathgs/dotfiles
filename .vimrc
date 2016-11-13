@@ -56,14 +56,19 @@ syntax enable
 """"""""""""""""""""""""""""""""""""""""""
 
 " Vim tabs
-nnoremap tn  :tabnew<CR>
-nnoremap th  :tabfirst<CR>
-nnoremap tj  :tabnext<CR>
-nnoremap tk  :tabprev<CR>
-nnoremap tl  :tablast<CR>
-nnoremap tt  :tabedit<Space>
-nnoremap tm  :tabm<Space>
-nnoremap td  :tabclose<CR>
+nnoremap tn  :tabnew<CR>      " New tab
+nnoremap td  :tabclose<CR>    " Close the current tab
+nnoremap th  :tabfirst<CR>    " Switch to the first tab
+nnoremap tl  :tablast<CR>     " Switch to the last tab
+nnoremap tj  :tabnext<CR>     " Switch to the next tab
+nnoremap tk  :tabprev<CR>     " Switch to the previous tab
+nnoremap tt  :tabedit<Space>  " Edit the specified file in a new tab
+nnoremap tm  :tabmove<Space>  " Move current tab to the specified position
+nnoremap te  :tabdo e<CR>     " Reload all tabs
+nnoremap ts  :tabs            " Show all tabs including their windows
+
+" Vim windows
+nnoremap we  :windo e<CR>     " Reload all windows in the current tab
 
 " Clang-format
 map <C-K> :pyf ~/.vim/bin/clang-format.py<CR>
