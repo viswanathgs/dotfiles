@@ -93,9 +93,10 @@ autocmd BufWinEnter * NERDTreeMirror
 " Miscellaneous
 """"""""""""""""""""""""""""""""""""""""""
 
-" Highlighting text past 80 characters
+" Highlight past 80 characters
 highlight CharLimit ctermbg=black ctermfg=white guibg=#592929
-match CharLimit /\%81v.\+/
+autocmd FileType c,cabal,cpp,python,haskell,erlang,javascript,php,ruby,thrift
+  \ match CharLimit /\%81v.\+/
 
 " Kill any trailing whitespace on save
 fu! <SID>StripTrailingWhitespaces()
