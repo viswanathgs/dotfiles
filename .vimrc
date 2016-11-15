@@ -56,24 +56,27 @@ syntax enable
 """"""""""""""""""""""""""""""""""""""""""
 
 " Vim tabs
-nnoremap tn  :tabnew<CR>      " New tab
-nnoremap td  :tabclose<CR>    " Close the current tab
-nnoremap th  :tabprev<CR>     " Switch to the previous tab
-nnoremap tl  :tabnext<CR>     " Switch to the next tab
-nnoremap tg  :tabfirst<CR>    " Switch to the first tab
-nnoremap te  :tablast<CR>     " Switch to the last tab
-nnoremap tt  :tabedit<Space>  " Edit the specified file in a new tab
-nnoremap tm  :tabmove<Space>  " Move current tab to the specified position
-nnoremap ts  :tabs            " Show all tabs including their windows
+nnoremap tn  :tabnew<CR>
+nnoremap td  :tabclose<CR>
+nnoremap th  :tabprev<CR>
+nnoremap tl  :tabnext<CR>
+nnoremap tg  :tabfirst<CR>
+nnoremap te  :tablast<CR>
+nnoremap tt  :tabedit<Space>
+nnoremap tm  :tabmove<Space>
+nnoremap ts  :tabs
 
 " Vim windows
-nnoremap <C-h> <C-w>h         " Move one window to the left
-nnoremap <C-l> <C-w>l         " Move one window to the right
-nnoremap <C-k> <C-w>k         " Move up one window
-nnoremap <C-j> <C-w>j         " Move down one window
-nnoremap <C-g> <C-w>1w        " Move to the first / leftmost window
-nnoremap <C-e> <C-w>100w      " Move to the last / rightmost window
-nnoremap we  :windo e<CR>     " Reload all windows in the current tab
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
+nnoremap <C-k> <C-w>k
+nnoremap <C-j> <C-w>j
+" Move to the first / leftmost window
+nnoremap <C-g> <C-w>1w
+" Move to the last / rightmost window
+nnoremap <C-e> <C-w>100w
+" Reload all windows in the current tab
+nnoremap we  :windo e<CR>
 
 " Clang-format
 map <C-K> :pyf ~/.vim/bin/clang-format.py<CR>
