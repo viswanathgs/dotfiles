@@ -8,7 +8,7 @@ alias v='vim'
 export EDITOR=/usr/bin/vim
 export VISUAL=/usr/bin/vim
 
-# bash history
+# Bash history
 HISTSIZE=130000 HISTFILESIZE=-1
 
 # Terminal prompt
@@ -30,3 +30,13 @@ function prompt {
   export PS1="${GREEN}\u${CYAN}@${BLUE}\h ${CYAN}\w"' $(parse_branch)'" ${GRAY}"
 }
 prompt
+
+# Hg specific
+rebase() {
+  hg pull
+  hg update $1
+  hg rebase -d master
+}
+alias dif='hg diff'
+alias commit='hg commit'
+alias amend='hg commit --amend'
