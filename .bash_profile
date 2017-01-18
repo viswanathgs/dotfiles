@@ -1,6 +1,8 @@
+# .bash_profile
+
 # Load .bashrc
 if [ -f ~/.bashrc ]; then
-  . ~/.bashrc
+	source ~/.bashrc
 fi
 
 export PATH=$PATH:$HOME/bin

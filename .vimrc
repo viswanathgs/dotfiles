@@ -1,3 +1,10 @@
+" .vimrc
+
+" Load FB-specific stuff
+if filereadable(glob("~/.fb.vimrc"))
+  source ~/.fb.vimrc
+endif
+
 " Pathogen. Load installed plugins in ~/.vim/bundle.
 execute pathogen#infect()
 

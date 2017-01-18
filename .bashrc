@@ -1,5 +1,10 @@
 # .bashrc
 
+# Load FB-specific stuff
+if [ -f ~/.fb.bashrc ]; then
+	source ~/.fb.bashrc
+fi
+
 # Aliases
 alias sudo='sudo '
 alias v='vim'
@@ -40,3 +45,5 @@ rebase() {
 alias dif='hg diff'
 alias commit='hg commit'
 alias amend='hg commit --amend'
+
+shopt -s checkwinsize
