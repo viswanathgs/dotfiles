@@ -47,6 +47,7 @@ set backspace=indent,eol,start  " Backspace over everything
 set tags=tags;/                 " Search up the directory tree for tags
 set undolevels=1000             " Number of undos stored
 set viminfo='50,"50             " '=marks for x files, "=registers for x files
+set shortmess+=A                " Ignore warning when .swp file exists
 
 """"""""""""""""""""""""""""""""""""""""""
 " Filetype plugins
