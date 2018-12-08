@@ -96,8 +96,8 @@ imap <C-K> <ESC>:pyf ~/.vim/bin/clang-format.py<CR>i
 
 " NERDTree
 map <leader>nt :NERDTreeToggle<CR>
-" Open a NERDTree automatically when vim starts up
-autocmd VimEnter * NERDTree
+" Uncomment to open a NERDTree automatically when vim starts up
+" autocmd VimEnter * NERDTree
 " Focus cursor in new document on startup
 autocmd VimEnter * wincmd p
 " Close vim if the only window left open is a NERDTree
