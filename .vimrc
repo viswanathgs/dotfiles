@@ -109,9 +109,12 @@ autocmd BufWinEnter * NERDTreeMirror
 " Miscellaneous
 """"""""""""""""""""""""""""""""""""""""""
 
+" Extensions
+autocmd BufNewFile,BufRead *.cuh set filetype=cuda
+
 " Highlight past 80 characters
 highlight CharLimit ctermbg=black ctermfg=white guibg=#592929
-autocmd FileType c,cabal,cpp,python,haskell,erlang,javascript,php,ruby,thrift
+autocmd FileType c,cabal,cpp,cuda,python,haskell,erlang,javascript,php,ruby,thrift
   \ match CharLimit /\%81v.\+/
 
 " Kill any trailing whitespace on save
@@ -121,7 +124,7 @@ fu! <SID>StripTrailingWhitespaces()
   %s/\s\+$//e
   call cursor(l, c)
 endfu
-autocmd FileType c,cabal,cpp,python,haskell,erlang,javascript,php,ruby,readme,tex,text,thrift
+autocmd FileType c,cabal,cpp,cuda,python,haskell,erlang,javascript,php,ruby,readme,tex,text,thrift
   \ autocmd BufWritePre <buffer>
   \ :call <SID>StripTrailingWhitespaces()
 
