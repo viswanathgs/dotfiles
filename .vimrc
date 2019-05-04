@@ -87,8 +87,8 @@ nnoremap <C-e> <C-w>100w
 nnoremap we  :windo e<CR>
 
 " Clang-format
-map <C-K> :pyf ~/.vim/bin/clang-format.py<CR>
-imap <C-K> <ESC>:pyf ~/.vim/bin/clang-format.py<CR>i
+map <C-I> :pyf ~/.vim/bin/clang-format.py<CR>
+imap <C-I> <ESC>:pyf ~/.vim/bin/clang-format.py<CR>i
 
 """"""""""""""""""""""""""""""""""""""""""
 " Plugins
