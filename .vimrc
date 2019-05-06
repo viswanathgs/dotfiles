@@ -59,6 +59,9 @@ filetype off
 filetype indent plugin on
 syntax enable
 
+" Extensions
+autocmd BufNewFile,BufRead *.cuh set filetype=cuda
+
 """"""""""""""""""""""""""""""""""""""""""
 " Custom Keymaps
 """"""""""""""""""""""""""""""""""""""""""
@@ -106,11 +109,8 @@ autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 autocmd BufWinEnter * NERDTreeMirror
 
 """"""""""""""""""""""""""""""""""""""""""
-" Miscellaneous
+" Lint
 """"""""""""""""""""""""""""""""""""""""""
-
-" Extensions
-autocmd BufNewFile,BufRead *.cuh set filetype=cuda
 
 " Highlight past 80 characters
 highlight CharLimit ctermbg=black ctermfg=white guibg=#592929
