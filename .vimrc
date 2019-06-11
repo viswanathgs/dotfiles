@@ -90,8 +90,10 @@ nnoremap <C-e> <C-w>100w
 nnoremap we  :windo e<CR>
 
 " Clang-format
-map <C-I> :pyf ~/.vim/bin/clang-format.py<CR>
-imap <C-I> <ESC>:pyf ~/.vim/bin/clang-format.py<CR>i
+map <C-f> :ClangFormat<CR>
+imap <C-f> <ESC>:ClangFormat<CR>i
+" Uncomment below to auto-format
+" autocmd FileType c,cpp,cuda,java,objc,proto ClangFormatAutoEnable
 
 """"""""""""""""""""""""""""""""""""""""""
 " Plugins
