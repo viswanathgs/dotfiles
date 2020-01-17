@@ -12,3 +12,6 @@
 [submodule ".vim/bundle/vim-clang-format"]
 	path = .vim/bundle/vim-clang-format
 	url = git@github.com:rhysd/vim-clang-format.git
+[submodule ".vim/bundle/vim-fugitive"]
+	path = .vim/bundle/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive.git
