@@ -36,6 +36,20 @@ function prompt {
 }
 prompt
 
+# Util functions
+function find_and_replace() {
+  find_str=$1
+  replace_str=$2
+  file_pattern=$3
+  find . -type f -name "$file_pattern" -exec sed -i '' "s/$find_str/$replace_str/g" {} \;
+}
+
+function find_and_delete() {
+  find_str=$1
+  file_pattern=$2
+  find . -type f -name "$file_pattern" -exec sed -i '' "/$find_str/d" {} \;
+}
+
 # Hg specific
 rebase() {
   hg pull
