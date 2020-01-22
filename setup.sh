@@ -12,3 +12,8 @@ do
     ln -sf $(pwd)/$f ~/$f
   fi
 done
+
+# Install deps
+brew install clang-format || true
+
+echo "Done setting up dotfiles!"
