@@ -13,6 +13,9 @@ do
   fi
 done
 
+# Git autocompletion
+curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -o ~/.git-completion.bash
+
 # Install deps
 brew install clang-format || true
 

@@ -61,3 +61,8 @@ alias commit='hg commit'
 alias amend='hg commit --amend'
 
 shopt -s checkwinsize
+
+# Git autocompletion
+if [ -f ~/.git-completion.bash ]; then
+  . ~/.git-completion.bash
+fi
