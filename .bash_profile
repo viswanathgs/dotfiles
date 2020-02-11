@@ -1,10 +1,5 @@
 # .bash_profile
 
-# Load .bashrc
-if [ -f ~/.bashrc ]; then
-	source ~/.bashrc
-fi
-
 export PATH=$PATH:$HOME/bin:$HOME/.local/bin
 
 # >>> conda initialize >>>
@@ -22,3 +17,7 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+# Load .bashrc
+if [ -f ~/.bashrc ]; then
+	source ~/.bashrc
+fi

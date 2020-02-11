@@ -1,10 +1,5 @@
 # .bashrc
 
-# Load FB-specific stuff
-if [ -f ~/.fb.bashrc ]; then
-	source ~/.fb.bashrc
-fi
-
 # Aliases
 alias sudo='sudo '
 alias v='vim'
@@ -67,4 +62,9 @@ shopt -s checkwinsize
 # Git autocompletion
 if [ -f ~/.git-completion.bash ]; then
   . ~/.git-completion.bash
+fi
+
+# Load FB-specific stuff
+if [ -f ~/.fb.bashrc ]; then
+	source ~/.fb.bashrc
 fi
