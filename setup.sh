@@ -18,5 +18,6 @@ curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-com
 
 # Install deps
 brew install clang-format || true
+pip install yapf || true
 
 echo "Done setting up dotfiles!"

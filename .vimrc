@@ -93,7 +93,13 @@ nnoremap we  :windo e<CR>
 map <C-f> :ClangFormat<CR>
 imap <C-f> <ESC>:ClangFormat<CR>i
 " Uncomment below to auto-format
-" autocmd FileType c,cpp,cuda,java,objc,proto ClangFormatAutoEnable
+" autocmd FileType c,cpp,cc,cuda,java,objc,proto ClangFormatAutoEnable
+
+" yapf
+autocmd FileType python map <C-f> :0,$!yapf<CR>
+autocmd FileType python imap <C-f> <ESC>:0,$!yapf<CR>i
+" Autoformat on close
+autocmd BufWritePre *.py 0,$!yapf
 
 """"""""""""""""""""""""""""""""""""""""""
 " Plugins
