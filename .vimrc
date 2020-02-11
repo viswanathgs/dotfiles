@@ -12,6 +12,7 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'ConradIrwin/vim-bracketed-paste'
 Plug 'rhysd/vim-clang-format'
 Plug 'tpope/vim-fugitive'  " Git wrapper
+Plug 'sbdchd/neoformat'
 call plug#end()
 
 set nocompatible
@@ -102,10 +103,10 @@ imap <C-f> <ESC>:ClangFormat<CR>i
 " autocmd FileType c,cpp,cc,cuda,java,objc,proto ClangFormatAutoEnable
 
 " yapf
-autocmd FileType python map <C-f> :0,$!yapf<CR>
-autocmd FileType python imap <C-f> <ESC>:0,$!yapf<CR>i
+autocmd FileType python map <C-f> :Neoformat<CR>
+autocmd FileType python imap <C-f> <ESC>:Neoformat<CR>i
 " Autoformat on save
-" autocmd BufWritePre *.py 0,$!yapf
+autocmd BufWritePre *.py Neoformat
 
 """"""""""""""""""""""""""""""""""""""""""
 " Plugins
