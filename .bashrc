@@ -8,6 +8,8 @@ fi
 # Aliases
 alias sudo='sudo '
 alias v='vim'
+alias ca='conda activate'
+alias cda='conda deactivate'
 
 # Default editor to vim
 export EDITOR=/usr/bin/vim
