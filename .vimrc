@@ -98,8 +98,8 @@ imap <C-f> <ESC>:ClangFormat<CR>i
 " yapf
 autocmd FileType python map <C-f> :0,$!yapf<CR>
 autocmd FileType python imap <C-f> <ESC>:0,$!yapf<CR>i
-" Autoformat on close
-autocmd BufWritePre *.py 0,$!yapf
+" Autoformat on save
+" autocmd BufWritePre *.py 0,$!yapf
 
 """"""""""""""""""""""""""""""""""""""""""
 " Plugins
