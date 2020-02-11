@@ -5,8 +5,14 @@ if filereadable(glob("~/.fb.vimrc"))
   source ~/.fb.vimrc
 endif
 
-" Pathogen. Load installed plugins in ~/.vim/bundle.
-execute pathogen#infect()
+" vim-plug plugins. Install by running `:PlugInstall` in vim.
+call plug#begin('~/.vim/plugged')
+Plug 'scrooloose/nerdtree'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'ConradIrwin/vim-bracketed-paste'
+Plug 'rhysd/vim-clang-format'
+Plug 'tpope/vim-fugitive'  " Git wrapper
+call plug#end()
 
 set nocompatible
 let mapleader=","
