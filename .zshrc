@@ -1,9 +1,9 @@
+# ~/.zshrc
+
 export PATH=$PATH:$HOME/bin:$HOME/.local/bin
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
-
-ZSH_THEME="jreese"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -49,20 +49,47 @@ ZSH_THEME="jreese"
 # see 'man strftime' for details.
 # HIST_STAMPS="mm/dd/yyyy"
 
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
 # Which plugins would you like to load?
 # Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
-autoload -Uz compinit && compinit
+plugins=()  # Ignore, taken over by antigen below
 
 source $ZSH/oh-my-zsh.sh
 
-# User configuration (overrides $ZSH/custom)
+###################################################
+#
+# Antigen
+#
+###################################################
+
+# Antigen for easier plugin and theme management than oh-my-zsh/custom
+source ~/.antigen.zsh
+antigen use oh-my-zsh
+
+antigen theme jreese
+
+# Plugins from oh-my-zsh (https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins)
+antigen bundle git
+
+# Custom/third-party plugins
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zsh-users/zsh-autosuggestions
+
+# Plugin settings
+## zsh-autosuggestions (prefer tab completion suggestions first and then history)
+# export ZSH_AUTOSUGGEST_STRATEGY=(completion history)
+
+# Apply
+antigen apply
+
+###################################################
+#
+# User configuration
+#
+###################################################
+
 ## Editor
 export EDITOR=/usr/bin/vim
 export VISUAL=/usr/bin/vim

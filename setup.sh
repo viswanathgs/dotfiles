@@ -13,6 +13,9 @@ pip install yapf tabcompletion || true
 # Install oh-my-zsh
 curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh
 
+# Install antigen (for easier third-party plugin management than oh-my-zsh)
+curl -L git.io/antigen > ~/.antigen.zsh
+
 # Setup symlinks to homedir
 for f in $(ls -a | grep '^\.')
 do
