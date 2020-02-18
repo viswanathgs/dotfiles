@@ -1,7 +1,17 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
+
+# Requirements: iterm2 and zsh, homebrew, python-pip
+# Set zsh as default: chsh -s /bin/zsh
 
 # Update submodules
 git submodule update --init --recursive --remote
+
+# Install deps
+brew install clang-format || true
+pip install yapf tabcompletion || true
+
+# Install oh-my-zsh
+curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh
 
 # Setup symlinks to homedir
 for f in $(ls -a | grep '^\.')
@@ -9,15 +19,8 @@ do
   if ! [[ ($f == .)  || ($f == ..) || ($f =~ .git*) ]]
   then
     echo "Symlink: ~/$f -> $(pwd)/$f"
-    ln -sf $(pwd)/$f ~/$f
+    ln -sf $(pwd)/$f ~/
   fi
 done
-
-# Git autocompletion
-curl https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash -o ~/.git-completion.bash
-
-# Install deps
-brew install clang-format || true
-pip install yapf || true
 
 echo "Done setting up dotfiles!"
