@@ -6,6 +6,13 @@ alias v='vim'
 alias ca='conda activate'
 alias cda='conda deactivate'
 
+alias gd='git diff'
+alias gc='git commit -a'
+alias ga='git commit -a --amend'
+alias gs='git status'
+alias gb='git branch -vv' # More verbose and useful display of branches
+alias gl='git log --graph --decorate --oneline'
+
 # Default editor to vim
 export EDITOR=/usr/bin/vim
 export VISUAL=/usr/bin/vim
