@@ -72,6 +72,8 @@ antigen theme jreese
 
 # Plugins from oh-my-zsh (https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins)
 antigen bundle git
+antigen bundle colored-man-pages
+antigen bundle web-search
 
 # Custom/third-party plugins
 antigen bundle zsh-users/zsh-syntax-highlighting
@@ -120,6 +122,8 @@ function hp() {
   hg update $1
   hg rebase -d master
 }
+## Misc
+alias goog='google' # from web-search plugin
 
 # Util functions
 function find_and_replace() {
