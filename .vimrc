@@ -5,11 +5,9 @@ if filereadable(glob("~/.fb.vimrc"))
   source ~/.fb.vimrc
 endif
 
-" vim-plug
-" Relevant commands:
-"   `:PlugInstall`
-"   `:PlugUpdate`
-"   `:PlugClean`
+" vim-plug.
+" To install, run `:PlugInstall` and then `:PlugUpdate`.
+" To remove, run `:PlugClean`.
 call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/nerdtree'
 Plug 'christoomey/vim-tmux-navigator'
@@ -17,6 +15,8 @@ Plug 'ConradIrwin/vim-bracketed-paste'
 Plug 'rhysd/vim-clang-format'
 Plug 'tpope/vim-fugitive'  " Git wrapper
 Plug 'sbdchd/neoformat'
+Plug 'junegunn/fzf', { 'do': './install --bin' }
+Plug 'junegunn/fzf.vim'
 call plug#end()
 
 set nocompatible
