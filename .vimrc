@@ -5,7 +5,11 @@ if filereadable(glob("~/.fb.vimrc"))
   source ~/.fb.vimrc
 endif
 
-" vim-plug plugins. Install by running `:PlugInstall` in vim.
+" vim-plug
+" Relevant commands:
+"   `:PlugInstall`
+"   `:PlugUpdate`
+"   `:PlugClean`
 call plug#begin('~/.vim/plugged')
 Plug 'scrooloose/nerdtree'
 Plug 'christoomey/vim-tmux-navigator'
