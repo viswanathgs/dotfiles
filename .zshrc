@@ -109,9 +109,11 @@ alias gd='git diff'
 alias gc='git commit -a'
 alias ga='git commit -a --amend'
 alias gs='git status'
+alias gst='git stash'
 alias gb='git branch -vv' # More verbose and useful display of branches
 alias gl='git log --graph --decorate --oneline'
-alias gp='git pull --rebase'
+alias gpr='git pull --rebase'
+alias gprom='git pull --rebase origin master'
 ## hg
 alias hd='hg diff'
 alias hc='hg commit'
