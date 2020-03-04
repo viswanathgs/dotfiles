@@ -100,18 +100,6 @@ nnoremap <C-e> <C-w>100w
 " Reload all windows in the current tab
 nnoremap we  :windo e<CR>
 
-" Clang-format
-map <C-f> :ClangFormat<CR>
-imap <C-f> <ESC>:ClangFormat<CR>i
-" Uncomment below to auto-format
-" autocmd FileType c,cpp,cc,cuda,java,objc,proto ClangFormatAutoEnable
-
-" yapf
-autocmd FileType python map <C-f> :Neoformat<CR>
-autocmd FileType python imap <C-f> <ESC>:Neoformat<CR>i
-" Autoformat on save
-autocmd BufWritePre *.py Neoformat
-
 """"""""""""""""""""""""""""""""""""""""""
 " Plugins
 """"""""""""""""""""""""""""""""""""""""""
@@ -146,6 +134,18 @@ endfu
 autocmd FileType c,cabal,cpp,cuda,python,haskell,erlang,javascript,php,ruby,readme,tex,text,thrift
   \ autocmd BufWritePre <buffer>
   \ :call <SID>StripTrailingWhitespaces()
+
+" Clang-format
+map <C-f> :ClangFormat<CR>
+imap <C-f> <ESC>:ClangFormat<CR>i
+" Uncomment below to auto-format
+" autocmd FileType c,cpp,cc,cuda,java,objc,proto ClangFormatAutoEnable
+
+" yapf
+autocmd FileType python map <C-f> :Neoformat<CR>
+autocmd FileType python imap <C-f> <ESC>:Neoformat<CR>i
+" Autoformat on save
+autocmd BufWritePre *.py Neoformat
 
 """"""""""""""""""""""""""""""""""""""""""
 " Util functions

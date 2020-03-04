@@ -8,7 +8,7 @@ git submodule update --init --recursive --remote
 
 # Install deps
 brew install clang-format || true
-pip install yapf tabcompletion || true
+pip install yapf tabcompletion cpplint || true
 
 # Install oh-my-zsh
 curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh
