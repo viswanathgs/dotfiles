@@ -99,6 +99,7 @@ export VISUAL=/usr/bin/vim
 HISTSIZE=130000 HISTFILESIZE=-1
 
 # Aliases
+alias woman='man'  # For Silky
 alias sudo='sudo '
 alias v='vim'
 alias ca='conda activate'
