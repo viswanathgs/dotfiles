@@ -15,8 +15,7 @@ Plug 'ConradIrwin/vim-bracketed-paste'
 Plug 'rhysd/vim-clang-format'
 Plug 'tpope/vim-fugitive'  " Git wrapper
 Plug 'sbdchd/neoformat'
-Plug 'junegunn/fzf', { 'do': './install --bin' }
-Plug 'junegunn/fzf.vim'
+Plug 'mileszs/ack.vim'
 call plug#end()
 
 set nocompatible
@@ -105,15 +104,30 @@ nnoremap we  :windo e<CR>
 """"""""""""""""""""""""""""""""""""""""""
 
 " NERDTree
-map <leader>nt :NERDTreeToggle<CR>
-" Uncomment to open a NERDTree automatically when vim starts up
+nnoremap <leader>nt :NERDTreeToggle<CR>
+nnoremap <leader>nf :NERDTreeFind<CR>
+" Uncomment to open NERDTree automatically when vim starts up
 " autocmd VimEnter * NERDTree
 " Focus cursor in new document on startup
 autocmd VimEnter * wincmd p
 " Close vim if the only window left open is a NERDTree
 autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-" Auto-create a NERDTree mirror in every vim tab
-autocmd BufWinEnter * NERDTreeMirror
+" Auto-create a NERDTree mirror in every vim tab. Filter out quickfix window
+" though to avoid conflicts with ack.vim.
+autocmd BufWinEnter * if &buftype != 'quickfix' | NERDTreeMirror | endif
+
+" ack.vim - https://github.com/mileszs/ack.vim
+" Use ag with ack.vim
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+" Don't auto-open the first result
+nnoremap <leader>a :Ack!<Space>
+cnoreabbrev Ack Ack!
+" Split rightward so as not to displace a left NERDTree
+let g:ack_mappings = {
+  \  'v': '<C-W><CR><C-W>L<C-W>p<C-W>J<C-W>p',
+  \ 'gv': '<C-W><CR><C-W>L<C-W>p<C-W>J' }
 
 """"""""""""""""""""""""""""""""""""""""""
 " Lint
