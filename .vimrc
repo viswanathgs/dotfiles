@@ -15,7 +15,8 @@ Plug 'ConradIrwin/vim-bracketed-paste'
 Plug 'rhysd/vim-clang-format'
 Plug 'tpope/vim-fugitive'  " Git wrapper
 Plug 'sbdchd/neoformat'
-Plug 'mileszs/ack.vim'
+Plug 'mileszs/ack.vim'  " Search in directory (for word under cursor)
+Plug 'fs111/pydoc.vim'  " Python documentation (Shift+K for word under cursor)
 call plug#end()
 
 set nocompatible
@@ -76,6 +77,9 @@ autocmd BufNewFile,BufRead *.cuh set filetype=cuda
 " Custom Keymaps
 """"""""""""""""""""""""""""""""""""""""""
 
+" Avoid the escape
+inoremap jj <ESC>
+
 " Vim tabs
 nnoremap tn  :tabnew<CR>
 nnoremap td  :tabclose<CR>
@@ -122,7 +126,7 @@ if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
 " Don't auto-open the first result
-nnoremap <leader>a :Ack!<Space>
+nnoremap <leader>s :Ack!<Space>
 cnoreabbrev Ack Ack!
 " Split rightward so as not to displace a left NERDTree
 let g:ack_mappings = {
