@@ -133,6 +133,9 @@ let g:ack_mappings = {
   \  'v': '<C-W><CR><C-W>L<C-W>p<C-W>J<C-W>p',
   \ 'gv': '<C-W><CR><C-W>L<C-W>p<C-W>J' }
 
+" pydoc.vim - https://github.com/fs111/pydoc.vim/blob/master/ftplugin/python_pydoc.vim
+let g:pydoc_window_lines=0.3 " 30% of current window
+
 """"""""""""""""""""""""""""""""""""""""""
 " Lint
 """"""""""""""""""""""""""""""""""""""""""
