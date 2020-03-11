@@ -92,11 +92,11 @@ antigen apply
 #
 ###################################################
 
-## Editor
 export EDITOR=/usr/bin/vim
 export VISUAL=/usr/bin/vim
-## History
-HISTSIZE=130000 HISTFILESIZE=-1
+export HISTSIZE=130000
+export HISTFILESIZE=-1
+export PYTHONSTARTUP="$HOME/.pythonrc"
 
 # Aliases
 alias woman='man'  # For Silky
