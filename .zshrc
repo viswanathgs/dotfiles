@@ -68,12 +68,16 @@ source $ZSH/oh-my-zsh.sh
 source ~/.antigen.zsh
 antigen use oh-my-zsh
 
-antigen theme jreese
+# Theme
+# antigen theme jreese
+antigen bundle mafredri/zsh-async
+antigen bundle sindresorhus/pure
 
 # Plugins from oh-my-zsh (https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins)
 antigen bundle git
 antigen bundle colored-man-pages
 antigen bundle web-search
+antigen bundle vi-mode
 
 # Custom/third-party plugins
 antigen bundle zsh-users/zsh-syntax-highlighting
