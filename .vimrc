@@ -14,6 +14,7 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'ConradIrwin/vim-bracketed-paste'
 Plug 'rhysd/vim-clang-format'
 Plug 'tpope/vim-fugitive'  " Git wrapper
+Plug 'tpope/vim-rhubarb'  " Github extension for vim-fugitive (:GBrowse)
 Plug 'sbdchd/neoformat'
 Plug 'mileszs/ack.vim'  " Search in directory (for word under cursor)
 Plug 'fs111/pydoc.vim'  " Python documentation (Shift+K for word under cursor)
@@ -102,6 +103,13 @@ nnoremap <C-g> <C-w>1w
 nnoremap <C-e> <C-w>100w
 " Reload all windows in the current tab
 nnoremap we  :windo e<CR>
+
+" Set pdb trace on <leader>b
+map <Leader>b :call InsertPdb()<CR>
+function! InsertPdb()
+  let trace = expand("import pdb; pdb.set_trace() # TODO slog")
+  execute "normal o".trace
+endfunction
 
 """"""""""""""""""""""""""""""""""""""""""
 " Plugins

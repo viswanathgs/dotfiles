@@ -122,12 +122,10 @@ def configure(repl):
     repl.enable_syntax_highlighting = True
 
     # Add custom key binding for PDB.
-    """
     @repl.add_key_binding(Keys.ControlB)
     def _(event):
         ' Pressing Control-B will insert "pdb.set_trace()" '
         event.cli.current_buffer.insert_text('\nimport pdb; pdb.set_trace()\n')
-    """
 
     # Typing ControlE twice should also execute the current command.
     # (Alternative for Meta-Enter.)
