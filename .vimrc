@@ -104,8 +104,8 @@ nnoremap <C-e> <C-w>100w
 " Reload all windows in the current tab
 nnoremap we  :windo e<CR>
 
-" Set pdb trace on <leader>b
-map <Leader>b :call InsertPdb()<CR>
+" Set pdb trace on <leader>p
+map <Leader>p :call InsertPdb()<CR>
 function! InsertPdb()
   let trace = expand("import pdb; pdb.set_trace() # TODO slog")
   execute "normal o".trace
@@ -143,6 +143,10 @@ let g:ack_mappings = {
 
 " pydoc.vim - https://github.com/fs111/pydoc.vim/blob/master/ftplugin/python_pydoc.vim
 let g:pydoc_window_lines=0.3 " 30% of current window
+
+" vim-fugitive and vim-rhubarb
+map <leader>gh :GBrowse<CR>
+map <leader>gb :Git blame<CR>
 
 """"""""""""""""""""""""""""""""""""""""""
 " Lint
