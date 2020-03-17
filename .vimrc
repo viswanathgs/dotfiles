@@ -107,7 +107,7 @@ nnoremap we  :windo e<CR>
 " Set pdb trace on <leader>p
 map <Leader>p :call InsertPdb()<CR>
 function! InsertPdb()
-  let trace = expand("import pdb; pdb.set_trace() # TODO slog")
+  let trace = expand("import pdb; pdb.set_trace() # yapf: disable TODO slog")
   execute "normal o".trace
 endfunction
 
