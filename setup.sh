@@ -8,7 +8,7 @@ git submodule update --init --recursive --remote
 
 # Install deps
 brew install clang-format the_silver_searcher hub || true
-pip install yapf tabcompletion cpplint ptpython || true
+pip install yapf tabcompletion cpplint ptpython pdbpp || true
 
 # Install oh-my-zsh
 curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh
