@@ -105,7 +105,7 @@ nnoremap <C-e> <C-w>100w
 nnoremap we  :windo e<CR>
 
 " Set pdb trace on <leader>p
-map <Leader>p :call InsertPdb()<CR>
+map <Leader>b :call InsertPdb()<CR>
 function! InsertPdb()
   let trace = expand("import pdb; pdb.set_trace() # yapf: disable TODO slog")
   execute "normal o".trace
@@ -118,6 +118,11 @@ endfunction
 " NERDTree
 nnoremap <leader>nt :NERDTreeToggle<CR>
 nnoremap <leader>nf :NERDTreeFind<CR>
+" Remap some keys for consistency between plugins
+let g:NERDTreeMapOpenVSplit = 'v'  " Vertical split
+let g:NERDTreeMapPreviewVSplit = 'gv'  " Vertical split (maintain focus in NERDTree)
+let g:NERDTreeMapOpenSplit = 's'  " Horizontal split
+let g:NERDTreeMapPreviewSplit = 'gs'  " Horizontal split (maintain focus in NERDTree)
 " Uncomment to open NERDTree automatically when vim starts up
 " autocmd VimEnter * NERDTree
 " Focus cursor in new document on startup

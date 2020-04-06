@@ -9,6 +9,7 @@ import sys
 
 from collections import *
 from itertools import *
+from pprint import pprint
 
 from prompt_toolkit.filters import ViInsertMode
 from prompt_toolkit.key_binding.key_processor import KeyPress
