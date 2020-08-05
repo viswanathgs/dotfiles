@@ -157,10 +157,10 @@ map <leader>gb :Git blame<CR>
 " Lint
 """"""""""""""""""""""""""""""""""""""""""
 
-" Highlight past 80 characters
+" Highlight past 79 characters
 highlight CharLimit ctermbg=black ctermfg=white guibg=#592929
 autocmd FileType c,cabal,cpp,cuda,python,haskell,erlang,javascript,php,ruby,thrift
-  \ match CharLimit /\%81v.\+/
+  \ match CharLimit /\%80v.\+/
 
 " Kill any trailing whitespace on save
 fu! <SID>StripTrailingWhitespaces()
