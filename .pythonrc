@@ -18,6 +18,11 @@ from pygments.token import Token
 
 from ptpython.layout import CompletionVisualisation
 
+try:
+    import torch
+except ImportError:
+    pass
+
 __all__ = ('configure', )
 
 
