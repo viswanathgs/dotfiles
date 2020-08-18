@@ -138,9 +138,12 @@ autocmd BufWinEnter * if &buftype != 'quickfix' | NERDTreeMirror | endif
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
-" Don't auto-open the first result
+" Keymaps
 nnoremap <leader>s :Ack!<Space>
+nnoremap <leader>f :AckFile!<Space>
+" Don't auto-open the first result
 cnoreabbrev Ack Ack!
+cnoreabbrev AckFile AckFile!
 " Split rightward so as not to displace a left NERDTree
 let g:ack_mappings = {
   \  'v': '<C-W><CR><C-W>L<C-W>p<C-W>J<C-W>p',
