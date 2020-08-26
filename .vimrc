@@ -75,6 +75,37 @@ syntax enable
 autocmd BufNewFile,BufRead *.cuh set filetype=cuda
 
 """"""""""""""""""""""""""""""""""""""""""
+" Custom commands
+""""""""""""""""""""""""""""""""""""""""""
+
+" Like windo but restore the current window.
+" https://vim.fandom.com/wiki/Run_a_command_in_multiple_buffers.
+function! WinDo(command)
+  let currwin=winnr()
+  execute 'windo ' . a:command
+  execute currwin . 'wincmd w'
+endfunction
+com! -nargs=+ -complete=command Windo call WinDo(<q-args>)
+
+" Like bufdo but restore the current buffer.
+" https://vim.fandom.com/wiki/Run_a_command_in_multiple_buffers.
+function! BufDo(command)
+  let currBuff=bufnr("%")
+  execute 'bufdo ' . a:command
+  execute 'buffer ' . currBuff
+endfunction
+com! -nargs=+ -complete=command Bufdo call BufDo(<q-args>)
+
+" Like tabdo but restore the current tab.
+" https://vim.fandom.com/wiki/Run_a_command_in_multiple_buffers.
+function! TabDo(command)
+  let currTab=tabpagenr()
+  execute 'tabdo ' . a:command
+  execute 'tabn ' . currTab
+endfunction
+com! -nargs=+ -complete=command Tabdo call TabDo(<q-args>)
+
+""""""""""""""""""""""""""""""""""""""""""
 " Custom Keymaps
 """"""""""""""""""""""""""""""""""""""""""
 
@@ -101,10 +132,14 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-g> <C-w>1w
 " Move to the last / rightmost window
 nnoremap <C-e> <C-w>100w
-" Reload all windows in the current tab
-nnoremap we  :windo e<CR>
+" Reload all tabs. We use our custom `Tabdo` instead of `tabdo` 
+" to restore the current tab and window, and `silent!` to suppress
+" errors related to quickfix and nerdtree buffers. To only reload
+" windows within the current tab, use `Windo`.
+" https://vim.fandom.com/wiki/Run_a_command_in_multiple_buffers.
+nnoremap <leader>r :silent! Tabdo e<CR>
 
-" Set pdb trace on <leader>p
+" Set pdb trace on <leader>b
 map <Leader>b :call InsertPdb()<CR>
 function! InsertPdb()
   let trace = expand("import pdb; pdb.set_trace() # yapf: disable TODO slog")
