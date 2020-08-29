@@ -137,7 +137,11 @@ function find_and_replace() {
   find_str=$1
   replace_str=$2
   file_pattern=$3
-  find . -type f -name "$file_pattern" -exec sed -i '' "s/$find_str/$replace_str/g" {} \;
+  if [ -z "$file_pattern" ]; then
+    find . -type f -exec sed -i '' "s/$find_str/$replace_str/g" {} \;
+  else
+    find . -type f -name "$file_pattern" -exec sed -i '' "s/$find_str/$replace_str/g" {} \;
+  fi
 }
 function find_and_delete() {
   find_str=$1
