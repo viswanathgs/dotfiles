@@ -19,6 +19,9 @@ from pygments.token import Token
 
 from ptpython.layout import CompletionVisualisation
 
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+
 try:
     import torch
 except ImportError:
