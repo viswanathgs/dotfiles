@@ -119,6 +119,7 @@ alias gb='git branch -vv'
 alias gl='git log --graph --decorate --oneline'
 alias gpr='git pull --rebase'
 alias gprom='git pull --rebase origin master'
+alias gprum='git pull --rebase upstream master'
 ## hg
 alias hd='hg diff'
 alias hc='hg commit'
