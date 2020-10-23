@@ -144,10 +144,25 @@ function find_and_replace() {
     find . -type f -name "$file_pattern" -exec sed -i '' "s/$find_str/$replace_str/g" {} \;
   fi
 }
+
 function find_and_delete() {
   find_str=$1
   file_pattern=$2
   find . -type f -name "$file_pattern" -exec sed -i '' "/$find_str/d" {} \;
+}
+
+## List all files containing specified extensions.
+## Example: lsext cpp cc h
+function lsext() {
+  pattern=""
+  for i in "$@"; do
+    if [ ! -z "$pattern" ]; then
+      pattern+="|"
+    fi
+    pattern+="$i"
+  done
+
+  ag -g ".*\.(${pattern})$"
 }
 
 # >>> conda initialize >>>
