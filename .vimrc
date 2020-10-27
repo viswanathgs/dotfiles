@@ -60,6 +60,7 @@ set tags=tags;/                 " Search up the directory tree for tags
 set undolevels=1000             " Number of undos stored
 set viminfo='50,"50             " '=marks for x files, "=registers for x files
 set shortmess+=A                " Ignore warning when .swp file exists
+set clipboard=unnamed           " Use system clipboard
 
 """"""""""""""""""""""""""""""""""""""""""
 " Filetype plugins
@@ -158,6 +159,8 @@ let g:NERDTreeMapOpenVSplit = 'v'  " Vertical split
 let g:NERDTreeMapPreviewVSplit = 'gv'  " Vertical split (maintain focus in NERDTree)
 let g:NERDTreeMapOpenSplit = 's'  " Horizontal split
 let g:NERDTreeMapPreviewSplit = 'gs'  " Horizontal split (maintain focus in NERDTree)
+" Change vim CWD together with NERDTree's root dir
+let g:NERDTreeChDirMode = 2
 " Uncomment to open NERDTree automatically when vim starts up
 " autocmd VimEnter * NERDTree
 " Focus cursor in new document on startup
