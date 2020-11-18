@@ -6,11 +6,19 @@
 # Update submodules
 git submodule update --init --recursive --remote
 
+function brewIn() {
+  if brew ls --versions "$1"; then
+    brew upgrade "$1"
+  else
+    brew install "$1"
+  fi
+}
+
 # Install deps
-pip install pre-commit yapf tabcompletion cpplint ptpython pdbpp || true
-brew install clang-format the_silver_searcher hub || true
+pip install --upgrade pre-commit yapf tabcompletion cpplint ptpython pdbpp || true
+brewIn clang-format the_silver_searcher hub || true
 # For tmux to access clipboard: https://blog.carbonfive.com/copying-and-pasting-with-tmux-2-4/
-brew install reattach-to-user-namespace || true
+brewIn reattach-to-user-namespace || true
 
 # Install oh-my-zsh
 curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh
