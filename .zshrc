@@ -134,21 +134,23 @@ function hp() {
 alias goog='google' # from web-search plugin
 
 # Util functions
-function find_and_replace() {
-  find_str=$1
-  replace_str=$2
-  file_pattern=$3
-  if [ -z "$file_pattern" ]; then
-    find . -type f -exec sed -i '' "s/$find_str/$replace_str/g" {} \;
-  else
-    find . -type f -name "$file_pattern" -exec sed -i '' "s/$find_str/$replace_str/g" {} \;
-  fi
+
+## Find and replace with ag and sed
+function agr() {
+  # find and replace
+  regex=s/${1}/${2}/g;
+  ag $1 -l | xargs sed -i.agr_backup $regex;
+  # delete backups
+  ag -G .agr_backup -l | xargs rm
 }
 
-function find_and_delete() {
-  find_str=$1
-  file_pattern=$2
-  find . -type f -name "$file_pattern" -exec sed -i '' "/$find_str/d" {} \;
+## Find and delete with ag and sed
+function agd() {
+  # find and delete
+  regex=/${1}/d;
+  ag $1 -l | xargs sed -i.agd_backup $regex;
+  # delete backups
+  ag -G .agd_backup -l | xargs rm
 }
 
 ## List all files containing specified extensions.
