@@ -141,6 +141,16 @@ function hp() {
   hg update $1
   hg rebase -d master
 }
+## Buck
+alias bb='buck build'
+alias bt='buck test'
+alias br='buck run'
+alias bbmd='bb @mode/mac/dev-release'
+alias bbld='bb @mode/linux/dev-release'
+alias btmd='bt @mode/mac/dev-release'
+alias btld='bt @mode/linux/dev-release'
+alias brmd='br @mode/mac/dev-release'
+alias brld='br @mode/linux/dev-release'
 ## Misc
 alias goog='google' # from web-search plugin
 
