@@ -151,6 +151,9 @@ alias btmd='bt @mode/mac/dev-release'
 alias btld='bt @mode/linux/dev-release'
 alias brmd='br @mode/mac/dev-release'
 alias brld='br @mode/linux/dev-release'
+## aws
+alias s3ls='aws s3 ls --summarize --human-readable --recursive'
+alias s3put='aws s3api put-object' # s3put --bucket <bucket> --key <path>
 ## Misc
 alias goog='google' # from web-search plugin
 
