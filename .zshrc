@@ -159,6 +159,8 @@ alias s3cp='aws s3 cp'
 alias s3put='aws s3api put-object' # s3put --bucket <bucket> --key <path>
 ## Misc
 alias goog='google' # from web-search plugin
+## Alias to mosh into a jumphost and then ssh as mosh doesn't support ProxyJump
+alias moshjmp='mosh -6 jmp -n ssh'
 
 # Util functions
 
