@@ -117,8 +117,6 @@ export PYTHONSTARTUP="$HOME/.pythonrc"
 alias woman='man'  # For Silky
 alias sudo='sudo '
 alias v='vim'
-alias ca='conda activate'
-alias cda='conda deactivate'
 ## git
 alias gco='git checkout'
 alias gd='git diff'
@@ -141,6 +139,10 @@ function hp() {
   hg update $1
   hg rebase -d master
 }
+## Conda
+alias ca='conda activate'
+alias cda='conda deactivate'
+alias cenv='conda env'
 ## Buck
 alias bb='buck build'
 alias bt='buck test'
