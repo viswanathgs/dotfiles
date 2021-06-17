@@ -1,13 +1,9 @@
 from __future__ import unicode_literals
 
-import matplotlib.pyplot as plt
 import math
-import numpy as np
-import pandas as pd
 import os
 import re
 import sys
-
 from collections import *
 from importlib import reload
 from itertools import *
@@ -23,10 +19,29 @@ from ptpython.layout import CompletionVisualisation
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
-try:
-    import torch
-except ImportError:
-    pass
+def safe_import_packages(packages):
+    for package in packages:
+        if isinstance(package, str):
+            package_name = package
+            import_as = package
+        else:
+            package_name, import_as = package
+
+        try:
+            globals()[import_as] = __import__(package_name)
+        except ModuleNotFoundError:
+            print(f'[skipped] {package_name}')
+        else:
+            print(f'[imported] {package_name} as {import_as}')
+
+safe_import_packages([
+    ('matplotlib.pyplot', 'plt'),  # import matplotlib.pyplot as plt
+    ('numpy', 'np'),
+    ('pandas', 'pd'),
+    'torch',
+    ('torch.nn', 'nn'),
+])
+
 
 __all__ = ('configure', )
 
@@ -132,8 +147,8 @@ def configure(repl):
 
     # repl.color_depth = 'DEPTH_1_BIT'  # Monochrome.
     # repl.color_depth = 'DEPTH_4_BIT'  # ANSI colors only.
-    repl.color_depth = "DEPTH_8_BIT"  # The default, 256 colors.
-    # repl.color_depth = 'DEPTH_24_BIT'  # True color.
+    # repl.color_depth = "DEPTH_8_BIT"  # The default, 256 colors.
+    repl.color_depth = 'DEPTH_24_BIT'  # True color.
 
     # Syntax.
     repl.enable_syntax_highlighting = True
