@@ -156,6 +156,7 @@ alias brld='br @mode/linux/dev-release'
 ## aws
 alias s3ls='aws s3 ls --summarize --human-readable --recursive'
 alias s3cp='aws s3 cp'
+alias s3cpr='aws s3 cp --recursive'
 alias s3put='aws s3api put-object' # s3put --bucket <bucket> --key <path>
 ## Misc
 alias goog='google' # from web-search plugin
