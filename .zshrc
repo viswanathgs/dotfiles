@@ -127,6 +127,7 @@ alias gst='git stash'
 alias gb='git branch -vv'
 alias gl='git log --graph --decorate --oneline'
 alias gpr='git pull --rebase'
+alias gpro='git pull --rebase origin'
 alias gprom='git pull --rebase origin master'
 alias gprum='git pull --rebase upstream master'
 ## hg
