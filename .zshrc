@@ -118,7 +118,7 @@ alias woman='man'  # For Silky
 alias sudo='sudo '
 alias v='vim'
 alias l='ls -lh'
-alais la='ls -lha'
+alias la='ls -lha'
 ## git
 alias gco='git checkout'
 alias gd='git diff'
