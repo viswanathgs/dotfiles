@@ -16,7 +16,9 @@ function brewIn() {
 
 # Install deps
 pip install --upgrade yapf black pre-commit tabcompletion cpplint ptpython pdbpp || true
-brewIn clang-format the_silver_searcher hub || true
+brewIn clang-format || true
+brewIn the_silver_searcher || true
+brewIn hub || true
 # For tmux to access clipboard: https://blog.carbonfive.com/copying-and-pasting-with-tmux-2-4/
 brewIn reattach-to-user-namespace || true
 
