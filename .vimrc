@@ -15,6 +15,7 @@ Plug 'ConradIrwin/vim-bracketed-paste'
 Plug 'rhysd/vim-clang-format'
 Plug 'tpope/vim-fugitive'  " Git wrapper
 Plug 'tpope/vim-rhubarb'  " Github extension for vim-fugitive (:GBrowse)
+Plug 'jlfwong/vim-mercenary'  " Like vim-fugitive but for hg
 Plug 'sbdchd/neoformat'
 Plug 'mileszs/ack.vim'  " Search in directory (for word under cursor)
 Plug 'fs111/pydoc.vim'  " Python documentation (Shift+K for word under cursor)
@@ -190,9 +191,10 @@ let g:ack_mappings = {
 " pydoc.vim - https://github.com/fs111/pydoc.vim/blob/master/ftplugin/python_pydoc.vim
 let g:pydoc_window_lines=0.3 " 30% of current window
 
-" vim-fugitive and vim-rhubarb
+" vim-fugitive, vim-rhubarb, vim-mercenary
 map <leader>gh :GBrowse<CR>
 map <leader>gb :Git blame<CR>
+map <leader>hb :HGblame<CR>
 
 """"""""""""""""""""""""""""""""""""""""""
 " Lint
@@ -231,10 +233,28 @@ autocmd BufWritePre *.py Neoformat
 """"""""""""""""""""""""""""""""""""""""""
 
 " Replace a line of space-separated text into individual lines
-function SplitToLines() range
+function! SplitToLines() range
   for lnum in range(a:lastline, a:firstline, -1)
     let words = split(getline(lnum))
     execute lnum . "delete"
     call append(lnum-1, words)
   endfor
 endfunction
+
+" Print phabricator url of current file
+function! GetPhabricatorURL() range
+  " Get current filename and any highlighted line number or range
+  let filename = expand( "%:f" )
+  let lineno = line('.')
+  if a:lastline - a:firstline > 0
+      let lineno = a:firstline . "-" . a:lastline
+  endif
+
+  " Get phabricator url via diffusion command
+  let url = trim(system("diffusion " . filename . ":" . lineno))
+  echom url
+endfunction
+
+" <leader>l to print phabricator url for current file
+" TODO: make this universal - work with :GBrowse
+map <Leader>l :call GetPhabricatorURL()<CR>
