@@ -200,6 +200,27 @@ function lsext() {
   ag -g ".*\.(${pattern})$"
 }
 
+## Fix hotspot not working due to carriers throttling tethered traffic
+## Usage: hotspot on|off
+function hotspot() {
+  if [ "$1" = "on" ]; then
+    echo "Enabling hotspot mode"
+    # Increase TTL from 64 to 65 to add an extra hop. With the default TTL of 64
+    # packet originating from tethered laptop will have a TTL of 63 when it gets
+    # to the phone. Carriers use this to distinguish phone traffic from hotspot
+    # and throttle. Bump up TTL to 65 to get around this.
+    sudo sysctl net.inet.ip.ttl=65
+    # Also disable ipv6 because the setting for TTL on IPv6 (known as HLIM)
+    # is apparently not honored by Mac OS.
+    sudo networksetup -setv6off "Wi-Fi"
+  else
+    echo "Back to wifi mode"
+    # Revert hotspot unfix and turn back ipv6 on when on wifi
+    sudo sysctl net.inet.ip.ttl=64
+    sudo networksetup -setv6automatic "Wi-Fi"
+  fi
+}
+
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/Users/viswanath/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"

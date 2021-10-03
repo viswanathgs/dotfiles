@@ -5,6 +5,7 @@ if filereadable(glob("~/.fb.vimrc"))
   source ~/.fb.vimrc
 endif
 
+
 " vim-plug.
 " To install, run `:PlugInstall` and then `:PlugUpdate`.
 " To remove, run `:PlugClean`.
@@ -19,7 +20,10 @@ Plug 'jlfwong/vim-mercenary'  " Like vim-fugitive but for hg
 Plug 'sbdchd/neoformat'
 Plug 'mileszs/ack.vim'  " Search in directory (for word under cursor)
 Plug 'fs111/pydoc.vim'  " Python documentation (Shift+K for word under cursor)
+Plug 'godlygeek/tabular'  " Dependency for vim-markdown
+Plug 'plasticboy/vim-markdown'
 call plug#end()
+
 
 set nocompatible
 let mapleader=","
@@ -63,18 +67,17 @@ set viminfo='50,"50             " '=marks for x files, "=registers for x files
 set shortmess+=A                " Ignore warning when .swp file exists
 set clipboard=unnamed           " Use system clipboard
 
+
 """"""""""""""""""""""""""""""""""""""""""
 " Filetype plugins
 """"""""""""""""""""""""""""""""""""""""""
 
-" Vim defaults to `filetype on`, and unless we toggle it, 
-" custom filetype detections won't be run.
-filetype off
 filetype indent plugin on
 syntax enable
 
 " Extensions
 autocmd BufNewFile,BufRead *.cuh set filetype=cuda
+
 
 """"""""""""""""""""""""""""""""""""""""""
 " Custom commands
@@ -89,6 +92,7 @@ function! WinDo(command)
 endfunction
 com! -nargs=+ -complete=command Windo call WinDo(<q-args>)
 
+
 " Like bufdo but restore the current buffer.
 " https://vim.fandom.com/wiki/Run_a_command_in_multiple_buffers.
 function! BufDo(command)
@@ -97,6 +101,7 @@ function! BufDo(command)
   execute 'buffer ' . currBuff
 endfunction
 com! -nargs=+ -complete=command Bufdo call BufDo(<q-args>)
+
 
 " Like tabdo but restore the current tab.
 " https://vim.fandom.com/wiki/Run_a_command_in_multiple_buffers.
@@ -107,12 +112,10 @@ function! TabDo(command)
 endfunction
 com! -nargs=+ -complete=command Tabdo call TabDo(<q-args>)
 
+
 """"""""""""""""""""""""""""""""""""""""""
 " Custom Keymaps
 """"""""""""""""""""""""""""""""""""""""""
-
-" Avoid the escape
-inoremap jj <ESC>
 
 " Vim tabs
 nnoremap tn  :tabnew<CR>
@@ -124,6 +127,7 @@ nnoremap te  :tablast<CR>
 nnoremap tt  :tabedit<Space>
 nnoremap tm  :tabmove<Space>
 nnoremap ts  :tabs
+
 
 " Vim windows
 nnoremap <C-h> <C-w>h
@@ -141,12 +145,50 @@ nnoremap <C-e> <C-w>100w
 " https://vim.fandom.com/wiki/Run_a_command_in_multiple_buffers.
 nnoremap <leader>r :silent! Tabdo e<CR>
 
-" Set pdb trace on <leader>b
-map <Leader>b :call InsertPdb()<CR>
+
+" Set pdb trace on <leader>b for python files
+autocmd FileType python map <Leader>b :call InsertPdb()<CR>
 function! InsertPdb()
   let trace = expand("import pdb; pdb.set_trace() # yapf: disable TODO slog")
   execute "normal o".trace
 endfunction
+
+
+" <leader>l to print phabricator url for current file
+" TODO: make this universal - work with :GBrowse
+map <Leader>l :call GetPhabricatorURL()<CR>
+function! GetPhabricatorURL() range
+  " Get current filename and any highlighted line number or range
+  let filename = expand( "%:f" )
+  let lineno = line('.')
+  if a:lastline - a:firstline > 0
+      let lineno = a:firstline . "-" . a:lastline
+  endif
+
+  " Get phabricator url via diffusion command
+  let url = trim(system("diffusion " . filename . ":" . lineno))
+  echom url
+endfunction
+
+
+" Vim folds
+" Default fold commands start with z. Remap to f to avoid Emacs pinky.
+map fo zo      " Open fold under cursor
+map fO zO      " Open fold under cursor (recursive)
+map fc zc      " Close fold under cursor
+map fC zC      " Close fold under cursor (recursive)
+map ft za      " Toggle fold under cursor
+map fT zA      " Toggle fold under cursor (recursive)
+map fl zm      " Show less - fold one level more
+map fL zM      " Fold all
+map fm zr      " Show more - unfold one more level
+map fM zR      " Show/unfold all
+map ff zM zv   " Focus - fold all but the one under cursor
+map fgg [z     " Move to the start of the current fold
+map fG ]z      " Move to the end of the current fold
+map fj zj      " Move to the start of the next fold
+map fk zk      " Move to the end of the previous fold
+
 
 """"""""""""""""""""""""""""""""""""""""""
 " Plugins
@@ -172,6 +214,7 @@ autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 " though to avoid conflicts with ack.vim.
 autocmd BufWinEnter * if &buftype != 'quickfix' | NERDTreeMirror | endif
 
+
 " ack.vim - https://github.com/mileszs/ack.vim
 " Use ag with ack.vim
 if executable('ag')
@@ -188,13 +231,31 @@ let g:ack_mappings = {
   \  'v': '<C-W><CR><C-W>L<C-W>p<C-W>J<C-W>p',
   \ 'gv': '<C-W><CR><C-W>L<C-W>p<C-W>J' }
 
+
 " pydoc.vim - https://github.com/fs111/pydoc.vim/blob/master/ftplugin/python_pydoc.vim
 let g:pydoc_window_lines=0.3 " 30% of current window
+
 
 " vim-fugitive, vim-rhubarb, vim-mercenary
 map <leader>gh :GBrowse<CR>
 map <leader>gb :Git blame<CR>
 map <leader>hb :HGblame<CR>
+
+
+" vim-markdown
+let g:vim_markdown_new_list_item_indent = 2  " Number of indent spaces on new list item
+let g:vim_markdown_toc_autofit = 1  " Autofit Table of Contents (ToC) window
+let g:vim_markdown_math = 1  " LaTeX extension on
+let g:vim_markdown_conceal_code_blocks = 0  " Don't conceal code-blocks
+autocmd FileType markdown map fj <Plug>Markdown_MoveToNextHeader
+autocmd FileType markdown map fk <Plug>Markdown_MoveToPreviousHeader
+autocmd FileType markdown map fJ <Plug>Markdown_MoveToNextSiblingHeader
+autocmd FileType markdown map fK <Plug>Markdown_MoveToPreviousSiblingHeader
+autocmd FileType markdown map fu <Plug>Markdown_MoveToParentHeader
+" Additional useful commands: https://github.com/plasticboy/vim-markdown#commands
+" :Toc, :Toch - show Table of Contents
+" :InsertToc, :InsertNToc - Insert ToC at the current line
+
 
 """"""""""""""""""""""""""""""""""""""""""
 " Lint
@@ -240,21 +301,3 @@ function! SplitToLines() range
     call append(lnum-1, words)
   endfor
 endfunction
-
-" Print phabricator url of current file
-function! GetPhabricatorURL() range
-  " Get current filename and any highlighted line number or range
-  let filename = expand( "%:f" )
-  let lineno = line('.')
-  if a:lastline - a:firstline > 0
-      let lineno = a:firstline . "-" . a:lastline
-  endif
-
-  " Get phabricator url via diffusion command
-  let url = trim(system("diffusion " . filename . ":" . lineno))
-  echom url
-endfunction
-
-" <leader>l to print phabricator url for current file
-" TODO: make this universal - work with :GBrowse
-map <Leader>l :call GetPhabricatorURL()<CR>
