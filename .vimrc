@@ -243,7 +243,7 @@ map <leader>hb :HGblame<CR>
 
 
 " vim-markdown - https://github.com/plasticboy/vim-markdown
-let g:vim_markdown_new_list_item_indent = 2  " Number of indent spaces on new list item
+let g:vim_markdown_new_list_item_indent = 0  " Number of indent spaces on new list item
 let g:vim_markdown_toc_autofit = 1  " Autofit Table of Contents (ToC) window
 let g:vim_markdown_math = 1  " LaTeX extension on
 let g:vim_markdown_conceal_code_blocks = 0  " Don't conceal code-blocks
