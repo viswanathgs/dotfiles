@@ -242,7 +242,7 @@ map <leader>gb :Git blame<CR>
 map <leader>hb :HGblame<CR>
 
 
-" vim-markdown
+" vim-markdown - https://github.com/plasticboy/vim-markdown
 let g:vim_markdown_new_list_item_indent = 2  " Number of indent spaces on new list item
 let g:vim_markdown_toc_autofit = 1  " Autofit Table of Contents (ToC) window
 let g:vim_markdown_math = 1  " LaTeX extension on
@@ -252,9 +252,9 @@ autocmd FileType markdown map fk <Plug>Markdown_MoveToPreviousHeader
 autocmd FileType markdown map fJ <Plug>Markdown_MoveToNextSiblingHeader
 autocmd FileType markdown map fK <Plug>Markdown_MoveToPreviousSiblingHeader
 autocmd FileType markdown map fu <Plug>Markdown_MoveToParentHeader
-" Additional useful commands: https://github.com/plasticboy/vim-markdown#commands
-" :Toc, :Toch - show Table of Contents
-" :InsertToc, :InsertNToc - Insert ToC at the current line
+autocmd FileType markdown map fi :Toc<CR>  " Show Table of Contents
+autocmd FileType markdown map f> :HeaderIncrease<CR>  " Increase level of all or selected headers
+autocmd FileType markdown map f< :HeaderDecrease<CR>  " Decrease level of all or selected headers
 
 
 """"""""""""""""""""""""""""""""""""""""""
