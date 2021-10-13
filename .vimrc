@@ -21,7 +21,8 @@ Plug 'sbdchd/neoformat'
 Plug 'mileszs/ack.vim'  " Search in directory (for word under cursor)
 Plug 'fs111/pydoc.vim'  " Python documentation (Shift+K for word under cursor)
 Plug 'godlygeek/tabular'  " Dependency for vim-markdown
-Plug 'plasticboy/vim-markdown'
+Plug 'plasticboy/vim-markdown'  " Markdown folds
+Plug 'dkarter/bullets.vim'  " Auto lists and checkboxes/todo-lists
 call plug#end()
 
 
@@ -244,6 +245,7 @@ map <leader>hb :HGblame<CR>
 
 
 " vim-markdown - https://github.com/plasticboy/vim-markdown
+set conceallevel=2
 let g:vim_markdown_new_list_item_indent = 0  " Number of indent spaces on new list item
 let g:vim_markdown_toc_autofit = 1  " Autofit Table of Contents (ToC) window
 let g:vim_markdown_math = 1  " LaTeX extension on
@@ -256,6 +258,10 @@ autocmd FileType markdown map fu <Plug>Markdown_MoveToParentHeader
 autocmd FileType markdown map fi :Toc<CR>  " Show Table of Contents
 autocmd FileType markdown map f> :HeaderIncrease<CR>  " Increase level of all or selected headers
 autocmd FileType markdown map f< :HeaderDecrease<CR>  " Decrease level of all or selected headers
+
+
+" bullets.vim - https://github.com/dkarter/bullets.vim
+let g:bullets_nested_checkboxes = 0  " Decouple parent and child checkbox toggling
 
 
 """"""""""""""""""""""""""""""""""""""""""
