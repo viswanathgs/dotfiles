@@ -1,2 +1,4 @@
 .vim/plugged
+.oh-my-zsh
+.antigen.zsh
 *.sw*

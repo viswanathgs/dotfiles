@@ -22,19 +22,22 @@ brewIn hub || true
 # For tmux to access clipboard: https://blog.carbonfive.com/copying-and-pasting-with-tmux-2-4/
 brewIn reattach-to-user-namespace || true
 
-# Install oh-my-zsh
-curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | sh
+# Install oh-my-zsh into current dir. We'll symlink later to homedir.
+curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | ZSH=.oh-my-zsh sh
 
-# Install antigen (for easier third-party plugin management than oh-my-zsh)
-curl -L git.io/antigen > ~/.antigen.zsh
+# Install antigen (for easier third-party plugin management than oh-my-zsh) into current dir.
+# We'll symlink later to homedir.
+curl -L git.io/antigen > .antigen.zsh
 
-# Setup symlinks to homedir
+# Setup symlinks to homedir and to ~/.ondemand/homedir (for ondemand dot-file sync)
+ONDEMAND_HOMEDIR=~/.ondemand/homedir
+mkdir -p "${ONDEMAND_HOMEDIR}"
 for f in $(ls -a | grep '^\.')
 do
-  if ! [[ ($f == .)  || ($f == ..) || ($f =~ .git*) ]]
-  then
+  if ! [[ ($f == .)  || ($f == ..) || ($f =~ "\.git.*") || ($f =~ "\.sw.*") ]]; then
     echo "Symlink: ~/$f -> $(pwd)/$f"
-    ln -sf $(pwd)/$f ~/
+    ln -sF $(pwd)/$f ~/  # homedir
+    ln -sF $(pwd)/$f "${ONDEMAND_HOMEDIR}"/  # ondemand homedir
   fi
 done
 

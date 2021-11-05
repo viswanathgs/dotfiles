@@ -5,9 +5,125 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# ~/.zshrc
-
 export PATH=$PATH:$HOME/bin:$HOME/.local/bin
+
+###################################################
+#
+# Util functions
+#
+###################################################
+
+## Find and replace with ag and sed
+function agr() {
+  # find and replace
+  regex=s/${1}/${2}/g;
+  ag $1 -l | xargs sed -i.agr_backup $regex;
+  # delete backups
+  ag -G .agr_backup -l | xargs rm
+}
+
+## Find and delete with ag and sed
+function agd() {
+  # find and delete
+  regex=/${1}/d;
+  ag $1 -l | xargs sed -i.agd_backup $regex;
+  # delete backups
+  ag -G .agd_backup -l | xargs rm
+}
+
+## List all files containing specified extensions.
+## Example: lsext cpp cc h
+function lsext() {
+  pattern=""
+  for i in "$@"; do
+    if [ ! -z "$pattern" ]; then
+      pattern+="|"
+    fi
+    pattern+="$i"
+  done
+
+  ag -g ".*\.(${pattern})$"
+}
+
+## Fix hotspot not working due to carriers throttling tethered traffic
+## Usage: hotspot <on|off>
+function hotspot() {
+  if [ "$#" -ne 1 ]; then
+    echo "Usage: hotspot <on|off>"
+    return
+  fi
+
+  on_or_off="$1"
+
+  if [ "${on_or_off}" = "on" ]; then
+    # Increase TTL from 64 to 65 to add an extra hop. With the default TTL of 64
+    # packet originating from tethered laptop will have a TTL of 63 when it gets
+    # to the phone. Carriers use this to distinguish phone traffic from hotspot
+    # and throttle. Bump up TTL to 65 to get around this.
+    sudo sysctl net.inet.ip.ttl=65
+    # Also disable ipv6 because the setting for TTL on IPv6 (known as HLIM)
+    # is apparently not honored by Mac OS.
+    sudo networksetup -setv6off "Wi-Fi"
+    echo "Hotspot mode enabled"
+  else
+    # Revert hotspot unfix and turn back ipv6 on when on wifi
+    sudo sysctl net.inet.ip.ttl=64
+    sudo networksetup -setv6automatic "Wi-Fi"
+    echo "Back on wifi mode"
+  fi
+}
+
+## Enable `fwdproxy-config` aliases when on devserver.
+## Usage: fwdproxy <on|off> <all|git|curl|wget|...>
+function fwdproxy() {
+  if ! command -v fwdproxy-config &> /dev/null; then
+    # fwdproxy-config command not found. Not on devserver.
+    return
+  fi
+
+  if [ "$#" -ne 2 ]; then
+    echo "Usage: fwdproxy <on|off> <command>"
+    return
+  fi
+
+  on_or_off="$1"
+  cmd="$2"
+
+  CMDS=(git hg curl wget ssh java)
+  if [[ "${cmd}" == "all" ]]; then
+    cmds=("${CMDS[@]}")
+  elif [[ "${CMDS[*]} " =~ "${cmd}" ]]; then
+    cmds=("${cmd}")
+  else
+    echo "Unknown command ${cmd}, must be either 'all' or one of [${CMDS}]"
+    return
+  fi
+
+  if [ "${on_or_off}" = "on" ]; then
+    # Set aliases with fwdproxy-config
+    for cmd in "${cmds[@]}"; do
+      alias "${cmd}=${cmd} $(fwdproxy-config ${cmd})"
+    done
+    echo "Alias(es) with fwdproxy-config set for ${cmds}"
+  else
+    # Unset aliases
+    for cmd in "${cmds[@]}"; do
+      unalias "${cmd}"
+    done
+    echo "Alias(es) unset for ${cmds}"
+  fi
+}
+
+# Enable fwdproxy-config aliases for all commands to connect to the internet
+# when on devserver so we can fetch the necessary plugins at startup.
+# This is reverted at the end of this file.
+fwdproxy on all
+
+###################################################
+#
+# Oh My Zsh
+#
+###################################################
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -101,6 +217,10 @@ antigen bundle zsh-users/zsh-autosuggestions
 # Apply
 antigen apply
 
+# For `antigen theme romkatv/powerlevel10k`
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
 ###################################################
 #
 # User configuration
@@ -166,60 +286,11 @@ alias goog='google' # from web-search plugin
 ## Alias to mosh into a jumphost and then ssh as mosh doesn't support ProxyJump
 alias moshjmp='mosh -6 jmp -n ssh'
 
-# Util functions
-
-## Find and replace with ag and sed
-function agr() {
-  # find and replace
-  regex=s/${1}/${2}/g;
-  ag $1 -l | xargs sed -i.agr_backup $regex;
-  # delete backups
-  ag -G .agr_backup -l | xargs rm
-}
-
-## Find and delete with ag and sed
-function agd() {
-  # find and delete
-  regex=/${1}/d;
-  ag $1 -l | xargs sed -i.agd_backup $regex;
-  # delete backups
-  ag -G .agd_backup -l | xargs rm
-}
-
-## List all files containing specified extensions.
-## Example: lsext cpp cc h
-function lsext() {
-  pattern=""
-  for i in "$@"; do
-    if [ ! -z "$pattern" ]; then
-      pattern+="|"
-    fi
-    pattern+="$i"
-  done
-
-  ag -g ".*\.(${pattern})$"
-}
-
-## Fix hotspot not working due to carriers throttling tethered traffic
-## Usage: hotspot on|off
-function hotspot() {
-  if [ "$1" = "on" ]; then
-    echo "Enabling hotspot mode"
-    # Increase TTL from 64 to 65 to add an extra hop. With the default TTL of 64
-    # packet originating from tethered laptop will have a TTL of 63 when it gets
-    # to the phone. Carriers use this to distinguish phone traffic from hotspot
-    # and throttle. Bump up TTL to 65 to get around this.
-    sudo sysctl net.inet.ip.ttl=65
-    # Also disable ipv6 because the setting for TTL on IPv6 (known as HLIM)
-    # is apparently not honored by Mac OS.
-    sudo networksetup -setv6off "Wi-Fi"
-  else
-    echo "Back to wifi mode"
-    # Revert hotspot unfix and turn back ipv6 on when on wifi
-    sudo sysctl net.inet.ip.ttl=64
-    sudo networksetup -setv6automatic "Wi-Fi"
-  fi
-}
+###################################################
+#
+# Coda with conda
+#
+###################################################
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -241,5 +312,5 @@ if [ -f ~/.fb.zshrc ]; then
 	source ~/.fb.zshrc
 fi
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# All done. Unset fwdproxy-config aliases if set.
+fwdproxy off all
