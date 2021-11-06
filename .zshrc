@@ -13,47 +13,73 @@ export PATH=$PATH:$HOME/bin:$HOME/.local/bin
 #
 ###################################################
 
-## Find and replace with ag and sed
-function agr() {
-  # find and replace
-  regex=s/${1}/${2}/g;
-  ag $1 -l | xargs sed -i.agr_backup $regex;
-  # delete backups
-  ag -G .agr_backup -l | xargs rm
-}
 
-## Find and delete with ag and sed
-function agd() {
-  # find and delete
-  regex=/${1}/d;
-  ag $1 -l | xargs sed -i.agd_backup $regex;
-  # delete backups
-  ag -G .agd_backup -l | xargs rm
-}
-
-## List all files containing specified extensions.
-## Example: lsext cpp cc h
-function lsext() {
-  pattern=""
-  for i in "$@"; do
-    if [ ! -z "$pattern" ]; then
-      pattern+="|"
-    fi
-    pattern+="$i"
-  done
-
-  ag -g ".*\.(${pattern})$"
-}
-
-## Fix hotspot not working due to carriers throttling tethered traffic
-## Usage: hotspot <on|off>
-function hotspot() {
+# Check for the availability of a command.
+# Usage: has_command <command_name>
+function has_command() {
   if [ "$#" -ne 1 ]; then
-    echo "Usage: hotspot <on|off>"
+    echo "Usage: ${0} <command_name>"
     return
   fi
 
-  on_or_off="$1"
+  cmd="${1}"
+
+  command -v ${cmd} > /dev/null 2>&1
+}
+
+
+# Search and replace using rg and sed. Supports searching by regex.
+# Usage: rgr <search_pattern> <replacement_text>
+function rgr() {
+  if [ "$#" -ne 2 ]; then
+    echo "Usage: ${0} <search_pattern> <replacement_text>"
+    return
+  fi
+
+  pattern="${1}"
+  replacement="${2}"
+
+  # Search and replace inplace, backing up original files
+  # with the extension .rgr_backup
+  BACKUP_EXT=.rgr_backup
+  rg "${pattern}" -l | xargs sed -i"${BACKUP_EXT}" "s/${pattern}/${replacement}/g"
+
+  # Delete backups. We could use fd here to list backup files, but
+  # sticking to rg for platform compatibility.
+  rg --files -g "*${BACKUP_EXT}" | xargs rm
+}
+
+
+# Search and delete lines containing regex pattern using rg and sed.
+# Usage: rgd <search_pattern>
+function rgd() {
+  if [ "$#" -ne 1 ]; then
+    echo "Usage: ${0} <search_pattern>"
+    return
+  fi
+
+  pattern="${1}"
+
+  # Search and delete lines with matches inplace, backing up original files
+  # with the extension .rgr_backup
+  BACKUP_EXT=.rgd_backup
+  rg "${pattern}" -l | xargs sed -i"${BACKUP_EXT}" "/${pattern}/d"
+
+  # Delete backups. We could use fd here to list backup files, but
+  # sticking to rg for platform compatibility.
+  rg --files -g "*${BACKUP_EXT}" | xargs rm
+}
+
+
+# Fix hotspot not working due to carriers throttling tethered traffic.
+# Usage: hotspot <on|off>
+function hotspot() {
+  if [ "$#" -ne 1 ]; then
+    echo "Usage: ${0} <on|off>"
+    return
+  fi
+
+  on_or_off="${1}"
 
   if [ "${on_or_off}" = "on" ]; then
     # Increase TTL from 64 to 65 to add an extra hop. With the default TTL of 64
@@ -73,21 +99,23 @@ function hotspot() {
   fi
 }
 
-## Enable `fwdproxy-config` aliases when on devserver.
-## Usage: fwdproxy <on|off> <all|git|curl|wget|...>
+
+# Enable `fwdproxy-config` aliases when on devserver.
+# Usage: fwdproxy <on|off> <all|git|curl|wget|...>
 function fwdproxy() {
-  if ! command -v fwdproxy-config &> /dev/null; then
-    # fwdproxy-config command not found. Not on devserver.
+  # Only proceed if fwdproxy-config command is found. Otherwise,
+  # not on devserver and no need for proxy.
+  if ! has_command fwdproxy-config; then
     return
   fi
 
   if [ "$#" -ne 2 ]; then
-    echo "Usage: fwdproxy <on|off> <command>"
+    echo "Usage: ${0} <on|off> <command>"
     return
   fi
 
-  on_or_off="$1"
-  cmd="$2"
+  on_or_off="${1}"
+  cmd="${2}"
 
   CMDS=(git hg curl wget ssh java)
   if [[ "${cmd}" == "all" ]]; then
@@ -113,6 +141,7 @@ function fwdproxy() {
     echo "Alias(es) unset for ${cmds}"
   fi
 }
+
 
 # Enable fwdproxy-config aliases for all commands to connect to the internet
 # when on devserver so we can fetch the necessary plugins at startup.
@@ -211,19 +240,15 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-autosuggestions
 
 # Plugin settings
-## zsh-autosuggestions (prefer tab completion suggestions first and then history)
+# zsh-autosuggestions (prefer tab completion suggestions first and then history)
 # export ZSH_AUTOSUGGEST_STRATEGY=(completion history)
 
 # Apply
 antigen apply
 
-# For `antigen theme romkatv/powerlevel10k`
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
 ###################################################
 #
-# User configuration
+# Environment variables
 #
 ###################################################
 
@@ -233,13 +258,44 @@ export HISTSIZE=130000
 export HISTFILESIZE=-1
 export PYTHONSTARTUP="$HOME/.pythonrc"
 
+
+# fzf
+# fzf order of preference based on availability: fd > ripgrep > find (default)
+if has_command fd; then
+  export FZF_DEFAULT_COMMAND='fd --type file --color=always'
+elif has_command rg; then
+  export FZF_DEFAULT_COMMAND='rg --files --color=always'
+fi
+export FZF_CTRL_T_COMMAND="${FZF_DEFAULT_COMMAND}"
+
+# CTRL+d and CTRL+u for navigating fzf results, color/display/preview settings, etc.
+export FZF_DEFAULT_OPTS="
+--bind=ctrl-d:down,ctrl-u:up,?:toggle-preview \
+--height=40% \
+--layout=reverse \
+--ansi \
+--preview '(
+    [[ -f {} ]] && (bat --style=numbers --color=always --line-range :500 {} || cat {})) \
+    || ([[ -d {} ]] && (tree -C {} | less)) \
+    || echo {} 2> /dev/null | head -200' \
+"
+
+# bat, if installed, is used by fzf to prettify previews
+export BAT_CONFIG_PATH="$HOME/.bat.conf"
+
+
+###################################################
+#
 # Aliases
+#
+###################################################
+
 alias woman='man'  # For Silky
 alias sudo='sudo '
 alias v='vim'
 alias l='ls -lh'
 alias la='ls -lha'
-## git
+# git
 alias gco='git checkout'
 alias gd='git diff'
 alias gc='git commit -a -v'
@@ -252,7 +308,7 @@ alias gpr='git pull --rebase'
 alias gpro='git pull --rebase origin'
 alias gprom='git pull --rebase origin master'
 alias gprum='git pull --rebase upstream master'
-## hg
+# hg
 alias hd='hg diff'
 alias hc='hg commit'
 alias ha='hg commit --amend'
@@ -262,11 +318,11 @@ function hp() {
   hg update $1
   hg rebase -d master
 }
-## Conda
+# conda
 alias ca='conda activate'
 alias cda='conda deactivate'
 alias cenv='conda env'
-## Buck
+# buck
 alias bb='buck build'
 alias bt='buck test'
 alias br='buck run'
@@ -276,14 +332,15 @@ alias btmd='bt @mode/mac/dev-release'
 alias btld='bt @mode/linux/dev-release'
 alias brmd='br @mode/mac/dev-release'
 alias brld='br @mode/linux/dev-release'
-## aws
+# aws
 alias s3ls='aws s3 ls --summarize --human-readable --recursive'
 alias s3cp='aws s3 cp'
 alias s3cpr='aws s3 cp --recursive'
-alias s3put='aws s3api put-object' # s3put --bucket <bucket> --key <path>
-## Misc
-alias goog='google' # from web-search plugin
-## Alias to mosh into a jumphost and then ssh as mosh doesn't support ProxyJump
+alias s3put='aws s3api put-object'  # s3put --bucket <bucket> --key <path>
+# Plugins and extras
+has_command bat && alias cat='bat'  # s/cat/bat if bat is installed
+alias goog='google'  # zsh web-search plugin
+# Alias to mosh into a jumphost and then ssh as mosh doesn't support ProxyJump
 alias moshjmp='mosh -6 jmp -n ssh'
 
 ###################################################
@@ -307,10 +364,21 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
-# Load FB-specific stuff
-if [ -f ~/.fb.zshrc ]; then
-	source ~/.fb.zshrc
-fi
+###################################################
+#
+# Source additional scripts
+#
+###################################################
+
+# For `antigen theme romkatv/powerlevel10k`.
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[ -f ~/.p10k.zsh ] && source ~/.p10k.zsh
+
+# fzf
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# FB-specific stuff
+[ -f ~/.fb.zshrc ] && source ~/.fb.zshrc
 
 # All done. Unset fwdproxy-config aliases if set.
 fwdproxy off all

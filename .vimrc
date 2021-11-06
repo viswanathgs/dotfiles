@@ -18,7 +18,8 @@ Plug 'tpope/vim-fugitive'  " Git wrapper
 Plug 'tpope/vim-rhubarb'  " Github extension for vim-fugitive (:GBrowse)
 Plug 'jlfwong/vim-mercenary'  " Like vim-fugitive but for hg
 Plug 'sbdchd/neoformat'
-Plug 'mileszs/ack.vim'  " Search in directory (for word under cursor)
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'fs111/pydoc.vim'  " Python documentation (Shift+K for word under cursor)
 Plug 'godlygeek/tabular'  " Dependency for vim-markdown
 Plug 'plasticboy/vim-markdown'  " Markdown folds
@@ -82,7 +83,7 @@ autocmd BufNewFile,BufRead *.cuh set filetype=cuda
 
 
 """"""""""""""""""""""""""""""""""""""""""
-" Custom commands
+" Util functions and custom commands
 """"""""""""""""""""""""""""""""""""""""""
 
 " Like windo but restore the current window.
@@ -92,7 +93,7 @@ function! WinDo(command)
   execute 'windo ' . a:command
   execute currwin . 'wincmd w'
 endfunction
-com! -nargs=+ -complete=command Windo call WinDo(<q-args>)
+command! -nargs=+ -complete=command Windo call WinDo(<q-args>)
 
 
 " Like bufdo but restore the current buffer.
@@ -102,7 +103,7 @@ function! BufDo(command)
   execute 'bufdo ' . a:command
   execute 'buffer ' . currBuff
 endfunction
-com! -nargs=+ -complete=command Bufdo call BufDo(<q-args>)
+command! -nargs=+ -complete=command Bufdo call BufDo(<q-args>)
 
 
 " Like tabdo but restore the current tab.
@@ -112,12 +113,65 @@ function! TabDo(command)
   execute 'tabdo ' . a:command
   execute 'tabn ' . currTab
 endfunction
-com! -nargs=+ -complete=command Tabdo call TabDo(<q-args>)
+command! -nargs=+ -complete=command Tabdo call TabDo(<q-args>)
+
+
+" Return the previously searched string from the search register '/'. Could be
+" used as an argument to fzf :Rg for instance (see mapping for <leader>s).
+" Taken from ack.vim ack#AckFromSearch() - https://github.com/mileszs/ack.vim/blob/master/autoload/ack.vim
+function! GetSearchRegister()
+  " Get the last search term from the register '/'
+  let search = getreg('/')
+  " Translate vim regex to perl regex
+  let search = substitute(search, '\(\\<\|\\>\)', '\\b', 'g')
+  return search
+endfunction
+
+
+" Clear the search register '/' to remove the last search term.
+" See mapping for <leader>/ and associated comments.
+function! ClearSearchRegister()
+  call setreg('/', [])
+endfunction
+
+
+" Set pdb trace
+function! InsertPdb()
+  let trace = expand("import pdb; pdb.set_trace() # yapf: disable TODO slog")
+  execute "normal o".trace
+endfunction
+
+
+" Print phabricator URL for the current file. Works both in normal mode
+" as well as with range selection in visual mode.
+" TODO: make this universal - work with :GBrowse
+function! GetPhabricatorURL() range
+  " Get current filename and any highlighted line number or range
+  let filename = expand( "%:f" )
+  let lineno = line('.')
+  if a:lastline - a:firstline > 0
+      let lineno = a:firstline . "-" . a:lastline
+  endif
+  " Get phabricator url via diffusion command and print
+  let url = trim(system("diffusion " . filename . ":" . lineno))
+  echom url
+endfunction
+
+
+" Replace a line of space-separated text into individual lines
+function! SplitToLines() range
+  for lnum in range(a:lastline, a:firstline, -1)
+    let words = split(getline(lnum))
+    execute lnum . "delete"
+    call append(lnum-1, words)
+  endfor
+endfunction
 
 
 """"""""""""""""""""""""""""""""""""""""""
 " Custom Keymaps
 """"""""""""""""""""""""""""""""""""""""""
+
 
 " Vim tabs
 nnoremap tn  :tabnew<CR>
@@ -148,31 +202,6 @@ nnoremap <C-e> <C-w>100w
 nnoremap <leader>r :silent! Tabdo e<CR>
 
 
-" Set pdb trace on <leader>b for python files
-autocmd FileType python map <Leader>b :call InsertPdb()<CR>
-function! InsertPdb()
-  let trace = expand("import pdb; pdb.set_trace() # yapf: disable TODO slog")
-  execute "normal o".trace
-endfunction
-
-
-" <leader>l to print phabricator url for current file
-" TODO: make this universal - work with :GBrowse
-map <Leader>l :call GetPhabricatorURL()<CR>
-function! GetPhabricatorURL() range
-  " Get current filename and any highlighted line number or range
-  let filename = expand( "%:f" )
-  let lineno = line('.')
-  if a:lastline - a:firstline > 0
-      let lineno = a:firstline . "-" . a:lastline
-  endif
-
-  " Get phabricator url via diffusion command
-  let url = trim(system("diffusion " . filename . ":" . lineno))
-  echom url
-endfunction
-
-
 " Vim folds
 " Default fold commands start with z. Remap to f to avoid Emacs pinky.
 map fo zo      " Open fold under cursor
@@ -190,6 +219,20 @@ map fgg [z     " Move to the start of the current fold
 map fG ]z      " Move to the end of the current fold
 map fj zj      " Move to the start of the next fold
 map fk zk      " Move to the end of the previous fold
+
+
+" Set pdb trace on <leader>b for python files
+autocmd FileType python map <leader>b :call InsertPdb()<CR>
+
+" Map <leader>l to print phabricator URL for current file. Works with visual
+" ranges too.
+map <leader>l :call GetPhabricatorURL()<CR>
+
+
+" Avoid jumping to the next match when using * to highlight word under the cursor.
+" https://stackoverflow.com/questions/4256697/vim-search-and-highlight-but-do-not-jump
+nnoremap * *``
+nnoremap * :keepjumps normal! mi*`i<CR>
 
 
 """"""""""""""""""""""""""""""""""""""""""
@@ -212,26 +255,27 @@ let g:NERDTreeChDirMode = 2
 autocmd VimEnter * wincmd p
 " Close vim if the only window left open is a NERDTree
 autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-" Auto-create a NERDTree mirror in every vim tab. Filter out quickfix window
-" though to avoid conflicts with ack.vim.
+" Auto-create a NERDTree mirror in every vim tab (filtering out quickfix)
 autocmd BufWinEnter * if &buftype != 'quickfix' | NERDTreeMirror | endif
 
 
-" ack.vim - https://github.com/mileszs/ack.vim
-" Use ag with ack.vim
-if executable('ag')
-  let g:ackprg = 'ag --vimgrep'
-endif
-" Keymaps
-nnoremap <leader>s :Ack!<Space>
-nnoremap <leader>f :AckFile!<Space>
-" Don't auto-open the first result
-cnoreabbrev Ack Ack!
-cnoreabbrev AckFile AckFile!
-" Split rightward so as not to displace a left NERDTree
-let g:ack_mappings = {
-  \  'v': '<C-W><CR><C-W>L<C-W>p<C-W>J<C-W>p',
-  \ 'gv': '<C-W><CR><C-W>L<C-W>p<C-W>J' }
+" fzf & fzf.vim
+" <leader>s to search file contents (uses ripgrep underneath)
+nnoremap <leader>s :Rg <C-R>=GetSearchRegister()<CR>
+" Map <leader>/ to clear the search register '/'. This avoids needing to type
+" /asdf to clear search highlight. More importantly, we rely on this register
+" to get the last search term to pass into fzf :Rg command (see mapping for
+" <leader>s). We need a mechanism to clear this so that <leader>s outputs
+" ':Rg ' (instead of ':Rg asdf') to be able to enter a fresh search term.
+" Also do this automatically when vim starts up.
+nnoremap <silent> <leader>/ :call ClearSearchRegister()<CR>
+autocmd VimEnter * :call ClearSearchRegister()
+" <leader>f to search filenames (using fd if available) and open in splits
+nnoremap <leader>f :Files<CR>
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-s': 'split',
+  \ 'ctrl-v': 'vsplit' }
 
 
 " pydoc.vim - https://github.com/fs111/pydoc.vim/blob/master/ftplugin/python_pydoc.vim
@@ -285,9 +329,9 @@ autocmd FileType c,cabal,cpp,cuda,python,haskell,erlang,javascript,php,ruby,read
   \ :call <SID>StripTrailingWhitespaces()
 
 " Clang-format
-map <C-f> :ClangFormat<CR>
-imap <C-f> <ESC>:ClangFormat<CR>i
-" Uncomment below to auto-format
+autocmd FileType c,cpp,cc,cuda,java,objc,proto map <C-f> :ClangFormat<CR>
+autocmd FileType c,cpp,cc,cuda,java,objc,proto imap <C-f> <ESC>:ClangFormat<CR>i
+" Uncomment below to auto-format on buffer write
 " autocmd FileType c,cpp,cc,cuda,java,objc,proto ClangFormatAutoEnable
 
 " yapf
@@ -295,16 +339,3 @@ autocmd FileType python map <C-f> :Neoformat<CR>
 autocmd FileType python imap <C-f> <ESC>:Neoformat<CR>i
 " Autoformat on save
 autocmd BufWritePre *.py Neoformat
-
-""""""""""""""""""""""""""""""""""""""""""
-" Util functions
-""""""""""""""""""""""""""""""""""""""""""
-
-" Replace a line of space-separated text into individual lines
-function! SplitToLines() range
-  for lnum in range(a:lastline, a:firstline, -1)
-    let words = split(getline(lnum))
-    execute lnum . "delete"
-    call append(lnum-1, words)
-  endfor
-endfunction

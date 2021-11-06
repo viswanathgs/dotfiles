@@ -6,6 +6,9 @@
 # Update submodules
 git submodule update --init --recursive --remote
 
+# Dependencies
+pip install --upgrade yapf black pre-commit tabcompletion cpplint ptpython pdbpp || true
+
 function brewIn() {
   if brew ls --versions "$1"; then
     brew upgrade "$1"
@@ -14,13 +17,22 @@ function brewIn() {
   fi
 }
 
-# Install deps
-pip install --upgrade yapf black pre-commit tabcompletion cpplint ptpython pdbpp || true
-brewIn clang-format || true
-brewIn the_silver_searcher || true
-brewIn hub || true
-# For tmux to access clipboard: https://blog.carbonfive.com/copying-and-pasting-with-tmux-2-4/
-brewIn reattach-to-user-namespace || true
+MAC_DEPS=(
+  clang-format
+  hub
+  fzf  # https://github.com/junegunn/fzf
+  fd  # find++ - fzf uses underneath
+  ripgrep  # grep++ - fzf uses underneath
+  bat  # cat++ - fzf uses underneath for previews if installed
+  tree  # for fzf previews of dir trees
+  reattach-to-user-namespace  # tmux access to clipboard: https://blog.carbonfive.com/copying-and-pasting-with-tmux-2-4
+)
+
+brew update || true
+for dep in ${MAC_DEPS}; do
+  brewIn ${dep} || true
+done
+$(brew --prefix)/opt/fzf/install || true  # fzf key-bindings and fuzzy completion
 
 # Install oh-my-zsh into current dir. We'll symlink later to homedir.
 curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | ZSH=.oh-my-zsh sh

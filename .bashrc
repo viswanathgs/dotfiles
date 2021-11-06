@@ -10,17 +10,16 @@
 [[ $- != *i* ]] && return
 
 # Load CentOS stuff and Facebook stuff (don't remove these lines).
-if [ -f /etc/bashrc ]; then
-  source /etc/bashrc
-fi
-if [ -f /usr/facebook/ops/rc/master.bashrc ]; then
-  source /usr/facebook/ops/rc/master.bashrc
-fi
+[ -f /etc/bashrc ] && source /etc/bashrc
+[ -f /usr/facebook/ops/rc/master.bashrc ] && source /usr/facebook/ops/rc/master.bashrc
 
 # Keep oodles of command history (see https://fburl.com/bashhistory).
 HISTFILESIZE=-1
 HISTSIZE=1000000
 shopt -s histappend
+
+# We don't actually need this in bashrc, but `brew install fzf` in setup.sh adds this here.
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 # Switch to zsh finally
 zsh; exit "$?"
