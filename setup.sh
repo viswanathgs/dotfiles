@@ -25,6 +25,7 @@ MAC_DEPS=(
   ripgrep  # grep++ - fzf uses underneath
   bat  # cat++ - fzf uses underneath for previews if installed
   tree  # for fzf previews of dir trees
+  git-delta  # improved diff viz - https://github.com/dandavison/delta
   reattach-to-user-namespace  # tmux access to clipboard: https://blog.carbonfive.com/copying-and-pasting-with-tmux-2-4
 )
 
@@ -46,11 +47,14 @@ ONDEMAND_HOMEDIR=~/.ondemand/homedir
 mkdir -p "${ONDEMAND_HOMEDIR}"
 for f in $(ls -a | grep '^\.')
 do
-  if ! [[ ($f == .)  || ($f == ..) || ($f =~ "\.git.*") || ($f =~ "\.sw.*") ]]; then
+  if ! [[ ($f == .)  || ($f == ..) || ($f =~ "^\.git.*") || ($f =~ "\.sw.*") ]]; then
     echo "Symlink: ~/$f -> $(pwd)/$f"
     ln -sF $(pwd)/$f ~/  # homedir
     ln -sF $(pwd)/$f "${ONDEMAND_HOMEDIR}"/  # ondemand homedir
   fi
 done
+
+# Add gitconfig for git-delta to global gitconfig
+git config --global include.path ~/.delta.gitconfig
 
 echo "Done setting up dotfiles!"

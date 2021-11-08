@@ -1,0 +1,36 @@
+# gitconfig for delta - https://github.com/dandavison/delta.
+#
+# Include this in global gitconfig using the following command:
+# git config --global include.path ~/.delta.gitconfig
+
+[pager]
+    diff = delta
+    log = delta
+    reflog = delta
+    show = delta
+
+[interactive]
+    diffFilter = delta --color-only --features=interactive
+
+[delta]
+    side-by-side = true
+    syntax-theme = zenburn
+    whitespace-error-style = 22 reverse
+    features = unobtrusive-line-numbers decorations
+
+[delta "unobtrusive-line-numbers"]
+    line-numbers = true
+    line-numbers-minus-style = "#444444"
+    line-numbers-zero-style = "#444444"
+    line-numbers-plus-style = "#444444"
+    line-numbers-left-format = "{nm:>4}┊"
+    line-numbers-right-format = "{np:>4}│"
+    line-numbers-left-style = blue
+    line-numbers-right-style = blue
+
+[delta "decorations"]
+    commit-decoration-style = bold yellow box ul
+    file-style = bold yellow ul
+    file-decoration-style = none
+    hunk-header-style = file line-number syntax
+    hunk-header-decoration-style = cyan box ul
