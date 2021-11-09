@@ -259,7 +259,14 @@ autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 autocmd BufWinEnter * if &buftype != 'quickfix' | NERDTreeMirror | endif
 
 
-" fzf & fzf.vim
+" fzf.vim
+" Keymaps to open files in splits from fzf window
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-s': 'split',
+  \ 'ctrl-v': 'vsplit' }
+" <leader>f to search filenames (using fd if available)
+nnoremap <leader>f :Files<CR>
 " <leader>s to search file contents (uses ripgrep underneath)
 nnoremap <leader>s :Rg <C-R>=GetSearchRegister()<CR>
 " Map <leader>/ to clear the search register '/'. This avoids needing to type
@@ -270,12 +277,17 @@ nnoremap <leader>s :Rg <C-R>=GetSearchRegister()<CR>
 " Also do this automatically when vim starts up.
 nnoremap <silent> <leader>/ :call ClearSearchRegister()<CR>
 autocmd VimEnter * :call ClearSearchRegister()
-" <leader>f to search filenames (using fd if available) and open in splits
-nnoremap <leader>f :Files<CR>
-let g:fzf_action = {
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-s': 'split',
-  \ 'ctrl-v': 'vsplit' }
+" <leader>gs for git status and list modified files in fzf in the current repo.
+" Also display diff for each modified file in fzf preview.
+nnoremap <leader>gs :GFiles?<CR>
+" <leader>gll to show git log for the current repo in fzf.
+" Also display commit diff in fzf preview.
+nnoremap <leader>gll :Commits<CR>
+" <leader>gl. to show git log for the current file in fzf.
+" Also display each commit diff in fzf preview.
+nnoremap <leader>gl. :BCommits<CR>
+" <leader>w to list open files in vim tabs and windows and quickly switch
+nnoremap <leader>w :Windows<CR>
 
 
 " pydoc.vim - https://github.com/fs111/pydoc.vim/blob/master/ftplugin/python_pydoc.vim

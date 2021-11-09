@@ -278,6 +278,7 @@ export FZF_DEFAULT_OPTS="
     [[ -f {} ]] && (bat --style=numbers --color=always --line-range :500 {} || cat {})) \
     || ([[ -d {} ]] && (tree -C {} | less)) \
     || echo {} 2> /dev/null | head -200' \
+--preview-window=right,55% \
 "
 
 # bat, if installed, is used by fzf to prettify previews
