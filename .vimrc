@@ -49,7 +49,8 @@ set nolist                      " Hide tabs and EOL chars
 set showcmd                     " Show normal mode commands as they are entered
 set showmode                    " Show editing mode in status (-- INSERT --)
 set showmatch                   " Flash matching delimiters
-set background=light
+set background=dark
+colorscheme desert
 
 " Scrolling
 set scrolljump=5                " Scroll five lines at a time vertically
