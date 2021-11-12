@@ -79,8 +79,10 @@ set clipboard=unnamed           " Use system clipboard
 filetype indent plugin on
 syntax enable
 
-" Extensions
-autocmd BufNewFile,BufRead *.cuh set filetype=cuda
+augroup extensions
+  autocmd!
+  autocmd BufNewFile,BufRead *.cuh set filetype=cuda
+augroup END
 
 
 """"""""""""""""""""""""""""""""""""""""""
@@ -168,6 +170,14 @@ function! SplitToLines() range
   endfor
 endfunction
 
+" Kill any trailing whitespace
+function! <SID>StripTrailingWhitespaces()
+  let l = line(".")
+  let c = col(".")
+  %s/\s\+$//e
+  call cursor(l, c)
+endfunction
+
 
 """"""""""""""""""""""""""""""""""""""""""
 " Custom Keymaps
@@ -222,18 +232,21 @@ map fj zj      " Move to the start of the next fold
 map fk zk      " Move to the end of the previous fold
 
 
-" Set pdb trace on <leader>b for python files
-autocmd FileType python map <leader>b :call InsertPdb()<CR>
-
-" Map <leader>l to print phabricator URL for current file. Works with visual
-" ranges too.
-map <leader>l :call GetPhabricatorURL()<CR>
-
-
 " Avoid jumping to the next match when using * to highlight word under the cursor.
 " https://stackoverflow.com/questions/4256697/vim-search-and-highlight-but-do-not-jump
 nnoremap * *``
 nnoremap * :keepjumps normal! mi*`i<CR>
+
+
+" Set pdb trace on <leader>b for python files
+augroup pdb
+  autocmd!
+  autocmd FileType python map <leader>b :call InsertPdb()<CR>
+augroup END
+
+" Map <leader>l to print phabricator URL for current file. Works with visual
+" ranges too.
+map <leader>l :call GetPhabricatorURL()<CR>
 
 
 """"""""""""""""""""""""""""""""""""""""""
@@ -250,14 +263,17 @@ let g:NERDTreeMapOpenSplit = 's'  " Horizontal split
 let g:NERDTreeMapPreviewSplit = 'gs'  " Horizontal split (maintain focus in NERDTree)
 " Change vim CWD together with NERDTree's root dir
 let g:NERDTreeChDirMode = 2
-" Uncomment to open NERDTree automatically when vim starts up
-" autocmd VimEnter * NERDTree
-" Focus cursor in new document on startup
-autocmd VimEnter * wincmd p
-" Close vim if the only window left open is a NERDTree
-autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-" Auto-create a NERDTree mirror in every vim tab (filtering out quickfix)
-autocmd BufWinEnter * if &buftype != 'quickfix' | NERDTreeMirror | endif
+augroup nerdtree
+  autocmd!
+  " Focus cursor in new document on startup
+  autocmd VimEnter * wincmd p
+  " Close vim if the only window left open is a NERDTree
+  autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+  " Auto-create a NERDTree mirror in every vim tab (filtering out quickfix)
+  autocmd BufWinEnter * if &buftype != 'quickfix' | NERDTreeMirror | endif
+  " Uncomment to open NERDTree automatically when vim starts up
+  " autocmd VimEnter * NERDTree
+augroup END
 
 
 " fzf.vim
@@ -277,7 +293,10 @@ nnoremap <leader>s :Rg <C-R>=GetSearchRegister()<CR>
 " ':Rg ' (instead of ':Rg asdf') to be able to enter a fresh search term.
 " Also do this automatically when vim starts up.
 nnoremap <silent> <leader>/ :call ClearSearchRegister()<CR>
-autocmd VimEnter * :call ClearSearchRegister()
+augroup fzf
+  autocmd!
+  autocmd VimEnter * :call ClearSearchRegister()
+augroup END
 " <leader>gs for git status and list modified files in fzf in the current repo.
 " Also display diff for each modified file in fzf preview.
 nnoremap <leader>gs :GFiles?<CR>
@@ -307,48 +326,61 @@ let g:vim_markdown_new_list_item_indent = 0  " Number of indent spaces on new li
 let g:vim_markdown_toc_autofit = 1  " Autofit Table of Contents (ToC) window
 let g:vim_markdown_math = 1  " LaTeX extension on
 let g:vim_markdown_conceal_code_blocks = 0  " Don't conceal code-blocks
-autocmd FileType markdown map fj <Plug>Markdown_MoveToNextHeader
-autocmd FileType markdown map fk <Plug>Markdown_MoveToPreviousHeader
-autocmd FileType markdown map fJ <Plug>Markdown_MoveToNextSiblingHeader
-autocmd FileType markdown map fK <Plug>Markdown_MoveToPreviousSiblingHeader
-autocmd FileType markdown map fu <Plug>Markdown_MoveToParentHeader
-autocmd FileType markdown map fi :Toc<CR>  " Show Table of Contents
-autocmd FileType markdown map f> :HeaderIncrease<CR>  " Increase level of all or selected headers
-autocmd FileType markdown map f< :HeaderDecrease<CR>  " Decrease level of all or selected headers
+augroup vim_markdown_folds
+  autocmd!
+  autocmd FileType markdown map fj <Plug>Markdown_MoveToNextHeader
+  autocmd FileType markdown map fk <Plug>Markdown_MoveToPreviousHeader
+  autocmd FileType markdown map fJ <Plug>Markdown_MoveToNextSiblingHeader
+  autocmd FileType markdown map fK <Plug>Markdown_MoveToPreviousSiblingHeader
+  autocmd FileType markdown map fu <Plug>Markdown_MoveToParentHeader
+  autocmd FileType markdown map fi :Toc<CR>  " Show Table of Contents
+  autocmd FileType markdown map f> :HeaderIncrease<CR>  " Increase level of all or selected headers
+  autocmd FileType markdown map f< :HeaderDecrease<CR>  " Decrease level of all or selected headers
+augroup NED
 
 
 " bullets.vim - https://github.com/dkarter/bullets.vim
 let g:bullets_nested_checkboxes = 0  " Decouple parent and child checkbox toggling
 
 
+" neoformat
+" Define ufmt command for neoformat to execute
+let g:neoformat_python_ufmt = {
+  \ 'exe': 'ufmt',
+  \ 'args': ['format'],
+  \ 'replace': 1,
+  \ }
+" Python formatters for neoformat to try in order of priority
+let g:neoformat_enabled_python = ['ufmt', 'black']
+
+
 """"""""""""""""""""""""""""""""""""""""""
 " Lint
 """"""""""""""""""""""""""""""""""""""""""
 
-" Highlight past 79 characters
-highlight CharLimit ctermbg=black ctermfg=white guibg=#592929
-autocmd FileType c,cabal,cpp,cuda,python,haskell,erlang,javascript,php,ruby,thrift
+augroup lint_and_format
+  autocmd!
+
+  " Highlight past 79 characters
+  highlight CharLimit ctermbg=black ctermfg=white guibg=#592929
+  autocmd FileType c,cabal,cpp,cuda,python,haskell,erlang,javascript,php,ruby,thrift
   \ match CharLimit /\%80v.\+/
 
-" Kill any trailing whitespace on save
-fu! <SID>StripTrailingWhitespaces()
-  let l = line(".")
-  let c = col(".")
-  %s/\s\+$//e
-  call cursor(l, c)
-endfu
-autocmd FileType c,cabal,cpp,cuda,python,haskell,erlang,javascript,php,ruby,readme,tex,text,thrift
-  \ autocmd BufWritePre <buffer>
-  \ :call <SID>StripTrailingWhitespaces()
+  " Strip any training whitespace on buffer write
+  autocmd FileType c,cabal,cpp,cuda,python,haskell,erlang,javascript,php,ruby,readme,tex,text,thrift
+    \ autocmd BufWritePre <buffer>
+    \ :call <SID>StripTrailingWhitespaces()
 
-" Clang-format
-autocmd FileType c,cpp,cc,cuda,java,objc,proto map <C-f> :ClangFormat<CR>
-autocmd FileType c,cpp,cc,cuda,java,objc,proto imap <C-f> <ESC>:ClangFormat<CR>i
-" Uncomment below to auto-format on buffer write
-" autocmd FileType c,cpp,cc,cuda,java,objc,proto ClangFormatAutoEnable
+  " Neoformat
+  " CTRL-F to format
+  autocmd FileType python map <C-f> :Neoformat<CR>
+  autocmd FileType python imap <C-f> <ESC>:Neoformat<CR>i
+  " Autoformat on save
+  autocmd FileType python autocmd BufWritePre * Neoformat
 
-" yapf
-autocmd FileType python map <C-f> :Neoformat<CR>
-autocmd FileType python imap <C-f> <ESC>:Neoformat<CR>i
-" Autoformat on save
-autocmd BufWritePre *.py Neoformat
+  " Clang-format. TODO: just use NeoFormat?
+  autocmd FileType c,cpp,cc,cuda,java,objc,proto map <C-f> :ClangFormat<CR>
+  autocmd FileType c,cpp,cc,cuda,java,objc,proto imap <C-f> <ESC>:ClangFormat<CR>i
+  " Uncomment below to auto-format on buffer write
+  " autocmd FileType c,cpp,cc,cuda,java,objc,proto ClangFormatAutoEnable
+augroup END

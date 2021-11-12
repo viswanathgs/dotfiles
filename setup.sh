@@ -7,7 +7,7 @@
 git submodule update --init --recursive --remote
 
 # Dependencies
-pip install --upgrade yapf black pre-commit tabcompletion cpplint ptpython pdbpp || true
+pip install --upgrade ufmt black pre-commit tabcompletion cpplint ptpython pdbpp || true
 
 function brewIn() {
   if brew ls --versions "$1"; then
