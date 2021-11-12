@@ -27,6 +27,7 @@ MAC_DEPS=(
   tree  # for fzf previews of dir trees
   git-delta  # improved diff viz - https://github.com/dandavison/delta
   reattach-to-user-namespace  # tmux access to clipboard: https://blog.carbonfive.com/copying-and-pasting-with-tmux-2-4
+  wget
 )
 
 brew update || true
@@ -42,19 +43,36 @@ curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/instal
 # We'll symlink later to homedir.
 curl -L git.io/antigen > .antigen.zsh
 
-# Setup symlinks to homedir and to ~/.ondemand/homedir (for ondemand dot-file sync)
-ONDEMAND_HOMEDIR=~/.ondemand/homedir
-mkdir -p "${ONDEMAND_HOMEDIR}"
-for f in $(ls -a | grep '^\.')
-do
+# List of files to symlink to homedir
+dotfiles=()
+for f in $(ls -a | grep '^\.'); do
   if ! [[ ($f == .)  || ($f == ..) || ($f =~ "^\.git.*") || ($f =~ "\.sw.*") ]]; then
-    echo "Symlink: ~/$f -> $(pwd)/$f"
-    ln -sF $(pwd)/$f ~/  # homedir
-    ln -sF $(pwd)/$f "${ONDEMAND_HOMEDIR}"/  # ondemand homedir
+    dotfiles+=($f)
   fi
+done
+
+# Actually symlink to homedir
+for f in "${dotfiles[@]}"; do
+  echo "Symlink: ~/$f -> $(pwd)/$f"
+  ln -sF $(pwd)/$f ~/
 done
 
 # Add gitconfig for git-delta to global gitconfig
 git config --global include.path ~/.delta.gitconfig
+
+# FB dev
+# Also symlink to ~/.ondemand/homedir for ondemand dot-file sync
+ONDEMAND_HOMEDIR=~/.ondemand/homedir
+echo "Symlinking dotfiles to ${ONDEMAND_HOMEDIR}/"
+mkdir -p ${ONDEMAND_HOMEDIR}
+for f in ${dotfiles[@]}; do
+  ln -sF $(pwd)/$f ${ONDEMAND_HOMEDIR}/
+done
+
+# Also download fzf binary and put it in ondemand homedir
+echo "Downloading fzf binary to ${ONDEMAND_HOMEDIR}/bin/"
+mkdir -p ${ONDEMAND_HOMEDIR}/bin
+FZF_LINUX_AMD64="https://github.com/junegunn/fzf/releases/download/0.28.0/fzf-0.28.0-linux_amd64.tar.gz"
+wget -qO- ${FZF_LINUX_AMD64} | tar xz - -C ${ONDEMAND_HOMEDIR}/bin/
 
 echo "Done setting up dotfiles!"
