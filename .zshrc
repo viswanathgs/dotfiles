@@ -5,14 +5,26 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+
+###################################################
+#
+# Environment variables
+#
+###################################################
+
 export PATH=$PATH:$HOME/bin:$HOME/.local/bin
+export EDITOR=/usr/bin/vim
+export VISUAL=/usr/bin/vim
+export HISTSIZE=130000
+export HISTFILESIZE=-1
+export PYTHONSTARTUP="$HOME/.pythonrc"
+
 
 ###################################################
 #
 # Util functions
 #
 ###################################################
-
 
 # Check for the availability of a command.
 # Usage: has_command <command_name>
@@ -143,11 +155,6 @@ function fwdproxy() {
 }
 
 
-# Enable fwdproxy-config aliases for all commands to connect to the internet
-# when on devserver so we can fetch the necessary plugins at startup.
-# This is reverted at the end of this file.
-fwdproxy on all
-
 ###################################################
 #
 # Oh My Zsh
@@ -210,6 +217,7 @@ plugins=()  # Ignore, taken over by antigen below
 
 source $ZSH/oh-my-zsh.sh
 
+
 ###################################################
 #
 # Antigen
@@ -246,21 +254,24 @@ antigen bundle zsh-users/zsh-autosuggestions
 # Apply
 antigen apply
 
+
 ###################################################
 #
-# Environment variables
+# Plugin settings
 #
 ###################################################
 
-export EDITOR=/usr/bin/vim
-export VISUAL=/usr/bin/vim
-export HISTSIZE=130000
-export HISTFILESIZE=-1
-export PYTHONSTARTUP="$HOME/.pythonrc"
+# antigen theme romkatv/powerlevel10k.
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[ -f ~/.p10k.zsh ] && source ~/.p10k.zsh
+# Disable gitstatusd for powerlevel10k since it causes issues on fb dev
+export POWERLEVEL9K_DISABLE_GITSTATUS=true
 
 
 # fzf
-# fzf order of preference based on availability: fd > ripgrep > find (default)
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# fzf command order of preference based on availability: fd > ripgrep > find (default)
 if has_command fd; then
   export FZF_DEFAULT_COMMAND='fd --type file --color=always'
 elif has_command rg; then
@@ -344,6 +355,17 @@ alias goog='google'  # zsh web-search plugin
 # Alias to mosh into a jumphost and then ssh as mosh doesn't support ProxyJump
 alias moshjmp='mosh -6 jmp -n ssh'
 
+
+###################################################
+#
+# Source additional scripts
+#
+###################################################
+
+# FB-specific stuff
+[ -f ~/.fb.zshrc ] && source ~/.fb.zshrc
+
+
 ###################################################
 #
 # Coda with conda
@@ -364,22 +386,3 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-
-###################################################
-#
-# Source additional scripts
-#
-###################################################
-
-# For `antigen theme romkatv/powerlevel10k`.
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[ -f ~/.p10k.zsh ] && source ~/.p10k.zsh
-
-# fzf
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# FB-specific stuff
-[ -f ~/.fb.zshrc ] && source ~/.fb.zshrc
-
-# All done. Unset fwdproxy-config aliases if set.
-fwdproxy off all
