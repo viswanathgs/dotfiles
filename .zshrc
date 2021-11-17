@@ -154,7 +154,6 @@ function fwdproxy() {
   fi
 }
 
-
 ###################################################
 #
 # Oh My Zsh
@@ -224,7 +223,11 @@ source $ZSH/oh-my-zsh.sh
 #
 ###################################################
 
-# Antigen for easier plugin and theme management than oh-my-zsh/custom
+# Enable fwdproxy-config aliases for all commands to connect to the internet
+# when on devserver so we can fetch the necessary plugins at startup.
+# This is reverted at the end of this file.
+fwdproxy on all
+
 source ~/.antigen.zsh
 antigen use oh-my-zsh
 
@@ -254,6 +257,8 @@ antigen bundle zsh-users/zsh-autosuggestions
 # Apply
 antigen apply
 
+# All done. Unset fwdproxy-config aliases if set.
+fwdproxy off all
 
 ###################################################
 #
@@ -358,16 +363,6 @@ alias moshjmp='mosh -6 jmp -n ssh'
 
 ###################################################
 #
-# Source additional scripts
-#
-###################################################
-
-# FB-specific stuff
-[ -f ~/.fb.zshrc ] && source ~/.fb.zshrc
-
-
-###################################################
-#
 # Coda with conda
 #
 ###################################################
@@ -386,3 +381,13 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
+
+
+###################################################
+#
+# Source additional scripts
+#
+###################################################
+
+# FB-specific stuff
+[ -f ~/.fb.zshrc ] && source ~/.fb.zshrc
