@@ -312,6 +312,9 @@ alias sudo='sudo '
 alias v='vim'
 alias l='ls -lh'
 alias la='ls -lha'
+alias py='python'
+alias dbox='cd ~/Dropbox\ \(Personal\)'
+alias werk='cd ~/work'
 # git
 alias gco='git checkout'
 alias gd='git diff'
@@ -359,6 +362,10 @@ has_command bat && alias cat='bat'  # s/cat/bat if bat is installed
 alias goog='google'  # zsh web-search plugin
 # Alias to mosh into a jumphost and then ssh as mosh doesn't support ProxyJump
 alias moshjmp='mosh -6 jmp -n ssh'
+# fb dev
+alias devc='dev connect --mosh'
+alias devl='dev list'
+alias devr='dev release'
 
 
 ###################################################
