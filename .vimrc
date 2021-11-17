@@ -376,7 +376,7 @@ augroup lint_and_format
   autocmd FileType python map <C-f> :Neoformat<CR>
   autocmd FileType python imap <C-f> <ESC>:Neoformat<CR>i
   " Autoformat on save
-  autocmd FileType python autocmd BufWritePre * Neoformat
+  " autocmd FileType python autocmd BufWritePre * Neoformat
 
   " Clang-format. TODO: just use NeoFormat?
   autocmd FileType c,cpp,cc,cuda,java,objc,proto map <C-f> :ClangFormat<CR>
