@@ -183,6 +183,8 @@ endfunction
 " Custom Keymaps
 """"""""""""""""""""""""""""""""""""""""""
 
+inoremap jj <ESC>
+
 
 " Vim tabs
 nnoremap tn  :tabnew<CR>
