@@ -363,16 +363,6 @@ let g:neoformat_enabled_python = ['ufmt', 'black']
 augroup lint_and_format
   autocmd!
 
-  " Highlight past 79 characters
-  highlight CharLimit ctermbg=black ctermfg=white guibg=#592929
-  autocmd FileType c,cabal,cpp,cuda,python,haskell,erlang,javascript,php,ruby,thrift
-  \ match CharLimit /\%80v.\+/
-
-  " Strip any training whitespace on buffer write
-  autocmd FileType c,cabal,cpp,cuda,python,haskell,erlang,javascript,php,ruby,readme,tex,text,thrift
-    \ autocmd BufWritePre <buffer>
-    \ :call <SID>StripTrailingWhitespaces()
-
   " Neoformat
   " CTRL-F to format
   autocmd FileType python map <C-f> :Neoformat<CR>
@@ -385,4 +375,14 @@ augroup lint_and_format
   autocmd FileType c,cpp,cc,cuda,java,objc,proto imap <C-f> <ESC>:ClangFormat<CR>i
   " Uncomment below to auto-format on buffer write
   " autocmd FileType c,cpp,cc,cuda,java,objc,proto ClangFormatAutoEnable
+
+  " Strip any training whitespace on buffer write
+  autocmd FileType c,cabal,cpp,cuda,python,haskell,erlang,javascript,php,ruby,readme,tex,text,thrift
+    \ autocmd BufWritePre <buffer>
+    \ :call <SID>StripTrailingWhitespaces()
+
+  " Highlight past 79 characters
+  " highlight CharLimit ctermbg=black ctermfg=white guibg=#592929
+  " autocmd FileType c,cabal,cpp,cuda,python,haskell,erlang,javascript,php,ruby,thrift
+  " \ match CharLimit /\%80v.\+/
 augroup END
