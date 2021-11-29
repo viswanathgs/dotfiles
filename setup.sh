@@ -69,10 +69,17 @@ for f in ${dotfiles[@]}; do
   ln -sF $(pwd)/$f ${ONDEMAND_HOMEDIR}/
 done
 
-# Also download fzf binary and put it in ondemand homedir
+# Download fzf binary and put it in ondemand homedir
 echo "Downloading fzf binary to ${ONDEMAND_HOMEDIR}/bin/"
 mkdir -p ${ONDEMAND_HOMEDIR}/bin
-FZF_LINUX_AMD64="https://github.com/junegunn/fzf/releases/download/0.28.0/fzf-0.28.0-linux_amd64.tar.gz"
-wget -qO- ${FZF_LINUX_AMD64} | tar xz - -C ${ONDEMAND_HOMEDIR}/bin/
+FZF_LINUX_AMD64_BIN="https://github.com/junegunn/fzf/releases/download/0.28.0/fzf-0.28.0-linux_amd64.tar.gz"
+wget -qO- ${FZF_LINUX_AMD64_BIN} | tar xz - -C ${ONDEMAND_HOMEDIR}/bin/
+
+# Download fd binary and put it in ondemand homedir
+echo "Downloading fd binary to ${ONDEMAND_HOMEDIR}/bin/"
+mkdir -p ${ONDEMAND_HOMEDIR}/bin
+FD_LINUX_BIN="https://github.com/sharkdp/fd/releases/download/v8.3.0/fd-v8.3.0-x86_64-unknown-linux-gnu.tar.gz"
+wget -qO- ${FD_LINUX_BIN} | tar xz - -C ${ONDEMAND_HOMEDIR}/bin/
+cp ${ONDEMAND_HOMEDIR}/bin/fd-*/fd ${ONDEMAND_HOMEDIR}/bin/
 
 echo "Done setting up dotfiles!"
