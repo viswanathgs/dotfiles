@@ -79,7 +79,7 @@ set clipboard=unnamed           " Use system clipboard
 filetype indent plugin on
 syntax enable
 
-augroup filetypedetect
+augroup additional_filetypes
   autocmd!
   autocmd BufNewFile,BufRead *.cuh set filetype=cuda
   autocmd BufNewFile,BufRead TARGETS set filetype=python
