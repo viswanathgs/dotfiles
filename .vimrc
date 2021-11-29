@@ -158,6 +158,9 @@ function! GetPhabricatorURL() range
   endif
   " Get phabricator url via diffusion command and print
   let url = trim(system("diffusion " . filename . ":" . lineno))
+  " Put the url in clipboard so it can be pasted into chrome
+  call setreg('+', url)
+  " Print the url
   echom url
 endfunction
 
