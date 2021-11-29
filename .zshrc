@@ -313,7 +313,7 @@ alias v='vim'
 alias l='ls -lh'
 alias la='ls -lha'
 alias py='python'
-alias dbox='cd ~/Dropbox\ \(Personal\)'
+alias dbx='cd ~/Dropbox\ \(Personal\)'
 alias werk='cd ~/work'
 # git
 alias gco='git checkout'
