@@ -59,7 +59,7 @@ set sidescroll=10               " Minumum columns to scroll horizontally
 " Search
 set hlsearch                    " Highlight search hits
 set incsearch                   " Enable incremental search
-set smartcase                   " Smart case-sensitive search
+set ignorecase                  " Case-insensitive search
 
 " Misc
 set noerrorbells                " No bells in terminal
