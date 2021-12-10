@@ -327,13 +327,14 @@ map <leader>hb :HGblame<CR>
 
 
 " vim-markdown - https://github.com/plasticboy/vim-markdown
-set conceallevel=2
 let g:vim_markdown_new_list_item_indent = 0  " Number of indent spaces on new list item
 let g:vim_markdown_toc_autofit = 1  " Autofit Table of Contents (ToC) window
 let g:vim_markdown_math = 1  " LaTeX extension on
 let g:vim_markdown_conceal_code_blocks = 0  " Don't conceal code-blocks
 augroup vim_markdown_folds
   autocmd!
+
+  " Keymaps
   autocmd FileType markdown map fj <Plug>Markdown_MoveToNextHeader
   autocmd FileType markdown map fk <Plug>Markdown_MoveToPreviousHeader
   autocmd FileType markdown map fJ <Plug>Markdown_MoveToNextSiblingHeader
@@ -342,6 +343,12 @@ augroup vim_markdown_folds
   autocmd FileType markdown map fi :Toc<CR>  " Show Table of Contents
   autocmd FileType markdown map f> :HeaderIncrease<CR>  " Increase level of all or selected headers
   autocmd FileType markdown map f< :HeaderDecrease<CR>  " Decrease level of all or selected headers
+
+  " Enable conceal for markdown files
+  autocmd Filetype markdown setlocal conceallevel=2
+  " Disable wrap to avoid showing empty lines when wrapped text is concealed
+  " (such as long hyperlinks)
+  autocmd FileType markdown setlocal nowrap
 augroup NED
 
 
