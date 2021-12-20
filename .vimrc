@@ -312,8 +312,8 @@ nnoremap <leader>gll :Commits<CR>
 " <leader>gl. to show git log for the current file in fzf.
 " Also display each commit diff in fzf preview.
 nnoremap <leader>gl. :BCommits<CR>
-" <leader>w to list open files in vim tabs and windows and quickly switch
-nnoremap <leader>w :Windows<CR>
+" <leader>t to list open files in vim tabs and windows and quickly switch
+nnoremap <leader>t :Windows<CR>
 
 
 " pydoc.vim - https://github.com/fs111/pydoc.vim/blob/master/ftplugin/python_pydoc.vim
