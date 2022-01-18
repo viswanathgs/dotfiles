@@ -354,6 +354,7 @@ augroup NED
 
 " bullets.vim - https://github.com/dkarter/bullets.vim
 let g:bullets_nested_checkboxes = 0  " Decouple parent and child checkbox toggling
+let g:bullets_checkbox_markers = ' ✗'
 
 
 " neoformat
