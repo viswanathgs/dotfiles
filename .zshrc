@@ -158,12 +158,18 @@ function fwdproxy() {
 # Encrypt or decrypt a file with openssl
 OPENSSL_CMD="openssl enc -aes-256-cbc -md sha512 -pbkdf2 -iter 100000"
 function enc() {
-  if [ "$#" -ne 2 ]; then
-    echo "Usage: ${0} <in_file> <out_file>"
+  if [ "$#" -lt 1 ]; then
+    echo "Usage: ${0} <in_file> [<out_file>]"
     return
   fi
+  
+  in_file="${1}"
+  out_file="${2}"
+  if [ -z "${out_file}" ]; then
+    out_file="${in_file}.enc"
+  fi
 
-  cmd="${OPENSSL_CMD} -in ${1} -out ${2}"
+  cmd="${OPENSSL_CMD} -in ${in_file} -out ${out_file}"
   echo "${cmd}"
   eval "${cmd}"
 }
@@ -173,7 +179,10 @@ function dec() {
     return
   fi
 
-  cmd="${OPENSSL_CMD} -in ${1} -out ${2} -d"
+  in_file="${1}"
+  out_file="${2}"
+
+  cmd="${OPENSSL_CMD} -in ${in_file} -out ${out_file} -d"
   echo "${cmd}"
   eval "${cmd}"
 }

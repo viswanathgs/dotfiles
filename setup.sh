@@ -28,6 +28,7 @@ MAC_DEPS=(
   git-delta  # improved diff viz - https://github.com/dandavison/delta
   reattach-to-user-namespace  # tmux access to clipboard: https://blog.carbonfive.com/copying-and-pasting-with-tmux-2-4
   wget
+  openssl
 )
 
 brew update || true
