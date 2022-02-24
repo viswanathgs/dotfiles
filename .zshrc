@@ -154,6 +154,30 @@ function fwdproxy() {
   fi
 }
 
+
+# Encrypt or decrypt a file with openssl
+OPENSSL_CMD="openssl enc -aes-256-cbc -md sha512 -pbkdf2 -iter 100000"
+function enc() {
+  if [ "$#" -ne 2 ]; then
+    echo "Usage: ${0} <in_file> <out_file>"
+    return
+  fi
+
+  cmd="${OPENSSL_CMD} -in ${1} -out ${2}"
+  echo "${cmd}"
+  eval "${cmd}"
+}
+function dec() {
+  if [ "$#" -ne 2 ]; then
+    echo "Usage: ${0} <in_file> <out_file>"
+    return
+  fi
+
+  cmd="${OPENSSL_CMD} -in ${1} -out ${2} -d"
+  echo "${cmd}"
+  eval "${cmd}"
+}
+
 ###################################################
 #
 # Oh My Zsh
