@@ -280,8 +280,8 @@ antigen bundle web-search
 antigen bundle vi-mode
 
 # Custom/third-party plugins
-antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle zsh-users/zsh-syntax-highlighting
 
 # Plugin settings
 # zsh-autosuggestions (prefer tab completion suggestions first and then history)
