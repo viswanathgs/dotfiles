@@ -283,15 +283,36 @@ augroup END
 
 
 " fzf.vim
+
 " Keymaps to open files in splits from fzf window
 let g:fzf_action = {
   \ 'ctrl-t': 'tab split',
   \ 'ctrl-s': 'split',
   \ 'ctrl-v': 'vsplit' }
-" <leader>f to search filenames (using fd if available)
-nnoremap <leader>f :Files<CR>
-" <leader>s to search file contents (uses ripgrep underneath)
+
+" <leader>s to search file contents (using ripgrep underneath) and
+" <leader>f for filenames (using fd if available and find otherwise)
 nnoremap <leader>s :Rg <C-R>=GetSearchRegister()<CR>
+nnoremap <leader>f :Files<CR>
+
+" <leader>cs for fbgs and <leader>cf for fbgf
+command! -bang -nargs=* Fbgs
+  \ call fzf#vim#grep(
+  \   'fbgs --color=on --ignore-case --forcedir "$(hg root)/fbcode" '.shellescape(<q-args>),
+  \   1,
+  \   fzf#vim#with_preview(),
+  \   <bang>0
+  \ )
+command! -bang -nargs=* Fbgf
+  \ call fzf#vim#grep(
+  \   'fbgf --color=on --ignore-case --forcedir "$(hg root)/fbcode" '.<q-args>,
+  \   1,
+  \   fzf#vim#with_preview(),
+  \   <bang>0
+  \ )
+nnoremap <leader>cf :Fbgf<Space>
+nnoremap <leader>cs :Fbgs <C-R>=GetSearchRegister()<CR>
+
 " Map <leader>/ to clear the search register '/'. This avoids needing to type
 " /asdf to clear search highlight. More importantly, we rely on this register
 " to get the last search term to pass into fzf :Rg command (see mapping for
@@ -303,6 +324,10 @@ augroup fzf
   autocmd!
   autocmd VimEnter * :call ClearSearchRegister()
 augroup END
+
+" <leader>t to list open files in vim tabs and windows and quickly switch
+nnoremap <leader>t :Windows<CR>
+
 " <leader>gs for git status and list modified files in fzf in the current repo.
 " Also display diff for each modified file in fzf preview.
 nnoremap <leader>gs :GFiles?<CR>
@@ -312,18 +337,16 @@ nnoremap <leader>gll :Commits<CR>
 " <leader>gl. to show git log for the current file in fzf.
 " Also display each commit diff in fzf preview.
 nnoremap <leader>gl. :BCommits<CR>
-" <leader>t to list open files in vim tabs and windows and quickly switch
-nnoremap <leader>t :Windows<CR>
-
-
-" pydoc.vim - https://github.com/fs111/pydoc.vim/blob/master/ftplugin/python_pydoc.vim
-let g:pydoc_window_lines=0.3 " 30% of current window
 
 
 " vim-fugitive, vim-rhubarb, vim-mercenary
 map <leader>gh :GBrowse<CR>
 map <leader>gb :Git blame<CR>
 map <leader>hb :HGblame<CR>
+
+
+" pydoc.vim - https://github.com/fs111/pydoc.vim/blob/master/ftplugin/python_pydoc.vim
+let g:pydoc_window_lines=0.3 " 30% of current window
 
 
 " vim-markdown - https://github.com/plasticboy/vim-markdown
