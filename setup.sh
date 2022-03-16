@@ -44,43 +44,70 @@ curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/instal
 # We'll symlink later to homedir.
 curl -L git.io/antigen > .antigen.zsh
 
-# List of files to symlink to homedir
-dotfiles=()
-for f in $(ls -a | grep '^\.'); do
-  if ! [[ ($f == .)  || ($f == ..) || ($f =~ "^\.git.*") || ($f =~ "\.sw.*") ]]; then
-    dotfiles+=($f)
+function symlink_dotfiles() {
+  if [ "$#" -ne 1 ]; then
+    echo "Usage: ${0} <target_dir>"
+    return
   fi
-done
 
-# Actually symlink to homedir
-for f in "${dotfiles[@]}"; do
-  echo "Symlink: ~/$f -> $(pwd)/$f"
-  ln -sF $(pwd)/$f ~/
-done
+  target_dir="${1}"
+
+  # Symlink dotfiles to target_dir
+  for f in $(ls -a | grep '^\.'); do
+    if ! [[ ($f == .)  || ($f == ..) || ($f =~ "^\.git.*") || ($f =~ "\.sw.*") ]]; then
+      echo "Symlink: ${target_dir}/${f} -> $(pwd)/${f}"
+      ln -sF $(pwd)/${f} ${target_dir}/
+    fi
+  done
+}
+
+# Symlink dotfiles to homedir
+symlink_dotfiles ~
 
 # Add gitconfig for git-delta to global gitconfig
 git config --global include.path ~/.delta.gitconfig
 
+
 # FB dev
-# Also symlink to ~/.ondemand/homedir for ondemand dot-file sync
 ONDEMAND_HOMEDIR=~/.ondemand/homedir
-echo "Symlinking dotfiles to ${ONDEMAND_HOMEDIR}/"
-mkdir -p ${ONDEMAND_HOMEDIR}
-for f in ${dotfiles[@]}; do
-  ln -sF $(pwd)/$f ${ONDEMAND_HOMEDIR}/
-done
+ONDEMAND_BIN_DIR=${ONDEMAND_HOMEDIR}/bin
 
-# Download fzf binary and put it in ondemand homedir
-echo "Downloading fzf binary to ${ONDEMAND_HOMEDIR}/bin/"
-mkdir -p ${ONDEMAND_HOMEDIR}/bin
-FZF_LINUX_AMD64_BIN="https://github.com/junegunn/fzf/releases/download/0.28.0/fzf-0.28.0-linux_amd64.tar.gz"
-wget -qO- ${FZF_LINUX_AMD64_BIN} | tar xz - -C ${ONDEMAND_HOMEDIR}/bin/
+function download_binary_for_ondemand() {
+  if [ "$#" -lt 1 ]; then
+    echo "Usage: ${0} <release_url.tar.gz> [<num_leading_path_elements_to_skip>]"
+    return
+  fi
 
-# Download fd binary and put it in ondemand homedir
-echo "Downloading fd binary to ${ONDEMAND_HOMEDIR}/bin/"
-mkdir -p ${ONDEMAND_HOMEDIR}/bin
-FD_LINUX_BIN="https://github.com/sharkdp/fd/releases/download/v8.3.0/fd-v8.3.0-x86_64-unknown-linux-gnu.tar.gz"
-wget -qO- ${FD_LINUX_BIN} | tar xz - -C ${ONDEMAND_HOMEDIR}/bin/
-cp ${ONDEMAND_HOMEDIR}/bin/fd-*/fd ${ONDEMAND_HOMEDIR}/bin/
+  url="${1}"
+  strip_components="${2:-0}"
+
+  echo "Extracting ${url} to ${ONDEMAND_BIN_DIR}"
+  mkdir -p ${ONDEMAND_BIN_DIR}
+  wget -qO- ${url} | tar xz - -C ${ONDEMAND_BIN_DIR}/ --strip-components=${strip_components}
+}
+
+function fb_dev_setup() {
+  # Symlink dotfiles to ~/.ondemand/homedir for ondemand dot-file sync
+  echo "Symlinking dotfiles to ${ONDEMAND_HOMEDIR}"
+  mkdir -p ${ONDEMAND_HOMEDIR}
+  symlink_dotfiles ${ONDEMAND_HOMEDIR}
+
+  # Download fzf binary and put it in ondemand homedir
+  FZF_VERSION=0.29.0
+  FZF_LINUX_AMD64_BIN="https://github.com/junegunn/fzf/releases/download/${FZF_VERSION}/fzf-${FZF_VERSION}-linux_amd64.tar.gz"
+  download_binary_for_ondemand ${FZF_LINUX_AMD64_BIN}
+
+  # Download fd binary and put it in ondemand homedir
+  FD_VERSION=v8.3.2
+  FD_LINUX_BIN="https://github.com/sharkdp/fd/releases/download/${FD_VERSION}/fd-${FD_VERSION}-x86_64-unknown-linux-gnu.tar.gz"
+  download_binary_for_ondemand ${FD_LINUX_BIN} 1
+
+  # Download bat binary and put it in ondemand homedir
+  BAT_VERSION=v0.20.0
+  BAT_LINUX_BIN="https://github.com/sharkdp/bat/releases/download/${BAT_VERSION}/bat-${BAT_VERSION}-x86_64-unknown-linux-gnu.tar.gz"
+  download_binary_for_ondemand ${BAT_LINUX_BIN} 1
+}
+
+fb_dev_setup
 
 echo "Done setting up dotfiles!"
