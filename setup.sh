@@ -3,20 +3,6 @@
 # Requirements: iterm2 and zsh, homebrew, python-pip
 # Set zsh as default: chsh -s /bin/zsh
 
-# Update submodules
-git submodule update --init --recursive --remote
-
-# Dependencies
-pip install --upgrade ufmt black pre-commit tabcompletion cpplint ptpython pdbpp || true
-
-function brewIn() {
-  if brew ls --versions "$1"; then
-    brew upgrade "$1"
-  else
-    brew install "$1"
-  fi
-}
-
 MAC_DEPS=(
   clang-format
   hub
@@ -31,18 +17,34 @@ MAC_DEPS=(
   openssl
 )
 
-brew update || true
-for dep in ${MAC_DEPS}; do
-  brewIn ${dep} || true
-done
-$(brew --prefix)/opt/fzf/install || true  # fzf key-bindings and fuzzy completion
+# FB dev
+ONDEMAND_HOMEDIR=~/.ondemand/homedir
+ONDEMAND_BIN_DIR=${ONDEMAND_HOMEDIR}/bin
 
-# Install oh-my-zsh into current dir. We'll symlink later to homedir.
-curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | ZSH=.oh-my-zsh sh
+function brewIn() {
+  if brew ls --versions "$1"; then
+    brew upgrade "$1"
+  else
+    brew install "$1"
+  fi
+}
 
-# Install antigen (for easier third-party plugin management than oh-my-zsh) into current dir.
-# We'll symlink later to homedir.
-curl -L git.io/antigen > .antigen.zsh
+function install_deps() {
+  pip install --upgrade ufmt black pre-commit tabcompletion cpplint ptpython pdbpp || true
+
+  brew update || true
+  for dep in ${MAC_DEPS}; do
+    brewIn ${dep} || true
+  done
+  $(brew --prefix)/opt/fzf/install || true  # fzf key-bindings and fuzzy completion
+
+  # Install oh-my-zsh into current dir. We'll symlink later to homedir.
+  curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | ZSH=.oh-my-zsh sh
+
+  # Install antigen (for easier third-party plugin management than oh-my-zsh) into current dir.
+  # We'll symlink later to homedir.
+  curl -L git.io/antigen > .antigen.zsh
+}
 
 function symlink_dotfiles() {
   if [ "$#" -ne 1 ]; then
@@ -60,17 +62,6 @@ function symlink_dotfiles() {
     fi
   done
 }
-
-# Symlink dotfiles to homedir
-symlink_dotfiles ~
-
-# Add gitconfig for git-delta to global gitconfig
-git config --global include.path ~/.delta.gitconfig
-
-
-# FB dev
-ONDEMAND_HOMEDIR=~/.ondemand/homedir
-ONDEMAND_BIN_DIR=${ONDEMAND_HOMEDIR}/bin
 
 function download_binary_for_ondemand() {
   if [ "$#" -lt 1 ]; then
@@ -99,15 +90,19 @@ function fb_dev_setup() {
 
   # Download fd binary and put it in ondemand homedir
   FD_VERSION=v8.3.2
-  FD_LINUX_BIN="https://github.com/sharkdp/fd/releases/download/${FD_VERSION}/fd-${FD_VERSION}-x86_64-unknown-linux-gnu.tar.gz"
+  FD_LINUX_BIN="https://github.com/sharkdp/fd/releases/download/${FD_VERSION}/fd-${FD_VERSION}-x86_64-unknown-linux-musl.tar.gz"
   download_binary_for_ondemand ${FD_LINUX_BIN} 1
 
   # Download bat binary and put it in ondemand homedir
   BAT_VERSION=v0.20.0
-  BAT_LINUX_BIN="https://github.com/sharkdp/bat/releases/download/${BAT_VERSION}/bat-${BAT_VERSION}-x86_64-unknown-linux-gnu.tar.gz"
+  BAT_LINUX_BIN="https://github.com/sharkdp/bat/releases/download/${BAT_VERSION}/bat-${BAT_VERSION}-x86_64-unknown-linux-musl.tar.gz"
   download_binary_for_ondemand ${BAT_LINUX_BIN} 1
 }
 
+git submodule update --init --recursive --remote
+install_deps
+symlink_dotfiles ~  # Symlink dotfiles to homedir
+git config --global include.path ~/.delta.gitconfig  # git-delta config
 fb_dev_setup
 
 echo "Done setting up dotfiles!"

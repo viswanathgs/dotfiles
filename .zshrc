@@ -144,13 +144,11 @@ function fwdproxy() {
     for cmd in "${cmds[@]}"; do
       alias "${cmd}=${cmd} $(fwdproxy-config ${cmd})"
     done
-    echo "Alias(es) with fwdproxy-config set for ${cmds}"
   else
     # Unset aliases
     for cmd in "${cmds[@]}"; do
       unalias "${cmd}"
     done
-    echo "Alias(es) unset for ${cmds}"
   fi
 }
 

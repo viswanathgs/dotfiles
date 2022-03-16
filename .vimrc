@@ -310,8 +310,8 @@ command! -bang -nargs=* Fbgf
   \   fzf#vim#with_preview(),
   \   <bang>0
   \ )
-nnoremap <leader>cf :Fbgf<Space>
 nnoremap <leader>cs :Fbgs <C-R>=GetSearchRegister()<CR>
+nnoremap <leader>cf :Fbgf<Space>
 
 " Map <leader>/ to clear the search register '/'. This avoids needing to type
 " /asdf to clear search highlight. More importantly, we rely on this register
