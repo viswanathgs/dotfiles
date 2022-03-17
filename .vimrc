@@ -123,11 +123,19 @@ command! -nargs=+ -complete=command Tabdo call TabDo(<q-args>)
 " Return the previously searched string from the search register '/'. Could be
 " used as an argument to fzf :Rg for instance (see mapping for <leader>s).
 " Taken from ack.vim ack#AckFromSearch() - https://github.com/mileszs/ack.vim/blob/master/autoload/ack.vim
-function! GetSearchRegister()
+function! GetSearchRegister(ignore_word_boundary)
   " Get the last search term from the register '/'
   let search = getreg('/')
-  " Translate vim regex to perl regex
-  let search = substitute(search, '\(\\<\|\\>\)', '\\b', 'g')
+
+  if a:ignore_word_boundary
+    " fbgs doesn't handle vim's word boundary characters \< and \> well - strip them
+    let search = substitute(search, '\(\\<\|\\>\)', '', 'g')
+  else
+    " Translate vim regex to perl regex for rg - replace \< and \> word boundary
+    " characters with \b
+    let search = substitute(search, '\(\\<\|\\>\)', '\\b', 'g')
+  endif
+
   return search
 endfunction
 
@@ -292,7 +300,7 @@ let g:fzf_action = {
 
 " <leader>s to search file contents (using ripgrep underneath) and
 " <leader>f for filenames (using fd if available and find otherwise)
-nnoremap <leader>s :Rg <C-R>=GetSearchRegister()<CR>
+nnoremap <leader>s :Rg <C-R>=GetSearchRegister(0)<CR>
 nnoremap <leader>f :Files<CR>
 
 " <leader>cs for fbgs and <leader>cf for fbgf
@@ -310,7 +318,7 @@ command! -bang -nargs=* Fbgf
   \   fzf#vim#with_preview(),
   \   <bang>0
   \ )
-nnoremap <leader>cs :Fbgs <C-R>=GetSearchRegister()<CR>
+nnoremap <leader>cs :Fbgs <C-R>=GetSearchRegister(1)<CR>
 nnoremap <leader>cf :Fbgf<Space>
 
 " Map <leader>/ to clear the search register '/'. This avoids needing to type
