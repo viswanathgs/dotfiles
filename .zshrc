@@ -185,6 +185,52 @@ function dec() {
   eval "${cmd}"
 }
 
+
+# fzf + git: https://polothy.github.io/post/2019-08-19-fzf-git-checkout/
+fzf-git-branch() {
+  # Return early if not a git repo
+  git rev-parse HEAD > /dev/null 2>&1 || return
+
+  # Fallback if fzf is not available
+  if ! has_command fzf; then
+    git branch "$@"
+    return
+  fi
+
+  git branch --color=always --sort=-committerdate "$@" |
+    grep -v HEAD |
+    fzf --preview 'git log -n 50 --color=always --date=short --pretty="format:%C(auto)%cd %h%d %s" $(sed "s/.* //" <<< {})' |
+    sed "s/.* //"
+}
+fzf-git-checkout() {
+  # Return early if not a git repo
+  git rev-parse HEAD > /dev/null 2>&1 || return
+
+  # Fallback if fzf is not available
+  if ! has_command fzf; then
+    git checkout "$@"
+    return
+  fi
+
+  local branch
+
+  branch=$(fzf-git-branch "$@")
+  if [[ "$branch" = "" ]]; then
+      echo "No branch selected"
+      return
+  fi
+
+  # If branch name starts with 'remotes/' then it is a remote branch. By
+  # using --track and a remote branch name, it is the same as:
+  # git checkout -b branchName --track origin/branchName
+  if [[ "$branch" = 'remotes/'* ]]; then
+      git checkout --track $branch
+  else
+      git checkout $branch;
+  fi
+}
+
+
 ###################################################
 #
 # Oh My Zsh
@@ -325,7 +371,7 @@ export FZF_DEFAULT_OPTS="
     [[ -f {} ]] && (bat --style=numbers --color=always --line-range :500 {} || cat {})) \
     || ([[ -d {} ]] && (tree -C {} | less)) \
     || echo {} 2> /dev/null | head -200' \
---preview-window=right,55% \
+--preview-window=right,60% \
 "
 
 # bat, if installed, is used by fzf to prettify previews
@@ -347,7 +393,8 @@ alias py='python'
 alias dbx='cd ~/Dropbox\ \(Personal\)'
 alias werk='cd ~/work'
 # git
-alias gco='git checkout'
+alias gb='fzf-git-branch'
+alias gco='fzf-git-checkout'
 alias gd='git diff'
 alias gc='git commit -a -v'
 alias ga='git commit -a -v --amend'
@@ -355,7 +402,6 @@ alias gaa='git add --all'
 alias gaad='git add --all --dry-run'
 alias gs='git status'
 alias gst='git stash'
-alias gb='git branch -vv'
 alias gl='git log --graph --decorate --oneline'
 alias gpr='git pull --rebase'
 alias gpro='git pull --rebase origin'
