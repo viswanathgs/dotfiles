@@ -187,34 +187,31 @@ function dec() {
 
 
 # fzf + git: https://polothy.github.io/post/2019-08-19-fzf-git-checkout/
-fzf-git-branch() {
-  # Return early if not a git repo
-  git rev-parse HEAD > /dev/null 2>&1 || return
+function in_git_repo() {
+  git rev-parse HEAD > /dev/null 2>&1
+}
+function fzf-git-branch() {
+  # Return early if not in a git repo
+  in_git_repo || return
 
-  # Fallback if fzf is not available
-  if ! has_command fzf; then
-    git branch "$@"
-    return
-  fi
-
-  git branch --color=always --sort=-committerdate "$@" |
+  git branch --all --color=always |
     grep -v HEAD |
     fzf --preview 'git log -n 50 --color=always --date=short --pretty="format:%C(auto)%cd %h%d %s" $(sed "s/.* //" <<< {})' |
     sed "s/.* //"
 }
 fzf-git-checkout() {
-  # Return early if not a git repo
-  git rev-parse HEAD > /dev/null 2>&1 || return
+  # Return early if not in a git repo
+  in_git_repo || return
 
-  # Fallback if fzf is not available
-  if ! has_command fzf; then
-    git checkout "$@"
-    return
-  fi
+  # If branch name is provided, no need to invoke `fzf-git-branch`
+  if ! [ $# -eq 0 ]; then
+     git checkout "$@"
+     return
+   fi
 
   local branch
 
-  branch=$(fzf-git-branch "$@")
+  branch=$(fzf-git-branch)
   if [[ "$branch" = "" ]]; then
       echo "No branch selected"
       return
@@ -393,8 +390,6 @@ alias py='python'
 alias dbx='cd ~/Dropbox\ \(Personal\)'
 alias werk='cd ~/work'
 # git
-alias gb='fzf-git-branch'
-alias gco='fzf-git-checkout'
 alias gd='git diff'
 alias gc='git commit -a -v'
 alias ga='git commit -a -v --amend'
@@ -407,6 +402,12 @@ alias gpr='git pull --rebase'
 alias gpro='git pull --rebase origin'
 alias gprom='git pull --rebase origin master'
 alias gprum='git pull --rebase upstream master'
+alias gf='git fetch'
+alias gfo='git fetch origin'
+alias gcb='git checkout -b'
+alias gcm='git checkout $(git_main_branch)'
+has_command fzf && alias gb='fzf-git-branch' || alias gb='git branch -vv'
+has_command fzf && alias gco='fzf-git-checkout' || alias gco='git checkout'
 # hg
 alias hd='hg diff'
 alias hc='hg commit'
@@ -438,6 +439,8 @@ alias s3cpr='aws s3 cp --recursive'
 alias s3put='aws s3api put-object'  # s3put --bucket <bucket> --key <path>
 # Plugins and extras
 has_command bat && alias cat='bat'  # s/cat/bat if bat is installed
+has_command exa && alias ls='exa'  # s/ls/exa if exa is installed
+has_command exa && alias lt='exa --tree'
 alias goog='google'  # zsh web-search plugin
 # Alias to mosh into a jumphost and then ssh as mosh doesn't support ProxyJump
 alias moshjmp='mosh -6 jmp -n ssh'
