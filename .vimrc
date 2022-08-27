@@ -251,6 +251,7 @@ map fk zk      " Move to the end of the previous fold
 nnoremap <leader>w :set wrap!<CR>
 
 
+" TODO: restructure the file
 " Avoid jumping to the next match when using * to highlight word under the cursor.
 " https://stackoverflow.com/questions/4256697/vim-search-and-highlight-but-do-not-jump
 nnoremap * *``
@@ -309,6 +310,7 @@ nnoremap <leader>s :Rg <C-R>=GetSearchRegister(0)<CR>
 nnoremap <leader>f :Files<CR>
 
 " <leader>cs for fbgs and <leader>cf for fbgf
+" TODO: full fbsource search?
 command! -bang -nargs=* Fbgs
   \ call fzf#vim#grep(
   \   'fbgs --color=on --ignore-case --forcedir "$(hg root)/fbcode" '.shellescape(<q-args>),
