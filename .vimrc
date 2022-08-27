@@ -247,6 +247,10 @@ map fj zj      " Move to the start of the next fold
 map fk zk      " Move to the end of the previous fold
 
 
+" <leader>w to toggle line wrap
+nnoremap <leader>w :set wrap!<CR>
+
+
 " Avoid jumping to the next match when using * to highlight word under the cursor.
 " https://stackoverflow.com/questions/4256697/vim-search-and-highlight-but-do-not-jump
 nnoremap * *``
