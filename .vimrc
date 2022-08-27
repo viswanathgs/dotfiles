@@ -156,7 +156,7 @@ endfunction
 
 " Print phabricator URL for the current file. Works both in normal mode
 " as well as with range selection in visual mode.
-" TODO: make this universal - work with :GBrowse
+" TODO: make this universal - work with :GBrowse with clipboard support
 function! GetPhabricatorURL() range
   " Get current filename and any highlighted line number or range
   let filename = expand( "%:f" )
@@ -181,6 +181,7 @@ function! SplitToLines() range
     call append(lnum-1, words)
   endfor
 endfunction
+
 
 " Kill any trailing whitespace
 function! <SID>StripTrailingWhitespaces()
@@ -375,12 +376,17 @@ augroup vim_markdown_folds
   autocmd FileType markdown map f> :HeaderIncrease<CR>  " Increase level of all or selected headers
   autocmd FileType markdown map f< :HeaderDecrease<CR>  " Decrease level of all or selected headers
 
+  " Automatically show table of contents for markdown files
+  " TODO: fix this
+  " autocmd Filetype markdown autocmd BufWinEnter * :Toc
+
   " Enable conceal for markdown files
   autocmd Filetype markdown setlocal conceallevel=2
+
   " Disable wrap to avoid showing empty lines when wrapped text is concealed
   " (such as long hyperlinks)
   autocmd FileType markdown setlocal nowrap
-augroup NED
+augroup END
 
 
 " bullets.vim - https://github.com/dkarter/bullets.vim
