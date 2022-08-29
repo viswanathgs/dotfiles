@@ -128,7 +128,7 @@ function! GetSearchRegister(ignore_word_boundary)
   let search = getreg('/')
 
   if a:ignore_word_boundary
-    " fbgs doesn't handle vim's word boundary characters \< and \> well - strip them
+    " Biggrep doesn't handle vim's word boundary characters \< and \> well - strip them
     let search = substitute(search, '\(\\<\|\\>\)', '', 'g')
   else
     " Translate vim regex to perl regex for rg - replace \< and \> word boundary
@@ -309,24 +309,23 @@ let g:fzf_action = {
 nnoremap <leader>s :Rg <C-R>=GetSearchRegister(0)<CR>
 nnoremap <leader>f :Files<CR>
 
-" <leader>cs for fbgs and <leader>cf for fbgf
-" TODO: full fbsource search?
-command! -bang -nargs=* Fbgs
+" <leader>cs for xbgs and <leader>cf for xbgf to search in fbsource
+command! -bang -nargs=* Xbgs
   \ call fzf#vim#grep(
-  \   'fbgs --color=on --ignore-case --forcedir "$(hg root)/fbcode" '.shellescape(<q-args>),
+  \   'xbgs --color=on --ignore-case --forcedir "$(hg root)" '.shellescape(<q-args>),
   \   1,
   \   fzf#vim#with_preview(),
   \   <bang>0
   \ )
-command! -bang -nargs=* Fbgf
+command! -bang -nargs=* Xbgf
   \ call fzf#vim#grep(
-  \   'fbgf --color=on --ignore-case --forcedir "$(hg root)/fbcode" '.<q-args>,
+  \   'xbgf --color=on --ignore-case --forcedir "$(hg root)" '.<q-args>,
   \   1,
   \   fzf#vim#with_preview(),
   \   <bang>0
   \ )
-nnoremap <leader>cs :Fbgs <C-R>=GetSearchRegister(1)<CR>
-nnoremap <leader>cf :Fbgf<Space>
+nnoremap <leader>cs :Xbgs <C-R>=GetSearchRegister(1)<CR>
+nnoremap <leader>cf :Xbgf<Space>
 
 " Map <leader>/ to clear the search register '/'. This avoids needing to type
 " /asdf to clear search highlight. More importantly, we rely on this register
