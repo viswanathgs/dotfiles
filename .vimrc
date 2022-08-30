@@ -24,6 +24,7 @@ Plug 'fs111/pydoc.vim'  " Python documentation (Shift+K for word under cursor)
 Plug 'godlygeek/tabular'  " Dependency for vim-markdown
 Plug 'plasticboy/vim-markdown'  " Markdown folds
 Plug 'dkarter/bullets.vim'  " Auto lists and checkboxes/todo-lists
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 call plug#end()
 
 
@@ -376,10 +377,12 @@ augroup vim_markdown_folds
   autocmd FileType markdown map fk <Plug>Markdown_MoveToPreviousHeader
   autocmd FileType markdown map fJ <Plug>Markdown_MoveToNextSiblingHeader
   autocmd FileType markdown map fK <Plug>Markdown_MoveToPreviousSiblingHeader
-  autocmd FileType markdown map fu <Plug>Markdown_MoveToParentHeader
+  autocmd FileType markdown map fp <Plug>Markdown_MoveToParentHeader
   autocmd FileType markdown map fi :Toc<CR>  " Show Table of Contents
   autocmd FileType markdown map f> :HeaderIncrease<CR>  " Increase level of all or selected headers
   autocmd FileType markdown map f< :HeaderDecrease<CR>  " Decrease level of all or selected headers
+  " TODO: Unify url opening command for GBrowse, fb url, markdown preview, etc.
+  autocmd FileType markdown map fo <Plug>MarkdownPreview  " Open markdown file in browser
 
   " Automatically show table of contents for markdown files
   " TODO: fix this
@@ -396,7 +399,7 @@ augroup END
 
 " bullets.vim - https://github.com/dkarter/bullets.vim
 let g:bullets_nested_checkboxes = 0  " Decouple parent and child checkbox toggling
-let g:bullets_checkbox_markers = ' ✗'
+let g:bullets_checkbox_markers = ' x'
 
 
 " neoformat
