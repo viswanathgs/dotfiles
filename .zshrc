@@ -387,11 +387,14 @@ alias v='vim'
 alias l='ls -lh'
 alias la='ls -lha'
 alias py='python'
+
+# cd
 alias werk='cd ~/work'
 alias junk='cd ~/junk'
 alias dbx='cd ~/Dropbox\ \(Personal\)'
 alias me='cd ~/Dropbox\ \(Personal\)/vish'
 alias docs='cd ~/Dropbox\ \(Personal\)/docs'
+
 # git
 alias gd='git diff'
 alias gc='git commit -a -v'
@@ -411,6 +414,7 @@ alias gcb='git checkout -b'
 alias gcm='git checkout $(git_main_branch)'
 has_command fzf && alias gb='fzf-git-branch' || alias gb='git branch -vv'
 has_command fzf && alias gco='fzf-git-checkout' || alias gco='git checkout'
+
 # hg
 alias hd='hg diff'
 alias hc='hg commit'
@@ -421,10 +425,12 @@ function hp() {
   hg update $1
   hg rebase -d master
 }
+
 # conda
 alias ca='conda activate'
 alias cda='conda deactivate'
 alias cenv='conda env'
+
 # buck
 alias bb='buck build'
 alias bt='buck test'
@@ -435,19 +441,23 @@ alias btmd='bt @mode/mac/dev-release'
 alias btld='bt @mode/linux/dev-release'
 alias brmd='br @mode/mac/dev-release'
 alias brld='br @mode/linux/dev-release'
+
 # aws
 alias s3ls='aws s3 ls --summarize --human-readable --recursive'
 alias s3cp='aws s3 cp'
 alias s3cpr='aws s3 cp --recursive'
 alias s3put='aws s3api put-object'  # s3put --bucket <bucket> --key <path>
+
 # Plugins and extras
 has_command bat && alias cat='bat'  # s/cat/bat if bat is installed
 has_command exa && alias ls='exa'  # s/ls/exa if exa is installed
 has_command exa && alias lt='exa --tree'
 alias goog='google'  # zsh web-search plugin
+
 # Alias to mosh into a jumphost and then ssh as mosh doesn't support ProxyJump
 alias moshjmp='mosh -6 jmp -n ssh'
-# fb dev
+
+# meta dev
 alias devc='dev connect --mosh'
 alias devl='dev list'
 alias devr='dev release'

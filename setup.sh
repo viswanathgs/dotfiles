@@ -4,17 +4,18 @@
 # Set zsh as default: chsh -s /bin/zsh
 
 MAC_DEPS=(
+  bat           # cat++
+  exa           # ls++
+  fd            # find++
+  ripgrep       # grep++
+  fzf           # fuzzy finder - https://github.com/junegunn/fzf
+  tree          # for fzf previews of dir trees
+  git-delta     # improved diff viz - https://github.com/dandavison/delta
   clang-format
   hub
-  fzf  # https://github.com/junegunn/fzf
-  fd  # find++ - fzf uses underneath
-  ripgrep  # grep++ - fzf uses underneath
-  bat  # cat++ - fzf uses underneath for previews if installed
-  tree  # for fzf previews of dir trees
-  git-delta  # improved diff viz - https://github.com/dandavison/delta
-  reattach-to-user-namespace  # tmux access to clipboard: https://blog.carbonfive.com/copying-and-pasting-with-tmux-2-4
-  wget
   openssl
+  wget
+  reattach-to-user-namespace  # tmux access to clipboard: https://blog.carbonfive.com/copying-and-pasting-with-tmux-2-4
 )
 
 # FB dev
