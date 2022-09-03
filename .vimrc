@@ -382,7 +382,7 @@ augroup vim_markdown_folds
   autocmd FileType markdown map f> :HeaderIncrease<CR>  " Increase level of all or selected headers
   autocmd FileType markdown map f< :HeaderDecrease<CR>  " Decrease level of all or selected headers
   " TODO: Unify url opening command for GBrowse, fb url, markdown preview, etc.
-  autocmd FileType markdown map fo <Plug>MarkdownPreview  " Open markdown file in browser
+  autocmd FileType markdown map fl <Plug>MarkdownPreview  " Open markdown file in browser
 
   " Automatically show table of contents for markdown files
   " TODO: fix this
