@@ -386,10 +386,10 @@ augroup vim_markdown_folds
 
   " Automatically show table of contents for markdown files
   " TODO: fix this
-  " autocmd Filetype markdown autocmd BufWinEnter * :Toc
+  " autocmd FileType markdown autocmd BufReadPost,FileReadPost * :Toc
 
   " Enable conceal for markdown files
-  autocmd Filetype markdown setlocal conceallevel=2
+  autocmd FileType markdown setlocal conceallevel=2
 
   " Disable wrap to avoid showing empty lines when wrapped text is concealed
   " (such as long hyperlinks)
