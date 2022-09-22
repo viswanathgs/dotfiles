@@ -31,7 +31,7 @@ function brewIn() {
 }
 
 function install_deps() {
-  pip install --upgrade ufmt black pre-commit tabcompletion cpplint ptpython pdbpp || true
+  pip install --upgrade pre-commit tabcompletion cpplint ptpython pdbpp || true
 
   brew update || true
   for dep in ${MAC_DEPS}; do
