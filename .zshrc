@@ -391,8 +391,9 @@ alias la='ls -lha'
 alias py='python'
 
 # cd
-alias werk='cd ~/work'
-alias junk='cd ~/junk'
+alias wrk='cd ~/work'
+alias lcl='cd ~/local'
+alias jnk='cd ~/junk'
 alias dbx='cd ~/Dropbox\ \(Personal\)'
 alias me='cd ~/Dropbox\ \(Personal\)/vish'
 alias docs='cd ~/Dropbox\ \(Personal\)/docs'
