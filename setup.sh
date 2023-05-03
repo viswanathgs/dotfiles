@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env zsh -e
 
 # Requirements: iterm2 and zsh, homebrew, python3, python-pip
 # Set zsh as default: chsh -s /bin/zsh
@@ -31,17 +31,21 @@ function brewIn() {
 }
 
 function install_deps() {
+  echo "\n#### Installing pip dependencies ####\n"
   pip install --upgrade pre-commit tabcompletion cpplint ptpython pdbpp || true
 
+  echo "\n#### Installing brew dependencies ####\n"
   brew update || true
   for dep in ${MAC_DEPS}; do
     brewIn ${dep} || true
   done
-  $(brew --prefix)/opt/fzf/install || true  # fzf key-bindings and fuzzy completion
+  $(brew --prefix)/opt/fzf/install --all || true  # fzf key-bindings and fuzzy completion
 
+  echo "\n#### Installing on-my-zsh ####\n"
   # Install oh-my-zsh into current dir. We'll symlink later to homedir.
-  curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | ZSH=.oh-my-zsh sh
+  curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh | ZSH=.oh-my-zsh sh || true
 
+  echo "\n#### Installing antigen ####\n"
   # Install antigen (for easier third-party plugin management than oh-my-zsh) into current dir.
   # We'll symlink later to homedir.
   curl -L git.io/antigen > .antigen.zsh
@@ -52,6 +56,8 @@ function symlink_dotfiles() {
     echo "Usage: ${0} <target_dir>"
     return
   fi
+
+  echo "\n#### Setting up symlinks ####\n"
 
   target_dir="${1}"
 
@@ -78,7 +84,9 @@ function download_binary_for_ondemand() {
   wget -qO- ${url} | tar xz - -C ${ONDEMAND_BIN_DIR}/ --strip-components=${strip_components}
 }
 
-function fb_dev_setup() {
+function meta_dev_setup() {
+  echo "\n#### Meta devserver setup ####\n"
+
   # Symlink dotfiles to ~/.ondemand/homedir for ondemand dot-file sync
   echo "Symlinking dotfiles to ${ONDEMAND_HOMEDIR}"
   mkdir -p ${ONDEMAND_HOMEDIR}
@@ -104,6 +112,6 @@ git submodule update --init --recursive --remote
 install_deps
 symlink_dotfiles ~  # Symlink dotfiles to homedir
 git config --global include.path ~/.delta.gitconfig  # git-delta config
-fb_dev_setup
+meta_dev_setup
 
-echo "Done setting up dotfiles!"
+echo "\n#### Done setting up dotfiles! ####\n"
