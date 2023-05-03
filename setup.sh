@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-# Requirements: iterm2 and zsh, homebrew, python-pip
+# Requirements: iterm2 and zsh, homebrew, python3, python-pip
 # Set zsh as default: chsh -s /bin/zsh
 
 MAC_DEPS=(
