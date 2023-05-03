@@ -12,7 +12,9 @@ fi
 #
 ###################################################
 
-export PATH=$PATH:$HOME/bin:$HOME/.local/bin
+export PATH="$PATH:$HOME/bin:$HOME/local/bin:$HOME/.local/bin"
+# Homebrew installed locally due to meta devserver conflicts
+export PATH="$PATH:$HOME/homebrew/bin:$HOME/homebrew/sbin"
 export EDITOR=/usr/bin/vim
 export VISUAL=/usr/bin/vim
 export HISTSIZE=130000
