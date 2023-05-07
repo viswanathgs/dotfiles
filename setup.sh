@@ -12,7 +12,7 @@ MAC_DEPS=(
   tree          # for fzf previews of dir trees
   git-delta     # improved diff viz - https://github.com/dandavison/delta
   clang-format
-  hub
+  gh
   openssl
   wget
   reattach-to-user-namespace  # tmux access to clipboard: https://blog.carbonfive.com/copying-and-pasting-with-tmux-2-4
