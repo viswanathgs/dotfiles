@@ -6,6 +6,7 @@ opt.splitright = true                 -- Vertical split to the right
 
 -- Indent
 opt.autoindent = true                 -- Carry indent over to new lines
+opt.breakindent = true                -- Indent wrapped lines
 opt.expandtab = true                  -- Expand tab to spaces
 opt.tabstop = 2                       -- Replace tabs with 2 spaces
 opt.shiftwidth = 2                    -- Use 2 spaces when inserting tabs
