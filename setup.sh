@@ -7,6 +7,7 @@ MAC_DEPS=(
   bat           # cat++
   exa           # ls++
   fd            # find++
+  neovim        # vim++
   ripgrep       # grep++
   fzf           # fuzzy finder - https://github.com/junegunn/fzf
   tree          # for fzf previews of dir trees

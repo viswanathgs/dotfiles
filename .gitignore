@@ -2,3 +2,7 @@
 .oh-my-zsh
 .antigen.zsh
 *.sw*
+
+# Ignore everything in .config/ except nvim dir
+.config/*
+!.config/nvim

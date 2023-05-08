@@ -28,50 +28,10 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': 
 call plug#end()
 
 
-set nocompatible
 let mapleader=","
 
-" Splits
-set splitbelow
-set splitright
-
-" Indent
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
-set expandtab
-set autoindent                  " Carry indent over to new lines
-
 " Display
-set cursorline                  " Highlight current line
-set ruler                       " Show cursor position
-set nonumber                    " Hide line numbers
-set nolist                      " Hide tabs and EOL chars
-set showcmd                     " Show normal mode commands as they are entered
-set showmode                    " Show editing mode in status (-- INSERT --)
-set showmatch                   " Flash matching delimiters
-set background=dark
 colorscheme desert
-
-" Scrolling
-set scrolljump=5                " Scroll five lines at a time vertically
-set sidescroll=10               " Minumum columns to scroll horizontally
-
-" Search
-set hlsearch                    " Highlight search hits
-set incsearch                   " Enable incremental search
-set ignorecase                  " Case-insensitive search
-
-" Misc
-set noerrorbells                " No bells in terminal
-set backspace=indent,eol,start  " Backspace over everything
-set tags=tags;/                 " Search up the directory tree for tags
-set undolevels=1000             " Number of undos stored
-set viminfo='50,"50             " '=marks for x files, "=registers for x files
-set shortmess+=a                " Abbreviated error messages
-set shortmess+=A                " Ignore warning when .swp file exists
-set clipboard=unnamed           " Use system clipboard
-
 
 """"""""""""""""""""""""""""""""""""""""""
 " Filetype plugins
