@@ -397,6 +397,8 @@ alias jnk='cd ~/junk'
 alias dbx='cd ~/Dropbox\ \(Personal\)'
 alias me='cd ~/Dropbox\ \(Personal\)/vish'
 alias docs='cd ~/Dropbox\ \(Personal\)/docs'
+alias fbs='cd ~/fbsource'
+alias fbc='cd ~/fbsource/fbcode'
 
 # git
 alias gd='git diff'
