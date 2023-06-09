@@ -92,21 +92,6 @@ function meta_dev_setup() {
   echo "Symlinking dotfiles to ${ONDEMAND_HOMEDIR}"
   mkdir -p ${ONDEMAND_HOMEDIR}
   symlink_dotfiles ${ONDEMAND_HOMEDIR}
-
-  # Download fzf binary and put it in ondemand homedir
-  FZF_VERSION=0.29.0
-  FZF_LINUX_AMD64_BIN="https://github.com/junegunn/fzf/releases/download/${FZF_VERSION}/fzf-${FZF_VERSION}-linux_amd64.tar.gz"
-  download_binary_for_ondemand ${FZF_LINUX_AMD64_BIN}
-
-  # Download fd binary and put it in ondemand homedir
-  FD_VERSION=v8.3.2
-  FD_LINUX_BIN="https://github.com/sharkdp/fd/releases/download/${FD_VERSION}/fd-${FD_VERSION}-x86_64-unknown-linux-musl.tar.gz"
-  download_binary_for_ondemand ${FD_LINUX_BIN} 1
-
-  # Download bat binary and put it in ondemand homedir
-  BAT_VERSION=v0.20.0
-  BAT_LINUX_BIN="https://github.com/sharkdp/bat/releases/download/${BAT_VERSION}/bat-${BAT_VERSION}-x86_64-unknown-linux-musl.tar.gz"
-  download_binary_for_ondemand ${BAT_LINUX_BIN} 1
 }
 
 git submodule update --init --recursive --remote
