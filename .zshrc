@@ -385,7 +385,7 @@ export BAT_CONFIG_PATH="$HOME/.bat.conf"
 
 alias woman='man'  # For Silky
 alias sudo='sudo '
-alias v='nvim'
+has_command nvim && alias v='nvim' || alias v='vim'
 alias l='ls -lh'
 alias la='ls -lha'
 alias py='python'

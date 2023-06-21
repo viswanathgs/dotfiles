@@ -30,8 +30,52 @@ call plug#end()
 
 let mapleader=","
 
+" Split
+set splitbelow                    " Horizional split to the bottom
+set splitright                    " Vertical split to the right
+
+" Indent
+set autoindent                    " Carry indent over to new lines
+set breakindent                   " Indent wrapped lines
+set expandtab                     " Expand tab to spaces
+set tabstop=2                     " Replace tabs with 2 spaces
+set shiftwidth=2                  " Use 2 spaces when inserting tabs
+
+"  Scroll
+set scrolljump=1                  " Num lines to scroll up/down when going off screen with j/k
+set scrolloff=3                   " Num lines of context to show when scrolling up/down
+set sidescroll=10                 " Num columns to scroll left/right when going off screen 
+set sidescrolloff=5               " Num columns of context to show when scrolling left/right
+
+" Search
+set hlsearch                      " Highlight search hits
+set incsearch                     " Enable incremental search
+set ignorecase                    " Case-insensitive search
+set smartcase                     " Except if the query has uppercase (doesn't apply for * command)
+
 " Display
+set cursorline                    " Highlight current line
+set ruler                         " Display line and column number of the cursor
+set nonumber                      " Hide line numbers
+set nolist                        " Hide tabs and EOL chars
+set showcmd                       " Show normal mode commands as they are entered
+set showmode                      " Show editing mode in status (-- INSERT --)
+set showmatch                     " Flash matching brackets on insertion
+set matchtime=4                   " Duration for set showmatch (in units of 100 ms)
+set background=dark               " Dark mode
+set termguicolors                 " Enable 24-bit true colors
 colorscheme desert
+
+" Misc
+set belloff=all                   " Silence bell for all events
+set backspace=indent,eol,start    " Backspace over everything
+set undolevels=1000               " Number of undos stored
+set clipboard=unnamed             " Use system clipboard
+set hidden                        " Allow hidden buffers
+set mouse=a                       " Enable mouse support in all modes
+set shortmess+=a                  " Abbreviate error messages
+set shortmess+=A                  " Ignore warning when swap file exists
+
 
 """"""""""""""""""""""""""""""""""""""""""
 " Filetype plugins
