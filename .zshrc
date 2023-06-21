@@ -410,6 +410,7 @@ alias gaa='git add --all'
 alias gaad='git add --all --dry-run'
 alias gs='git status'
 alias gst='git stash'
+alias gsh='git show'
 alias gl='git log --graph --decorate --oneline'
 alias gpr='git pull --rebase'
 alias gpro='git pull --rebase origin'
@@ -427,6 +428,7 @@ alias hd='hg diff'
 alias hc='hg commit'
 alias ha='hg commit --amend'
 alias hb='hg bookmarks'
+alias hsh='hg show'
 function hp() {
   hg pull
   hg update $1
