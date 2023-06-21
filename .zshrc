@@ -399,6 +399,8 @@ alias me='cd ~/Dropbox\ \(Personal\)/vish'
 alias docs='cd ~/Dropbox\ \(Personal\)/docs'
 alias fbs='cd ~/fbsource'
 alias fbc='cd ~/fbsource/fbcode'
+alias src='cd ~/work/src2'
+alias nb='cd ~/work/notebooks'
 
 # git
 alias gd='git diff'
@@ -452,6 +454,20 @@ alias s3ls='aws s3 ls --summarize --human-readable --recursive'
 alias s3cp='aws s3 cp'
 alias s3cpr='aws s3 cp --recursive'
 alias s3put='aws s3api put-object'  # s3put --bucket <bucket> --key <path>
+
+# cluster
+alias cl='ctrl-launch'
+alias cj='ctrl-jupyter'
+alias cjup='cj up --log-level INFO'
+alias cjdown='cj down'
+alias cjauth='cj auth --overwrite'
+alias cldel='cl manage delete --name '
+alias kubectl='kubectl --namespace=jobs'
+alias kubepods='kubectl get pods'
+alias kubelogs='kubectl logs'
+alias argo='argo --namespace=jobs'
+# Run a command in the container such as `kubeexec <pod_name> -- ps aux`
+alias kubeexec='kubectl exec -ti'
 
 # Plugins and extras
 has_command bat && alias cat='bat'  # s/cat/bat if bat is installed
