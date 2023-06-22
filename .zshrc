@@ -435,6 +435,9 @@ function hp() {
   hg rebase -d master
 }
 
+# tmux
+alias tmx='tmux attach -d || tmux'
+
 # conda
 alias ca='conda activate'
 alias cda='conda deactivate'
