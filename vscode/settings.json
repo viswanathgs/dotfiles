@@ -1,0 +1,15 @@
+// VSCode settings.json to override the defaults.
+// Setup: CommandPalette -> "Open User Settings (JSON)", copy over.
+{
+  "editor.minimap.renderCharacters": false,
+  "editor.minimap.enabled": false,
+  "workbench.colorTheme": "One Dark Pro Darker",
+  "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "modificationsIfAvailable",
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
+  }
+}
