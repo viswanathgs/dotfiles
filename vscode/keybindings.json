@@ -14,6 +14,22 @@
     "command": "workbench.view.scm",
     "when": "workbench.scm.active"
   },
+  {
+    // shift+cmd+d to navigate down in search results (from shift+cmd+f).
+    // Ideally this should be cmd+j, but there's a context conflict that prevents
+    // this keymap from working in other places when search results are open.
+    "key": "shift+cmd+d",
+    "command": "search.action.focusNextSearchResult",
+    "when": "hasSearchResult || inSearchEditor"
+  },
+  {
+    // shift+cmd+u to navigate up in search results (from shift+cmd+f).
+    // Ideally this should be cmd+k, but there's a context conflict that prevents
+    // this keymap from working in other places when search results are open.
+    "key": "shift+cmd+u",
+    "command": "search.action.focusPreviousSearchResult",
+    "when": "hasSearchResult || inSearchEditor"
+  },
   // Tab navigation - prev/next tabs
   {
     "key": "cmd+h",
@@ -131,17 +147,6 @@
     "command": "goToPreviousReference",
     "when": "inReferenceSearchEditor || referenceSearchVisible"
   },
-  // TODO: fix conflict
-  // {
-  //   "key": "cmd+j",
-  //   "command": "search.action.focusNextSearchResult",
-  //   "when": "hasSearchResult || inSearchEditor"
-  // },
-  // {
-  //   "key": "cmd+k",
-  //   "command": "search.action.focusPreviousSearchResult",
-  //   "when": "hasSearchResult || inSearchEditor"
-  // },
   {
     "key": "cmd+j",
     "command": "references-view.next",
