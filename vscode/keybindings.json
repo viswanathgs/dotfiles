@@ -1,6 +1,29 @@
 // VSCode keybindings.json to override the defaults.
 // Setup: CommandPalette -> "Open Keyboard Shortcuts (JSON)", copy over.
 [
+  // Keymaps for consistency with common shift+cmd+<key> actions
+  {
+    // Toggle terminal: shift+cmd+t instead of ctrl+`
+    "key": "shift+cmd+t",
+    "command": "workbench.action.terminal.toggleTerminal",
+    "when": "terminal.active"
+  },
+  {
+    // Source control view: shift+cmd+g instead of ctrl+shift+g
+    "key": "shift+cmd+g",
+    "command": "workbench.view.scm",
+    "when": "workbench.scm.active"
+  },
+  // Tab navigation - prev/next tabs
+  {
+    "key": "cmd+h",
+    "command": "workbench.action.previousEditor"
+  },
+  {
+    "key": "cmd+l",
+    "command": "workbench.action.nextEditor"
+  },
+  // Pane navigation - left/right panels
   {
     "key": "ctrl+h",
     "command": "workbench.action.navigateLeft"
@@ -17,25 +40,26 @@
     "key": "ctrl+j",
     "command": "workbench.action.navigateDown"
   },
+  // Window navigation - rotate through open VSCode windows/workspaces
+  {
+    "key": "ctrl+r",
+    "command": "workbench.action.quickSwitchWindow"
+  },
+  {
+    "key": "ctrl+r",
+    "command": "workbench.action.quickOpenNavigateNext",
+    "when": "inWindowsPicker"
+  },
+  // cmd+jk for various down/up actions
   {
     "key": "cmd+j",
-    "command": "workbench.action.quickOpenSelectNext",
-    "when": "inQuickOpen"
+    "command": "list.focusDown",
+    "when": "listFocus && !inputFocus"
   },
   {
     "key": "cmd+k",
-    "command": "workbench.action.quickOpenSelectPrevious",
-    "when": "inQuickOpen"
-  },
-  {
-    "key": "cmd+j",
-    "command": "workbench.action.quickOpenSelectNext",
-    "when": "inQuickOpen"
-  },
-  {
-    "key": "cmd+k",
-    "command": "workbench.action.quickOpenSelectPrevious",
-    "when": "inQuickOpen"
+    "command": "list.focusUp",
+    "when": "listFocus && !inputFocus"
   },
   {
     "key": "cmd+j",
@@ -49,13 +73,13 @@
   },
   {
     "key": "cmd+j",
-    "command": "list.focusDown",
-    "when": "listFocus && !inputFocus"
+    "command": "workbench.action.quickOpenSelectNext",
+    "when": "inQuickOpen"
   },
   {
     "key": "cmd+k",
-    "command": "list.focusUp",
-    "when": "listFocus && !inputFocus"
+    "command": "workbench.action.quickOpenSelectPrevious",
+    "when": "inQuickOpen"
   },
   {
     "key": "cmd+j",
@@ -69,6 +93,16 @@
   },
   {
     "key": "cmd+j",
+    "command": "showNextParameterHint",
+    "when": "editorFocus && parameterHintsMultipleSignatures && parameterHintsVisible"
+  },
+  {
+    "key": "cmd+k",
+    "command": "showPrevParameterHint",
+    "when": "editorFocus && parameterHintsMultipleSignatures && parameterHintsVisible"
+  },
+  {
+    "key": "cmd+j",
     "command": "selectNextSuggestion",
     "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus"
   },
@@ -76,16 +110,6 @@
     "key": "cmd+k",
     "command": "selectPrevSuggestion",
     "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus"
-  },
-  {
-    "key": "cmd+j",
-    "command": "workbench.action.quickOpenSelectNext",
-    "when": "inQuickOpen"
-  },
-  {
-    "key": "cmd+k",
-    "command": "workbench.action.quickOpenSelectPrevious",
-    "when": "inQuickOpen"
   },
   {
     "key": "cmd+j",
@@ -99,43 +123,6 @@
   },
   {
     "key": "cmd+j",
-    "command": "showNextParameterHint",
-    "when": "editorFocus && parameterHintsMultipleSignatures && parameterHintsVisible"
-  },
-  {
-    "key": "cmd+k",
-    "command": "showPrevParameterHint",
-    "when": "editorFocus && parameterHintsMultipleSignatures && parameterHintsVisible"
-  },
-  {
-    "key": "cmd+j",
-    "command": "selectNextSuggestion",
-    "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus"
-  },
-  {
-    "key": "cmd+k",
-    "command": "selectPrevSuggestion",
-    "when": "suggestWidgetMultipleSuggestions && suggestWidgetVisible && textInputFocus"
-  },
-  {
-    "key": "cmd+h",
-    "command": "workbench.action.previousEditor"
-  },
-  {
-    "key": "cmd+l",
-    "command": "workbench.action.nextEditor"
-  },
-  {
-    "key": "ctrl+r",
-    "command": "workbench.action.quickSwitchWindow"
-  },
-  {
-    "key": "ctrl+r",
-    "command": "workbench.action.quickOpenNavigateNext",
-    "when": "inWindowsPicker"
-  },
-  {
-    "key": "cmd+j",
     "command": "goToNextReference",
     "when": "inReferenceSearchEditor || referenceSearchVisible"
   },
@@ -144,16 +131,17 @@
     "command": "goToPreviousReference",
     "when": "inReferenceSearchEditor || referenceSearchVisible"
   },
-  {
-    "key": "cmd+j",
-    "command": "search.action.focusNextSearchResult",
-    "when": "hasSearchResult || inSearchEditor"
-  },
-  {
-    "key": "cmd+k",
-    "command": "search.action.focusPreviousSearchResult",
-    "when": "hasSearchResult || inSearchEditor"
-  },
+  // TODO: fix conflict
+  // {
+  //   "key": "cmd+j",
+  //   "command": "search.action.focusNextSearchResult",
+  //   "when": "hasSearchResult || inSearchEditor"
+  // },
+  // {
+  //   "key": "cmd+k",
+  //   "command": "search.action.focusPreviousSearchResult",
+  //   "when": "hasSearchResult || inSearchEditor"
+  // },
   {
     "key": "cmd+j",
     "command": "references-view.next",
@@ -163,18 +151,6 @@
     "key": "cmd+k",
     "command": "references-view.prev",
     "when": "reference-list.hasResult && references-view.canNavigate"
-  },
-  {
-    "key": "shift+cmd+t",
-    "command": "workbench.action.terminal.toggleTerminal",
-    "when": "terminal.active"
-  },
-  {
-    "key": "shift+cmd+g",
-    "command": "workbench.view.scm",
-    "when": "workbench.scm.active"
   }
-  // TODO: bottom panel nav
-  // TODO: left panel nav
   // TODO: undo/redo
 ]
