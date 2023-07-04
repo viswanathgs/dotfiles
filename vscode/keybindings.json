@@ -163,5 +163,18 @@
     "key": "cmd+k",
     "command": "references-view.prev",
     "when": "reference-list.hasResult && references-view.canNavigate"
+  },
+  {
+    "key": "shift+cmd+t",
+    "command": "workbench.action.terminal.toggleTerminal",
+    "when": "terminal.active"
+  },
+  {
+    "key": "shift+cmd+g",
+    "command": "workbench.view.scm",
+    "when": "workbench.scm.active"
   }
+  // TODO: bottom panel nav
+  // TODO: left panel nav
+  // TODO: undo/redo
 ]
