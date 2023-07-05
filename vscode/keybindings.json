@@ -58,11 +58,11 @@
   },
   // Window navigation - rotate through open VSCode windows/workspaces
   {
-    "key": "ctrl+r",
+    "key": "alt+tab",
     "command": "workbench.action.quickSwitchWindow"
   },
   {
-    "key": "ctrl+r",
+    "key": "alt+tab",
     "command": "workbench.action.quickOpenNavigateNext",
     "when": "inWindowsPicker"
   },
@@ -157,5 +157,4 @@
     "command": "references-view.prev",
     "when": "reference-list.hasResult && references-view.canNavigate"
   }
-  // TODO: undo/redo
 ]
