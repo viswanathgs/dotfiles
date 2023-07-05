@@ -7,12 +7,11 @@
   "[markdown]": {
     "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
   },
-  "editor.fontSize": 11,
   "editor.formatOnSave": true,
   "editor.formatOnSaveMode": "modificationsIfAvailable",
   "editor.minimap.enabled": false,
   "editor.minimap.renderCharacters": false,
   "explorer.confirmDelete": false,
-  "window.zoomLevel": 1,
+  "terminal.external.osxExec": "iterm.app",
   "workbench.colorTheme": "One Dark Pro Darker"
 }
