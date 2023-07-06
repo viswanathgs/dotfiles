@@ -33,11 +33,11 @@
   // Tab navigation - prev/next tabs
   {
     "key": "cmd+h",
-    "command": "workbench.action.previousEditor"
+    "command": "workbench.action.previousEditorInGroup"
   },
   {
     "key": "cmd+l",
-    "command": "workbench.action.nextEditor"
+    "command": "workbench.action.nextEditorInGroup"
   },
   // Pane navigation - left/right panels
   {
@@ -157,8 +157,8 @@
     "command": "references-view.prev",
     "when": "reference-list.hasResult && references-view.canNavigate"
   }
-  // TODO: tmux nav
   // TODO: tmux toggle zoom
   // TODO: tmux - rest in https://waylonwalker.com/keyboard-driven-vscode/, https://marketplace.visualstudio.com/items?itemName=stephlin.vscode-tmux-keybinding
   // TODO: f12 stuff - go to def, to to ref, find all ref, etc
+  // TODO: focus on editor after alt+tab workspace switch
 ]

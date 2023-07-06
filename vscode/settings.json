@@ -13,5 +13,18 @@
   "editor.minimap.renderCharacters": false,
   "explorer.confirmDelete": false,
   "terminal.external.osxExec": "iterm.app",
+  "terminal.integrated.commandsToSkipShell": [
+    // Make tmux splits left/right navigation work by having ctrl+hl keybindings
+    // reach the shell without being taken over by VSCode when terminal is focused.
+    //
+    // This is not super smooth - for instance, the only way to navigate out to
+    // the left panel when terminal is focused is to first hop up to the editor (ctrl+k)
+    // and then a hop left (ctrl+h) to the explorer (or whatever panel is open).
+    // This also means that horizontal tmux splits navigation (ctrl+jk) can't be supported
+    // lest we be trapped in the terminal forever.
+    // But it's okay, I'll live.
+    "-workbench.action.navigateLeft",
+    "-workbench.action.navigateRight"
+  ],
   "workbench.colorTheme": "One Dark Pro Darker"
 }
