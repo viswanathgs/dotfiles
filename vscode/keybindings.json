@@ -9,6 +9,13 @@
     "when": "terminal.active"
   },
   {
+    // Zen mode toggle for terminal: cmd+k z when terminal is focused.
+    // Consistent with the default cmd+k z zen model toggle for editor.
+    "key": "cmd+k z",
+    "command": "workbench.action.toggleMaximizedPanel",
+    "when": "terminalFocus"
+  },
+  {
     // Source control view: shift+cmd+g instead of ctrl+shift+g
     "key": "shift+cmd+g",
     "command": "workbench.view.scm",
@@ -157,8 +164,6 @@
     "command": "references-view.prev",
     "when": "reference-list.hasResult && references-view.canNavigate"
   }
-  // TODO: tmux toggle zoom
-  // TODO: tmux - rest in https://waylonwalker.com/keyboard-driven-vscode/, https://marketplace.visualstudio.com/items?itemName=stephlin.vscode-tmux-keybinding
   // TODO: f12 stuff - go to def, to to ref, find all ref, etc
   // TODO: focus on editor after alt+tab workspace switch
 ]
