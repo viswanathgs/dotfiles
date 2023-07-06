@@ -436,7 +436,8 @@ function hp() {
 }
 
 # tmux
-alias tmx='tmux attach -d || tmux'
+alias tmx='tmux attach -d || tmux'  # Unique view: Attach to existing, detach old view
+alias tmxa='tmux attach || tmux'  # Multiple views: Attach to existing, keep both views
 
 # conda
 alias ca='conda activate'
