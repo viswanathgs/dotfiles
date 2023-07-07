@@ -63,7 +63,7 @@
     "key": "ctrl+j",
     "command": "workbench.action.navigateDown"
   },
-  // Window navigation - rotate through open VSCode windows/workspaces
+  // Workspace navigation - rotate through open VSCode windows/workspaces
   {
     "key": "alt+tab",
     "command": "workbench.action.quickSwitchWindow"

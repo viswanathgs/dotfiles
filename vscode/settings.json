@@ -12,6 +12,7 @@
   "editor.minimap.enabled": false,
   "editor.minimap.renderCharacters": false,
   "explorer.confirmDelete": false,
+  "files.insertFinalNewline": false,
   "terminal.external.osxExec": "iterm.app",
   "terminal.integrated.commandsToSkipShell": [
     // Make tmux splits left/right navigation work by having ctrl+hl keybindings
@@ -24,7 +25,10 @@
     // lest we be trapped in the terminal forever.
     // But it's okay, I'll live.
     "-workbench.action.navigateLeft",
-    "-workbench.action.navigateRight"
+    "-workbench.action.navigateRight",
+    // Make VSCode workspace quick switch (alt+tab) skip shell and  VSCode directly.
+    // Otherwise, alt+tab to rotate through VSCode workspaces doesn't work when terminal is focused.
+    "workbench.action.quickSwitchWindow"
   ],
   "workbench.colorTheme": "One Dark Pro Darker"
 }
