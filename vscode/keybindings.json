@@ -77,16 +77,6 @@
   {
     "key": "cmd+j",
     "command": "list.focusDown",
-    "when": "listFocus && !inputFocus"
-  },
-  {
-    "key": "cmd+k",
-    "command": "list.focusUp",
-    "when": "listFocus && !inputFocus"
-  },
-  {
-    "key": "cmd+j",
-    "command": "list.focusDown",
     "when": "inReferenceSearchEditor && neovim.mode == 'normal'"
   },
   {
@@ -94,6 +84,19 @@
     "command": "list.focusUp",
     "when": "inReferenceSearchEditor && neovim.mode == 'normal'"
   },
+  // Commenting out the following two for now as it should work with j/k directly
+  // in these context due to neovim plugin.
+  // TODO: cleanup.
+  // {
+  //   "key": "cmd+j",
+  //   "command": "list.focusDown",
+  //   "when": "listFocus && !inputFocus"
+  // },
+  // {
+  //   "key": "cmd+k",
+  //   "command": "list.focusUp",
+  //   "when": "listFocus && !inputFocus"
+  // },
   {
     "key": "cmd+j",
     "command": "workbench.action.quickOpenSelectNext",
@@ -166,4 +169,5 @@
   }
   // TODO: f12 stuff - go to def, to to ref, find all ref, etc
   // TODO: focus on editor after alt+tab workspace switch
+  // TODO: Todo MD plugin bindings
 ]
