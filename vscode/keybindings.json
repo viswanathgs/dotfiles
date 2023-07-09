@@ -166,8 +166,20 @@
     "key": "cmd+k",
     "command": "references-view.prev",
     "when": "reference-list.hasResult && references-view.canNavigate"
+  },
+  // Misc actions
+  {
+    // Open url under cursor
+    "key": "cmd+, l",
+    "command": "editor.action.openLink",
+    "when": "editorTextFocus"
+  },
+  // Todo MD extension keybindings
+  {
+    "key": "cmd+, x",
+    "command": "todomd.toggleDone",
+    "when": "editorTextFocus && todomd:isActive"
   }
   // TODO: f12 stuff - go to def, to to ref, find all ref, etc
   // TODO: focus on editor after alt+tab workspace switch
-  // TODO: Todo MD plugin bindings
 ]
