@@ -174,10 +174,73 @@
     "command": "editor.action.openLink",
     "when": "editorTextFocus"
   },
-  // Todo MD extension keybindings
+  // Extenstion keybindings: Todo MD
+  {
+    // shift+cmd+, i (for inbox) to add a new task to todo.md
+    "key": "shift+cmd+, i",
+    "command": "todomd.addTaskToDefaultFile"
+  },
+  {
+    // shift+cmd+, g (for GTD) to open todo.md
+    "key": "shift+cmd+, g",
+    "command": "todomd.openDefaultFile"
+  },
+  {
+    // shift+cmd+, o (like things3) to open someday.md
+    "key": "shift+cmd+, o",
+    "command": "todomd.openSomedayFile"
+  },
+  {
+    // shift+cmd+, a to open todo.archive.md
+    "key": "shift+cmd+, a",
+    "command": "todomd.openDefaultArchiveFile"
+  },
+  {
+    "key": "shift+cmd+, d",
+    "command": "todomd.due.focus"
+  },
+  {
+    "key": "shift+cmd+, h",
+    "command": "todomd.tags.focus"
+  },
+  {
+    "key": "shift+cmd+, t",
+    "command": "todomd.tasks.focus"
+  },
+  {
+    "key": "shift+cmd+, p",
+    "command": "todomd.projects.focus"
+  },
+  {
+    // cmd+, o (like things3) to move to someday.md
+    "key": "cmd+, o",
+    "command": "todomd.moveToSomeday",
+    "when": "editorTextFocus && todomd:isActive"
+  },
   {
     "key": "cmd+, x",
     "command": "todomd.toggleDone",
+    "when": "editorTextFocus && todomd:isActive"
+  },
+  {
+    // cmd+, c (for clear) to move completed tasks to todo.archive.md
+    "key": "cmd+, c",
+    "command": "todomd.archiveCompletedTasks",
+    "when": "editorTextFocus && todomd:isActive"
+  },
+  {
+    "key": "cmd+, s",
+    "command": "todomd.sortByDefault",
+    "when": "editorTextFocus && todomd:isActive"
+  },
+  {
+    "key": "cmd+, u",
+    "command": "todomd.incrementPriority",
+    "when": "editorTextFocus && todomd:isActive"
+  },
+  {
+    "key": "cmd+, d",
+    "command": "todomd.decrementPriority",
     "when": "editorTextFocus && todomd:isActive"
   }
   // TODO: f12 stuff - go to def, to to ref, find all ref, etc

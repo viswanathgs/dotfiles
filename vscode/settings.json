@@ -1,16 +1,12 @@
 // VSCode settings.json to override the defaults.
 // Setup: CommandPalette -> "Open User Settings (JSON)", copy over.
 {
-  "[jsonc]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[markdown]": {
-    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
-  },
+  // Basic settings
   "editor.formatOnSave": true,
   "editor.formatOnSaveMode": "modificationsIfAvailable",
   "editor.minimap.enabled": false,
   "editor.minimap.renderCharacters": false,
+  "editor.tabSize": 2,
   "explorer.confirmDelete": false,
   "files.insertFinalNewline": false,
   "terminal.external.osxExec": "iterm.app",
@@ -30,5 +26,22 @@
     // Otherwise, alt+tab to rotate through VSCode workspaces doesn't work when terminal is focused.
     "workbench.action.quickSwitchWindow"
   ],
-  "workbench.colorTheme": "One Dark Pro Darker"
+  "workbench.colorTheme": "One Dark Pro Darker",
+
+  // Filetype settings
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
+  },
+
+  // Extension settings: Todo MD
+  "todomd.defaultFile": "/Users/viswanath/Dropbox (Personal)/zettelkasten/gtd/todo.md",
+  "todomd.defaultArchiveFile": "/Users/viswanath/Dropbox (Personal)/zettelkasten/gtd/todo.archive.md",
+  "todomd.defaultSomedayFile": "/Users/viswanath/Dropbox (Personal)/zettelkasten/gtd/someday.md",
+  "todomd.closestDueDateIncludeWeekday": true,
+  "todomd.tabSize": 2,
+  "todomd.statusBarMainEnabled": true,
+  "todomd.webview.fontSize": "12px"
 }
