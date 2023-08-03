@@ -3,7 +3,7 @@
 {
   // Basic settings
   "editor.formatOnSave": true,
-  "editor.formatOnSaveMode": "modificationsIfAvailable",
+  "editor.fontSize": 13,
   "editor.minimap.enabled": false,
   "editor.minimap.renderCharacters": false,
   "editor.tabSize": 2,
