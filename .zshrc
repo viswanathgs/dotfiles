@@ -393,7 +393,7 @@ alias py='python'
 # cd
 alias wrk='cd ~/work'
 alias lcl='cd ~/local'
-alias jnk='cd ~/junk'
+alias jk='cd ~/junk'
 alias dbx='cd ~/Dropbox\ \(Personal\)'
 alias zk='cd ~/Dropbox\ \(Personal\)/zettelkasten'
 alias docs='cd ~/Dropbox\ \(Personal\)/docs'
