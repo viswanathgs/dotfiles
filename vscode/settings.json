@@ -2,13 +2,17 @@
 // Setup: CommandPalette -> "Open User Settings (JSON)", copy over.
 {
   // Basic settings
-  "editor.formatOnSave": true,
   "editor.fontSize": 13,
+  "editor.formatOnSave": true,
   "editor.minimap.enabled": false,
   "editor.minimap.renderCharacters": false,
   "editor.tabSize": 2,
   "explorer.confirmDelete": false,
   "files.insertFinalNewline": false,
+  "search.seedOnFocus": true,
+  "search.seedWithNearestWord": false,
+  "search.showLineNumbers": true,
+  "search.smartCase": true,
   "terminal.external.osxExec": "iterm.app",
   "terminal.integrated.commandsToSkipShell": [
     // Make tmux splits left/right navigation work by having ctrl+hl keybindings
