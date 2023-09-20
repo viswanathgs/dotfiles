@@ -29,8 +29,8 @@ export PYTHONSTARTUP="$HOME/.pythonrc"
 ###################################################
 
 # Check for the availability of a command.
-# Usage: has_command <command_name>
-function has_command() {
+# Usage: has-command <command_name>
+function has-command() {
   if [ "$#" -ne 1 ]; then
     echo "Usage: ${0} <command_name>"
     return
@@ -119,7 +119,7 @@ function hotspot() {
 function fwdproxy() {
   # Only proceed if fwdproxy-config command is found. Otherwise,
   # not on devserver and no need for proxy.
-  if ! has_command fwdproxy-config; then
+  if ! has-command fwdproxy-config; then
     return
   fi
 
@@ -353,9 +353,9 @@ export POWERLEVEL9K_DISABLE_GITSTATUS=true
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # fzf command order of preference based on availability: fd > ripgrep > find (default)
-if has_command fd; then
+if has-command fd; then
   export FZF_DEFAULT_COMMAND='fd --type file --color=always'
-elif has_command rg; then
+elif has-command rg; then
   export FZF_DEFAULT_COMMAND='rg --files --color=always'
 fi
 export FZF_CTRL_T_COMMAND="${FZF_DEFAULT_COMMAND}"
@@ -385,7 +385,7 @@ export BAT_CONFIG_PATH="$HOME/.bat.conf"
 
 alias woman='man'  # For Silky
 alias sudo='sudo '
-has_command nvim && alias v='nvim' || alias v='vim'
+has-command nvim && alias v='nvim' || alias v='vim'
 alias l='ls -lh'
 alias la='ls -lha'
 alias py='python'
@@ -420,8 +420,8 @@ alias gf='git fetch'
 alias gfo='git fetch origin'
 alias gcb='git checkout -b'
 alias gcm='git checkout $(git_main_branch)'
-has_command fzf && alias gb='fzf-git-branch' || alias gb='git branch -vv'
-has_command fzf && alias gco='fzf-git-checkout' || alias gco='git checkout'
+has-command fzf && alias gb='fzf-git-branch' || alias gb='git branch -vv'
+has-command fzf && alias gco='fzf-git-checkout' || alias gco='git checkout'
 
 # hg
 alias hd='hg diff'
@@ -476,9 +476,9 @@ alias argo='argo --namespace=jobs'
 alias kubeexec='kubectl exec -ti'
 
 # Plugins and extras
-has_command bat && alias cat='bat'  # s/cat/bat if bat is installed
-has_command exa && alias ls='exa'  # s/ls/exa if exa is installed
-has_command exa && alias lt='exa --tree'
+has-command bat && alias cat='bat'  # s/cat/bat if bat is installed
+has-command exa && alias ls='exa'  # s/ls/exa if exa is installed
+has-command exa && alias lt='exa --tree'
 alias goog='google'  # zsh web-search plugin
 
 # Alias to mosh into a jumphost and then ssh as mosh doesn't support ProxyJump
