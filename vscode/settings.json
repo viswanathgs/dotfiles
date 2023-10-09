@@ -40,12 +40,16 @@
     "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
   },
 
-  // Extension settings: Todo MD
+  // Extension settings: vscode-neovim
+  "extensions.experimental.affinity": {
+    "asvetliakov.vscode-neovim": 1
+  },
+
+  // Extension settings: vscode-todo-md
   "todomd.defaultFile": "/Users/viswanath/Dropbox (Personal)/zettelkasten/gtd/todo.md",
   "todomd.defaultArchiveFile": "/Users/viswanath/Dropbox (Personal)/zettelkasten/gtd/todo.archive.md",
   "todomd.defaultSomedayFile": "/Users/viswanath/Dropbox (Personal)/zettelkasten/gtd/someday.md",
   "todomd.closestDueDateIncludeWeekday": true,
   "todomd.tabSize": 2,
-  "todomd.statusBarMainEnabled": true,
   "todomd.webview.fontSize": "12px"
 }
