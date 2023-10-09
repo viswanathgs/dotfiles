@@ -174,6 +174,17 @@
     "command": "editor.action.openLink",
     "when": "editorTextFocus"
   },
+  {
+    // VSCode @ Meta: Open active file in CodeHub.
+    // Similar to "<leader>gh" in vimrc for invoking GBrowse to open file in github.
+    "key": "cmd+, c h",
+    "command": "fb-phabricator-diffusion:openInCodeHub"
+  },
+  {
+    // VSCode @ Meta: Copy CodeHub URL of active file
+    "key": "cmd+, c l",
+    "command": "fb-phabricator-diffusion:copyCodeHubFburls"
+  },
   // Extenstion keybindings: Todo MD
   {
     // shift+cmd+, i (for inbox) to add a new task to todo.md
