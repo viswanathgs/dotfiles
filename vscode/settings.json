@@ -6,6 +6,8 @@
   "editor.formatOnSave": true,
   "editor.minimap.enabled": false,
   "editor.minimap.renderCharacters": false,
+  "editor.suggest.snippetsPreventQuickSuggestions": false,
+  "editor.suggestSelection": "first",
   "editor.tabSize": 2,
   "explorer.confirmDelete": false,
   "files.insertFinalNewline": false,
@@ -30,7 +32,8 @@
     // Otherwise, alt+tab to rotate through VSCode workspaces doesn't work when terminal is focused.
     "workbench.action.quickSwitchWindow"
   ],
-  "workbench.colorTheme": "One Dark Pro Darker",
+  "terminal.integrated.defaultProfile.osx": "zsh",
+  "workbench.colorTheme": "GitHub Dark Dimmed",
 
   // Filetype settings
   "[jsonc]": {
