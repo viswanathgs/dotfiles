@@ -175,14 +175,13 @@
     "when": "editorTextFocus"
   },
   {
-    // VSCode @ Meta: Open active file in CodeHub.
-    // Similar to "<leader>gh" in vimrc for invoking GBrowse to open file in github.
-    "key": "cmd+, c h",
+    // VSCode @ Meta: Open CodeHub URL of active file in browser
+    "key": "cmd+, c l",
     "command": "fb-phabricator-diffusion:openInCodeHub"
   },
   {
     // VSCode @ Meta: Copy CodeHub URL of active file
-    "key": "cmd+, c l",
+    "key": "cmd+, c c",
     "command": "fb-phabricator-diffusion:copyCodeHubFburls"
   },
   // Extenstion keybindings: Todo MD
