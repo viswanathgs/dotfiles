@@ -33,7 +33,7 @@
     "workbench.action.quickSwitchWindow"
   ],
   "terminal.integrated.defaultProfile.osx": "zsh",
-  "workbench.colorTheme": "GitHub Dark Dimmed",
+  "workbench.colorTheme": "One Dark Pro",
 
   // Filetype settings
   "[jsonc]": {
@@ -43,16 +43,21 @@
     "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
   },
 
-  // Extension settings: vscode-neovim
+  // Extension settings: VSCode Neovim
   "extensions.experimental.affinity": {
     "asvetliakov.vscode-neovim": 1
   },
 
-  // Extension settings: vscode-todo-md
+  // Extension settings: Todo MD
   "todomd.defaultFile": "/Users/viswanath/Dropbox (Personal)/zettelkasten/gtd/todo.md",
   "todomd.defaultArchiveFile": "/Users/viswanath/Dropbox (Personal)/zettelkasten/gtd/todo.archive.md",
   "todomd.defaultSomedayFile": "/Users/viswanath/Dropbox (Personal)/zettelkasten/gtd/someday.md",
   "todomd.closestDueDateIncludeWeekday": true,
   "todomd.tabSize": 2,
-  "todomd.webview.fontSize": "12px"
+  "todomd.webview.fontSize": "12px",
+
+  // Extension settings: Markdown Checkbox
+  "markdown-checkbox.dateWhenChecked": false,
+  "markdown-checkbox.italicWhenChecked": false,
+  "markdown-checkbox.strikeThroughWhenChecked": false
 }

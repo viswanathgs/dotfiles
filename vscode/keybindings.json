@@ -37,6 +37,7 @@
     "command": "search.action.focusPreviousSearchResult",
     "when": "hasSearchResult || inSearchEditor"
   },
+
   // Tab navigation - prev/next tabs
   {
     "key": "cmd+h",
@@ -46,6 +47,7 @@
     "key": "cmd+l",
     "command": "workbench.action.nextEditorInGroup"
   },
+
   // Pane navigation - left/right panels
   {
     "key": "ctrl+h",
@@ -63,6 +65,7 @@
     "key": "ctrl+j",
     "command": "workbench.action.navigateDown"
   },
+
   // Workspace navigation - rotate through open VSCode windows/workspaces
   {
     "key": "alt+tab",
@@ -73,6 +76,7 @@
     "command": "workbench.action.quickOpenNavigateNext",
     "when": "inWindowsPicker"
   },
+
   // cmd+jk for various down/up actions
   {
     "key": "cmd+j",
@@ -167,6 +171,7 @@
     "command": "references-view.prev",
     "when": "reference-list.hasResult && references-view.canNavigate"
   },
+
   // Misc actions
   {
     // Open url under cursor
@@ -184,7 +189,8 @@
     "key": "cmd+, c c",
     "command": "fb-phabricator-diffusion:copyCodeHubFburls"
   },
-  // Extenstion keybindings: Todo MD
+
+  // Extension keybindings: Todo MD
   {
     // shift+cmd+, i (for inbox) to add a new task to todo.md
     "key": "shift+cmd+, i",
@@ -252,6 +258,13 @@
     "key": "cmd+, d",
     "command": "todomd.decrementPriority",
     "when": "editorTextFocus && todomd:isActive"
+  },
+
+  // Extension keybindings: Markdown Checkbox
+  {
+    "key": "cmd+, x",
+    "command": "markdown-checkbox.markCheckbox",
+    "when": "editorTextFocus && resourceLangId == 'markdown' && !todomd:isActive"
   }
   // TODO: f12 stuff - go to def, to to ref, find all ref, etc
   // TODO: focus on editor after alt+tab workspace switch

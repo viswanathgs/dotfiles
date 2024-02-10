@@ -23,7 +23,9 @@ Plug 'junegunn/fzf.vim'
 Plug 'fs111/pydoc.vim'  " Python documentation (Shift+K for word under cursor)
 Plug 'godlygeek/tabular'  " Dependency for vim-markdown
 Plug 'plasticboy/vim-markdown'  " Markdown folds
-Plug 'dkarter/bullets.vim'  " Auto lists and checkboxes/todo-lists
+" bullets.vim messes up markdown files in vscode. Disable in favor of vscode
+" native extension.
+" Plug 'dkarter/bullets.vim'  " Auto lists and checkboxes/todo-lists
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 call plug#end()
 
@@ -403,7 +405,7 @@ augroup END
 
 " bullets.vim - https://github.com/dkarter/bullets.vim
 let g:bullets_nested_checkboxes = 0  " Decouple parent and child checkbox toggling
-let g:bullets_checkbox_markers = ' x'
+let g:bullets_checkbox_markers = ' X'
 
 
 " neoformat
