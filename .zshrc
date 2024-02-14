@@ -403,7 +403,7 @@ alias gtd='cd ~/Dropbox\ \(Personal\)/zettelkasten/gtd'
 alias docs='cd ~/Dropbox\ \(Personal\)/docs'
 alias fbs='cd ~/fbsource'
 alias fbc='cd ~/fbsource/fbcode'
-alias src='cd ~/work/src2'
+alias src='cd ~/fbsource/fbcode/frl/ctrl/src2-main'
 alias nb='cd ~/work/notebooks'
 
 # git
@@ -514,6 +514,9 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
+
+# Auto-activate ctrldev env after conda init
+has-command conda && conda deactivate && conda activate ctrldev
 
 
 ###################################################
