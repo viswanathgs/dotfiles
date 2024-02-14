@@ -233,6 +233,19 @@ fzf-git-checkout() {
 }
 
 
+# Build ctrl bento kernel (from https://fburl.com/wiki/jexy3vq9)
+function build-bento-kernel () {
+  # Install aienv first if unavaiable
+  has-command aienv || feature install aienv --global
+
+  buck1 clean
+  buck2 clean
+  aienv run -i //frl/ctrl/aienv:arvr_ctrl_integrated -m bento.link -- -i SELF
+  sudo systemctl restart bento@$USER.service
+  fixmyserver --yes
+}
+
+
 ###################################################
 #
 # Oh My Zsh
