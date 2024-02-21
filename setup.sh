@@ -19,9 +19,7 @@ MAC_DEPS=(
   reattach-to-user-namespace  # tmux access to clipboard: https://blog.carbonfive.com/copying-and-pasting-with-tmux-2-4
 )
 
-# FB dev
-ONDEMAND_HOMEDIR=~/.ondemand/homedir
-ONDEMAND_BIN_DIR=${ONDEMAND_HOMEDIR}/bin
+BIN_DIR=~/bin
 
 function brewIn() {
   if brew ls --versions "$1"; then
@@ -71,7 +69,7 @@ function symlink_dotfiles() {
   done
 }
 
-function download_binary_for_ondemand() {
+function download_binary() {
   if [ "$#" -lt 1 ]; then
     echo "Usage: ${0} <release_url.tar.gz> [<num_leading_path_elements_to_skip>]"
     return
@@ -80,24 +78,14 @@ function download_binary_for_ondemand() {
   url="${1}"
   strip_components="${2:-0}"
 
-  echo "Extracting ${url} to ${ONDEMAND_BIN_DIR}"
-  mkdir -p ${ONDEMAND_BIN_DIR}
-  wget -qO- ${url} | tar xz - -C ${ONDEMAND_BIN_DIR}/ --strip-components=${strip_components}
-}
-
-function meta_dev_setup() {
-  echo "\n#### Meta devserver setup ####\n"
-
-  # Symlink dotfiles to ~/.ondemand/homedir for ondemand dot-file sync
-  echo "Symlinking dotfiles to ${ONDEMAND_HOMEDIR}"
-  mkdir -p ${ONDEMAND_HOMEDIR}
-  symlink_dotfiles ${ONDEMAND_HOMEDIR}
+  echo "Extracting ${url} to ${BIN_DIR}"
+  mkdir -p ${BIN_DIR}
+  wget -qO- ${url} | tar xz - -C ${BIN_DIR}/ --strip-components=${strip_components}
 }
 
 git submodule update --init --recursive --remote
 install_deps
 symlink_dotfiles ~  # Symlink dotfiles to homedir
 git config --global include.path ~/.delta.gitconfig  # git-delta config
-meta_dev_setup
 
 echo "\n#### Done setting up dotfiles! ####\n"
