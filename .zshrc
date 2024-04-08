@@ -24,6 +24,8 @@ export HISTSIZE=130000
 export HISTFILESIZE=-1
 export PYTHONSTARTUP="$HOME/.pythonrc"
 
+export CTRL_SRC="$HOME/fbsource/fbcode/frl/ctrl/src2-main"
+
 
 ###################################################
 #
@@ -416,7 +418,7 @@ alias gtd='cd ~/Dropbox\ \(Personal\)/zettelkasten/gtd'
 alias docs='cd ~/Dropbox\ \(Personal\)/docs'
 alias fbs='cd ~/fbsource'
 alias fbc='cd ~/fbsource/fbcode'
-alias src='cd ~/fbsource/fbcode/frl/ctrl/src2-main'
+alias src='cd ${CTRL_SRC}'
 alias nb='cd ~/work/notebooks'
 
 # git
