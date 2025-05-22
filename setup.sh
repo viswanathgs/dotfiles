@@ -30,15 +30,15 @@ function brewIn() {
 }
 
 function install_deps() {
-  echo "\n#### Installing pip dependencies ####\n"
-  pip install --upgrade pre-commit tabcompletion cpplint ptpython pdbpp || true
-
   echo "\n#### Installing brew dependencies ####\n"
   brew update || true
   for dep in ${MAC_DEPS}; do
     brewIn ${dep} || true
   done
   $(brew --prefix)/opt/fzf/install --all || true  # fzf key-bindings and fuzzy completion
+
+  echo "\n#### Installing pip dependencies ####\n"
+  pip install --upgrade pre-commit tabcompletion cpplint ptpython pdbpp || true
 
   echo "\n#### Installing on-my-zsh ####\n"
   # Install oh-my-zsh into current dir. We'll symlink later to homedir.
@@ -64,7 +64,7 @@ function symlink_dotfiles() {
   for f in $(ls -a | grep '^\.'); do
     if ! [[ ($f == .)  || ($f == ..) || ($f =~ "^\.git.*") || ($f =~ "\.sw.*") ]]; then
       echo "Symlink: ${target_dir}/${f} -> $(pwd)/${f}"
-      ln -sF $(pwd)/${f} ${target_dir}/
+      ln -sf $(pwd)/${f} ${target_dir}/
     fi
   done
 }
