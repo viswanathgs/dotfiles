@@ -4,6 +4,7 @@
 # Set zsh as default: chsh -s /bin/zsh
 
 MAC_DEPS=(
+  tmux
   bat           # cat++
   exa           # ls++
   fd            # find++
