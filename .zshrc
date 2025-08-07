@@ -531,9 +531,6 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
-# Auto-activate ctrldev env after conda init
-has-command conda && conda deactivate && conda activate ctrldev
-
 
 ###################################################
 #
