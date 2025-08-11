@@ -38,8 +38,6 @@ export HISTSIZE=130000
 export HISTFILESIZE=-1
 export PYTHONSTARTUP="$HOME/.pythonrc"
 
-export CTRL_SRC="$HOME/fbsource/fbcode/frl/ctrl/src2-main"
-
 has-command brew && eval "$(/opt/homebrew/bin/brew shellenv)"
 
 ###################################################
@@ -236,19 +234,6 @@ fzf-git-checkout() {
 }
 
 
-# Build ctrl bento kernel (from https://fburl.com/wiki/jexy3vq9)
-function build-bento-kernel () {
-  # Install aienv first if unavaiable
-  has-command aienv || feature install aienv --global
-
-  buck1 clean
-  buck2 clean
-  aienv run -i //frl/ctrl/aienv:arvr_ctrl_integrated -m bento.link -- -i SELF
-  sudo systemctl restart bento@$USER.service
-  fixmyserver --yes
-}
-
-
 ###################################################
 #
 # Oh My Zsh
@@ -440,7 +425,6 @@ alias gtd='cd ~/gdrive/zettelkasten/gtd'
 alias docs='cd ~/gdrive/docs'
 alias fbs='cd ~/fbsource'
 alias fbc='cd ~/fbsource/fbcode'
-alias src='cd ${CTRL_SRC}'
 
 # git
 alias gd='git diff'
@@ -484,36 +468,11 @@ alias ca='conda activate'
 alias cda='conda deactivate'
 alias cenv='conda env'
 
-# buck
-alias bb='buck build'
-alias bt='buck test'
-alias br='buck run'
-alias bbmd='bb @mode/mac/dev-release'
-alias bbld='bb @mode/linux/dev-release'
-alias btmd='bt @mode/mac/dev-release'
-alias btld='bt @mode/linux/dev-release'
-alias brmd='br @mode/mac/dev-release'
-alias brld='br @mode/linux/dev-release'
-
 # aws
 alias s3ls='aws s3 ls --summarize --human-readable --recursive'
 alias s3cp='aws s3 cp'
 alias s3cpr='aws s3 cp --recursive'
 alias s3put='aws s3api put-object'  # s3put --bucket <bucket> --key <path>
-
-# cluster
-alias cl='ctrl-launch'
-alias cj='ctrl-jupyter'
-alias cjup='cj up --log-level INFO'
-alias cjdown='cj down'
-alias cjauth='cj auth --overwrite'
-alias cldel='cl manage delete --name '
-alias kubectl='kubectl --namespace=jobs'
-alias kubepods='kubectl get pods'
-alias kubelogs='kubectl logs'
-alias argo='argo --namespace=jobs'
-# Run a command in the container such as `kubeexec <pod_name> -- ps aux`
-alias kubeexec='kubectl exec -ti'
 
 # Plugins and extras
 has-command bat && alias cat='bat'  # s/cat/bat if bat is installed
