@@ -5,7 +5,19 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# Check for the availability of a command.
+# Usage: has-command <command_name>
+function has-command() {
+  if [ "$#" -ne 1 ]; then
+    echo "Usage: ${0} <command_name>"
+    return
+  fi
+
+  cmd="${1}"
+
+  command -v ${cmd} > /dev/null 2>&1
+}
 
 
 ###################################################
@@ -28,26 +40,13 @@ export PYTHONSTARTUP="$HOME/.pythonrc"
 
 export CTRL_SRC="$HOME/fbsource/fbcode/frl/ctrl/src2-main"
 
+has-command brew && eval "$(/opt/homebrew/bin/brew shellenv)"
 
 ###################################################
 #
 # Util functions
 #
 ###################################################
-
-# Check for the availability of a command.
-# Usage: has-command <command_name>
-function has-command() {
-  if [ "$#" -ne 1 ]; then
-    echo "Usage: ${0} <command_name>"
-    return
-  fi
-
-  cmd="${1}"
-
-  command -v ${cmd} > /dev/null 2>&1
-}
-
 
 # Search and replace using rg and sed. Supports searching by regex.
 # Usage: rgr <search_pattern> <replacement_text>

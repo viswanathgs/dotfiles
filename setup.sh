@@ -1,7 +1,9 @@
-#!/usr/bin/env zsh -e
+#!/usr/bin/env zsh
 
-# Requirements: iterm2 and zsh, homebrew, python3, python-pip
-# Set zsh as default: chsh -s /bin/zsh
+# Requirements: iterm2 and zsh, homebrew (if on mac), python3, python-pip
+
+# Change default shell to zsh
+# chsh -s $(which zsh)
 
 MAC_DEPS=(
   tmux
@@ -31,12 +33,15 @@ function brewIn() {
 }
 
 function install_deps() {
-  echo "\n#### Installing brew dependencies ####\n"
-  brew update || true
-  for dep in ${MAC_DEPS}; do
-    brewIn ${dep} || true
-  done
-  $(brew --prefix)/opt/fzf/install --all || true  # fzf key-bindings and fuzzy completion
+  # Install brew dependencies if on mac
+  if [ "$(uname -s)" = "Darwin" ]; then
+    echo "\n#### Installing brew dependencies ####\n"
+    brew update || true
+    for dep in ${MAC_DEPS}; do
+      brewIn ${dep} || true
+    done
+    $(brew --prefix)/opt/fzf/install --all || true  # fzf key-bindings and fuzzy completion
+  fi
 
   echo "\n#### Installing pip dependencies ####\n"
   pip install --upgrade pre-commit tabcompletion cpplint ptpython pdbpp || true
