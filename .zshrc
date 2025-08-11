@@ -311,6 +311,29 @@ plugins=()  # Ignore, taken over by antigen below
 
 source $ZSH/oh-my-zsh.sh
 
+###################################################
+#
+# Conda
+#
+###################################################
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/vish/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/vish/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/vish/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/vish/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+has-command conda && eval "$(conda shell.zsh hook)"
+
 
 ###################################################
 #
@@ -364,8 +387,6 @@ fwdproxy off all
 # antigen theme romkatv/powerlevel10k.
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [ -f ~/.p10k.zsh ] && source ~/.p10k.zsh
-# Disable gitstatusd for powerlevel10k since it causes issues on fb dev
-export POWERLEVEL9K_DISABLE_GITSTATUS=true
 
 
 # fzf
@@ -507,28 +528,6 @@ alias moshjmp='mosh -6 jmp -n ssh'
 alias devc='dev connect --mosh'
 alias devl='dev list'
 alias devr='dev release'
-
-
-###################################################
-#
-# Coda with conda
-#
-###################################################
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/vish/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/Users/vish/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/Users/vish/miniconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/Users/vish/miniconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
 
 
 ###################################################
