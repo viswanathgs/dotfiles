@@ -434,8 +434,8 @@ alias gsh='git show'
 alias gl='git log --graph --decorate --oneline'
 alias gpr='git pull --rebase'
 alias gpro='git pull --rebase origin'
-alias gprom='git pull --rebase origin master'
-alias gprum='git pull --rebase upstream master'
+alias gprom='git pull --rebase origin main'
+alias gprum='git pull --rebase upstream main'
 alias gf='git fetch'
 alias gfo='git fetch origin'
 alias gcb='git checkout -b'
@@ -452,7 +452,7 @@ alias hsh='hg show'
 function hp() {
   hg pull
   hg update $1
-  hg rebase -d master
+  hg rebase -d main
 }
 
 # tmux
