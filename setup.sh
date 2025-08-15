@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-# Requirements: iterm2 and zsh, homebrew (if on mac), python3, python-pip
+# Requirements: iterm2, zsh, python3, python-pip
 
 # Change default shell to zsh
 # chsh -s $(which zsh)
@@ -24,7 +24,16 @@ MAC_DEPS=(
 
 BIN_DIR=~/bin
 
-function brewIn() {
+function install_homebrew() {
+  if ! command -v brew &>/dev/null; then
+    echo "\n#### Installing homebrew ####\n"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  else
+    echo "\n#### Homebrew already installed ####\n"
+  fi
+}
+
+function brew_install_or_upgrade() {
   if brew ls --versions "$1"; then
     brew upgrade "$1"
   else
@@ -35,10 +44,12 @@ function brewIn() {
 function install_deps() {
   # Install brew dependencies if on mac
   if [ "$(uname -s)" = "Darwin" ]; then
+    install_homebrew
+
     echo "\n#### Installing brew dependencies ####\n"
     brew update || true
     for dep in ${MAC_DEPS}; do
-      brewIn ${dep} || true
+      brew_install_or_upgrade ${dep} || true
     done
     $(brew --prefix)/opt/fzf/install --all || true  # fzf key-bindings and fuzzy completion
   fi
