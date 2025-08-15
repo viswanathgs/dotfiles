@@ -1,3 +1,9 @@
+###################################################
+#
+# Preamble
+#
+###################################################
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -5,7 +11,32 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+if [[ $OSTYPE == darwin* ]]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
 
+###################################################
+#
+# Environment variables
+#
+###################################################
+
+export PATH="$PATH:$HOME/bin:$HOME/local/bin:$HOME/.local/bin"
+
+export EDITOR=/usr/bin/vim
+export VISUAL=/usr/bin/vim
+export HISTSIZE=130000
+export HISTFILESIZE=-1
+export PYTHONSTARTUP="$HOME/.pythonrc"
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+###################################################
+#
+# Util functions
+#
+###################################################
+#
 # Check for the availability of a command.
 # Usage: has-command <command_name>
 function has-command() {
@@ -20,31 +51,6 @@ function has-command() {
 }
 
 
-###################################################
-#
-# Environment variables
-#
-###################################################
-
-export PATH="$PATH:$HOME/bin:$HOME/local/bin:$HOME/.local/bin"
-# Homebrew installed locally due to meta devserver conflicts
-export PATH="$PATH:$HOME/homebrew/bin:$HOME/homebrew/sbin"
-# Add adb to path
-export PATH="$PATH:/Users/$USER/Library/Android/sdk/platform-tools/"
-
-export EDITOR=/usr/bin/vim
-export VISUAL=/usr/bin/vim
-export HISTSIZE=130000
-export HISTFILESIZE=-1
-export PYTHONSTARTUP="$HOME/.pythonrc"
-
-has-command brew && eval "$(/opt/homebrew/bin/brew shellenv)"
-
-###################################################
-#
-# Util functions
-#
-###################################################
 
 # Search and replace using rg and sed. Supports searching by regex.
 # Usage: rgr <search_pattern> <replacement_text>
