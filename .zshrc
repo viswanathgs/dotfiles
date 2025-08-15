@@ -29,8 +29,6 @@ export HISTSIZE=130000
 export HISTFILESIZE=-1
 export PYTHONSTARTUP="$HOME/.pythonrc"
 
-eval "$(/opt/homebrew/bin/brew shellenv)"
-
 ###################################################
 #
 # Util functions
