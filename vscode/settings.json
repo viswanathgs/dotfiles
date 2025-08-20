@@ -34,7 +34,7 @@
     "workbench.action.quickSwitchWindow"
   ],
   "terminal.integrated.defaultProfile.osx": "zsh",
-  "workbench.colorTheme": "Solarized Light",
+  "workbench.colorTheme": "Atom One Light",
 
   // Filetype settings
   "[jsonc]": {
@@ -49,6 +49,9 @@
     "asvetliakov.vscode-neovim": 1
   },
 
+  // Extension settings: GitHub Copilot
+  "github.copilot.nextEditSuggestions.enabled": true,
+
   // Extension settings: Todo MD
   "todomd.defaultFile": "/Users/vish/gdrive/zettelkasten/gtd/todo.md",
   "todomd.defaultArchiveFile": "/Users/vish/gdrive/zettelkasten/gtd/todo.archive.md",
@@ -61,7 +64,6 @@
   "markdown-checkbox.dateWhenChecked": false,
   "markdown-checkbox.italicWhenChecked": false,
   "markdown-checkbox.strikeThroughWhenChecked": false,
-  "github.copilot.nextEditSuggestions.enabled": true,
 
   // Extension settings: Todo Tree
   // Remove [ ] and [x] from the default tags list as those are handled by Highlight below.
