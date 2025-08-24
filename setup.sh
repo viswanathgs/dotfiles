@@ -1,11 +1,12 @@
 #!/usr/bin/env zsh
 
-# Requirements: iterm2, zsh, python3, python-pip
+# Requirements: iterm2, zsh
 
 # Change default shell to zsh
 # chsh -s $(which zsh)
 
 MAC_DEPS=(
+  python
   tmux
   bat           # cat++
   exa           # ls++
@@ -28,6 +29,7 @@ function install_homebrew() {
   if ! command -v brew &>/dev/null; then
     echo "\n#### Installing homebrew ####\n"
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    eval "$(/opt/homebrew/bin/brew shellenv)"
   else
     echo "\n#### Homebrew already installed ####\n"
   fi
