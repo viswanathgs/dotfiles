@@ -144,6 +144,18 @@
         }
       ]
     },
+    // Recap markers - neutral/okay (e.g., [=])
+    "(\\[\\=\\])": {
+      "filterFileRegex": ".*\\.(md|txt)$",
+      "decorations": [
+        {
+          "overviewRulerColor": "#d1c134",
+          "backgroundColor": "#d1c134",
+          "color": "#ffffff",
+          "fontWeight": "bold"
+        }
+      ]
+    },
     // Recap markers - negative/bad (e.g., [-])
     "(\\[-\\])": {
       "filterFileRegex": ".*\\.(md|txt)$",
