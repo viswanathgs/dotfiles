@@ -34,7 +34,7 @@
     "workbench.action.quickSwitchWindow"
   ],
   "terminal.integrated.defaultProfile.osx": "zsh",
-  "workbench.colorTheme": "Atom One Light",
+  "workbench.colorTheme": "GitHub Light",
 
   // Filetype settings
   "[jsonc]": {
@@ -64,6 +64,10 @@
   "markdown-checkbox.dateWhenChecked": false,
   "markdown-checkbox.italicWhenChecked": false,
   "markdown-checkbox.strikeThroughWhenChecked": false,
+
+  // Extension settings: Markdown Preview Enhanced
+  "markdown-preview-enhanced.alwaysShowBacklinksInPreview": true,
+  "markdown-preview-enhanced.previewColorScheme": "editorColorScheme",
 
   // Extension settings: Todo Tree
   // Remove [ ] and [x] from the default tags list as those are handled by Highlight below.
