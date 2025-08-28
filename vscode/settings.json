@@ -65,6 +65,11 @@
   "markdown-checkbox.italicWhenChecked": false,
   "markdown-checkbox.strikeThroughWhenChecked": false,
 
+  // Extension settings: Markdown Preview Enhanced
+  "markdown-preview-enhanced.alwaysShowBacklinksInPreview": true,
+  "markdown-preview-enhanced.automaticallyShowPreviewOfMarkdownBeingEdited": true,
+  "markdown-preview-enhanced.previewColorScheme": "editorColorScheme",
+
   // Extension settings: Todo Tree
   // Remove [ ] and [x] from the default tags list as those are handled by Highlight below.
   "todo-tree.general.tags": ["BUG", "HACK", "FIXME", "TODO", "XXX"],
