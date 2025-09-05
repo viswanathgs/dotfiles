@@ -9,7 +9,6 @@ MAC_DEPS=(
   python
   tmux
   bat           # cat++
-  exa           # ls++
   fd            # find++
   neovim        # vim++
   ripgrep       # grep++
@@ -57,7 +56,7 @@ function install_deps() {
   fi
 
   echo "\n#### Installing pip dependencies ####\n"
-  pip install --upgrade pre-commit tabcompletion cpplint ptpython pdbpp numpy pandas tabulate || true
+  pip3 install --upgrade pre-commit tabcompletion cpplint ptpython pdbpp numpy pandas tabulate || true
 
   echo "\n#### Installing on-my-zsh ####\n"
   # Install oh-my-zsh into current dir. We'll symlink later to homedir.
